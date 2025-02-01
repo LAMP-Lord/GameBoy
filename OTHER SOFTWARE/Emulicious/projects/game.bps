@@ -1,1 +1,1 @@
-type=instruction address=Done end=Done enabled=false suspend=false condition= message=
+suspend=false address=Done end=Done type=instruction enabled=false

@@ -106,6 +106,7 @@ ClearOam:
     ld [wFrameCounter], a
     ld [wCurKeys], a
     ld [wNewKeys], a
+    ld [wBounced], a
 
 
 
@@ -130,6 +131,8 @@ WaitVBlank2:
     ld a, [_OAMRAM + 4]
     add a, b
     ld [_OAMRAM + 4], a
+
+    ld [wBounced], 0
 
     ; Check the current keys every frame and move left or right.
     call UpdateKeys
@@ -276,11 +279,13 @@ BounceOnRight:
     call IsWallTile
     jp nz, BounceOnLeft
 
+    jp [wBounced], BounceOnLeft
     call CheckAndHandleBrick
 
     ; Change Ball Momentum if necessary
     ld a, -1
     ld [wBallMomentumX], a
+    ld [wBounced], 1
 
 BounceOnLeft:
     ; Y Axis
@@ -299,11 +304,13 @@ BounceOnLeft:
     call IsWallTile
     jp nz, BounceOnTop
 
+    jp [wBounced], BounceOnTop
     call CheckAndHandleBrick
 
     ; Change Ball Momentum if necessary
     ld a, 1
     ld [wBallMomentumX], a
+    ld [wBounced], 1
 
 BounceOnTop:
     ; Y Axis
@@ -322,11 +329,13 @@ BounceOnTop:
     call IsWallTile
     jp nz, BounceOnBottom
 
+    jp [wBounced], BounceOnBottom
     call CheckAndHandleBrick
 
     ; Change Ball Momentum if necessary
     ld a, 1
     ld [wBallMomentumY], a
+    ld [wBounced], 1
 
 BounceOnBottom:
     ; Y Axis
@@ -345,11 +354,13 @@ BounceOnBottom:
     call IsWallTile
     jp nz, BounceDone
 
+    jp [wBounced], BounceDone
     call CheckAndHandleBrick
 
     ; Change Ball Momentum if necessary
     ld a, -1
     ld [wBallMomentumY], a
+    ld [wBounced], 1
 
 BounceDone:
 
@@ -444,3 +455,4 @@ wNewKeys: db
 SECTION "Ball Data", WRAM0
 wBallMomentumX: db
 wBallMomentumY: db
+wBounced: db
