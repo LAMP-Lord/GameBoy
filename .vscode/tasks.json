@@ -1,0 +1,98 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build GB ROM",
+            "type": "shell",
+            "command": "rgbasm",
+            "args": [
+                "-o", "${fileDirname}\\${fileBasenameNoExtension}.o",
+                "${fileDirname}\\${fileBasename}"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "options": {
+                "cwd": "${fileDirname}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/C"]
+                }
+            },
+            "dependsOn": ["Link GB ROM"]
+        },
+        {
+            "label": "Link GB ROM",
+            "type": "shell",
+            "command": "rgblink",
+            "args": [
+                "-o", "${fileDirname}\\${input:filename}.gb",
+                "${fileDirname}\\${fileBasenameNoExtension}.o"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${fileDirname}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/C"]
+                }
+            },
+            "dependsOn": ["Verify GB ROM"]
+        },
+        {
+            "label": "Verify GB ROM",
+            "type": "shell",
+            "command": "if",
+            "args": [
+                "exist", "${fileDirname}\\${input:filename}.gb",
+                "echo File exists.",
+                "||", "echo ERROR: .gb file was not created!"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${fileDirname}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/C"]
+                }
+            },
+            "dependsOn": ["Fix GB ROM"]
+        },
+        {
+            "label": "Fix GB ROM",
+            "type": "shell",
+            "command": "rgbfix",
+            "args": [
+                "-v",
+                "-p", "0xFF",
+                "${fileDirname}\\${input:filename}.gb"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${fileDirname}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/C"]
+                }
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "filename",
+            "type": "promptString",
+            "description": "Enter desired .gb name (without extension)",
+            "default": "game"
+        }
+    ]
+}
