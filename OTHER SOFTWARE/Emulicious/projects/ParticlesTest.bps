@@ -1,0 +1,2 @@
+type=watchpoint address=19D end=19F enabled=true suspend=true read=true write=false condition=op%20%3d%202%20&&%20&pc%20%3d%200 message= location=cpu
+type=watchpoint address=47 end=47 enabled=true suspend=true read=true write=false condition=op%20%3d%202%20&&%20&pc%20%3d%200 message= location=cpu

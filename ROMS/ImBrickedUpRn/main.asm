@@ -61,7 +61,7 @@ ClearOam:
     dec b           ; Decrement counter
     jp nz, ClearOam ; Loop when not equal to zero
 
-    ; Write Paddle to OAM
+    ; Write particle to OAM
     ld hl, _OAMRAM 
     ld a, 128 + 16
     ld [hli], a
@@ -70,22 +70,6 @@ ClearOam:
     ld a, 0
     ld [hli], a
     ld [hli], a
-
-    ; Write Ball to OAM
-    ld a, 100 + 16
-    ld [hli], a
-    ld a, 32 + 8
-    ld [hli], a
-    ld a, 1
-    ld [hli], a
-    ld a, 0
-    ld [hli], a
-
-    ; The ball starts out going up and to the right
-    ld a, 1
-    ld [wBallMomentumX], a
-    ld a, -1
-    ld [wBallMomentumY], a
 
 
 
