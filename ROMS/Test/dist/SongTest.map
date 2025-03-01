@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 9328 bytes used / 7056 free
+	ROM0: 9384 bytes used / 7000 free
 	ROMX: 26900 bytes used / 5868 free in 2 banks
 	WRAM0: 391 bytes used / 3705 free
 	HRAM: 9 bytes used / 118 free
@@ -8,305 +8,302 @@ ROM0 bank #0:
 	SECTION: $0000-$0037 ($0038 bytes) ["Render Metasprite"]
 	         $0000 = RenderMetasprite
 	         $0021 = RenderMetasprite.loop
-	SECTION: $0038-$003f ($0008 bytes) ["OAM DMA Code"]
-	         $0038 = OAMDMACode
-	         $0040 = OAMDMACodeEnd
-	SECTION: $0040-$0045 ($0006 bytes) ["VBlank Vector"]
-	         $0040 = VBlankInterrupt
-	EMPTY: $0046-$0047 ($0002 bytes)
+	SECTION: $0038-$0047 ($0010 bytes) ["Interrupts"]
+	         $0038 = InitStatInterrupts
 	SECTION: $0048-$0062 ($001b bytes) ["Stat Interrupt"]
 	         $0048 = StatInterrupt
 	         $004f = LYCEquals8
 	         $0059 = LYCEqualsZero
 	         $0061 = EndStatInterrupts
-	SECTION: $0063-$00f9 ($0097 bytes) ["GameplayState"]
+	SECTION: $0063-$00fc ($009a bytes) ["GameplayState"]
 	         $0063 = wScoreText
 	         $0069 = wLivesText
 	         $006f = InitGameplayState
 	         $00be = UpdateGameplayState
-	         $00f2 = EndGameplay
-	EMPTY: $00fa-$00ff ($0006 bytes)
-	SECTION: $0100-$01c3 ($00c4 bytes) ["Header"]
+	         $00f5 = EndGameplay
+	EMPTY: $00fd-$00ff ($0003 bytes)
+	SECTION: $0100-$01c5 ($00c6 bytes) ["Header"]
 	         $0150 = EntryPoint
-	         $0181 = NextGameState
-	SECTION: $01c4-$0a53 ($0890 bytes) ["TitleScreenState"]
-	         $01c4 = PressPlayText
-	         $01d4 = titleScreenTileData
-	         $0614 = titleScreenTileMap
-	         $0614 = titleScreenTileDataEnd
-	         $0a14 = titleScreenTileMapEnd
-	         $0a14 = InitTitleScreenState
-	         $0a2c = DrawTitleScreen
-	         $0a44 = UpdateTitleScreenState
-	SECTION: $0a54-$11e8 ($0795 bytes) ["Sound Driver"]
-	         $0a54 = hUGE_init
-	         $0a65 = hUGE_init.copy_song_descriptor_loop
-	         $0a71 = hUGE_init.fill_loop
-	         $0a84 = load_patterns
-	         $0a9c = load_patterns.load_pattern
-	         $0aaa = hUGE_mute_channel
-	         $0ab0 = hUGE_mute_channel.enable_loop
-	         $0ab7 = hUGE_mute_channel.enable_cut
-	         $0ac4 = get_current_row
-	         $0ac7 = get_current_row.row_in_a
-	         $0ad3 = get_current_note
-	         $0ae0 = get_note_period
-	         $0aed = get_note_poly
-	         $0b03 = ptr_to_channel_member
-	         $0b0f = update_channel_freq
-	         $0b11 = update_channel_freq.nonzero_highmask
-	         $0b1e = update_channel_freq.update_channel1
-	         $0b2f = update_channel_freq.update_channel2
-	         $0b40 = update_channel_freq.update_channel3
-	         $0b51 = update_channel_freq.update_channel4
-	         $0b63 = play_note_routines
-	         $0b6b = play_ch1_note
-	         $0b7e = play_ch2_note
-	         $0b91 = play_ch3_note
-	         $0bb4 = play_ch4_note
-	         $0bc5 = do_table
-	         $0bd9 = do_table.no_steal
-	         $0bdf = do_table.no_jump
-	         $0bfd = do_table.is_ch4
-	         $0c04 = do_table.no_note
-	         $0c05 = do_table.no_note2
-	         $0c0a = do_effect
-	         $0c0c = do_effect.no_set_offset
-	         $0c24 = do_effect.no_offset
-	         $0c2a = do_effect.jump
-	         $0c4a = fx_set_master_volume
-	         $0c4f = fx_call_routine
-	         $0c69 = fx_set_pan
-	         $0c6e = fx_set_duty
-	         $0c7b = fx_set_duty.chan1
-	         $0c82 = fx_set_duty.chan2
-	         $0c89 = fx_set_duty.chan4
-	         $0c94 = fx_set_duty.chan3
-	         $0ca3 = update_ch3_waveform
-	         $0cf2 = fx_set_speed
-	         $0cf8 = fx_pos_jump
-	         $0cf8 = hUGE_set_position
-	         $0d01 = fx_pos_jump.already_broken
-	         $0d04 = fx_pattern_break
-	         $0d0a = fx_note_cut
-	         $0d1b = note_cut
-	         $0d2e = fx_set_volume
-	         $0d3d = fx_set_volume.set_chn_1_vol
-	         $0d4a = fx_set_volume.set_chn_2_vol
-	         $0d57 = fx_set_volume.set_chn_3_vol
-	         $0d66 = fx_set_volume.three
-	         $0d6a = fx_set_volume.two
-	         $0d6e = fx_set_volume.one
-	         $0d70 = fx_set_volume.done
-	         $0d73 = fx_set_volume.set_chn_4_vol
-	         $0d7c = fx_vibrato
-	         $0d8f = fx_vibrato.restore
-	         $0d96 = fx_vibrato.go_up
-	         $0da1 = fx_vibrato.finish_vibrato
-	         $0da4 = fx_arpeggio
-	         $0db1 = fx_arpeggio.greater_than_two
-	         $0db3 = fx_arpeggio.test_greater_than_two
-	         $0dc0 = fx_arpeggio.arp_options
-	         $0dc4 = fx_arpeggio.reset_arp
-	         $0dc7 = fx_arpeggio.set_arp2
-	         $0dcb = fx_arpeggio.set_arp1
-	         $0dcc = fx_arpeggio.finish_arp
-	         $0dcf = fx_arpeggio.finish_skip_add
-	         $0dd7 = fx_porta_up
-	         $0de6 = fx_porta_down
-	         $0df5 = fx_toneporta
-	         $0e0a = fx_toneporta.high_byte_same
-	         $0e10 = fx_toneporta.add
-	         $0e22 = fx_toneporta.subtract
-	         $0e38 = fx_toneporta.set_exact
-	         $0e3a = fx_toneporta.done
-	         $0e4c = fx_toneporta.setup
-	         $0e5c = ret_dont_play_note
-	         $0e61 = fx_vol_slide
-	         $0e8b = fx_vol_slide.cont1
-	         $0e92 = fx_vol_slide.cont2
-	         $0e9d = fx_note_delay
-	         $0ea1 = play_note
-	         $0eab = setup_instrument_pointer
-	         $0eb2 = setup_instrument_pointer.finish
-	         $0ebd = hUGE_dosound
-	         $0ebd = _hUGE_dosound
-	         $0edf = hUGE_dosound.toneporta
-	         $0f0c = hUGE_dosound.write_mask1
-	         $0f0f = hUGE_dosound.do_setvol1
-	         $0f29 = process_ch2
-	         $0f44 = process_ch2.toneporta
-	         $0f6f = process_ch2.write_mask2
-	         $0f72 = process_ch2.do_setvol2
-	         $0f8c = process_ch3
-	         $0fa8 = process_ch3.toneporta
-	         $0fd0 = process_ch3.no_wave_copy
-	         $0fde = process_ch3.write_mask3
-	         $0fe1 = process_ch3.do_setvol3
-	         $0ffb = process_ch4
-	         $1052 = process_ch4.write_mask4
-	         $1055 = process_ch4.do_setvol4
-	         $1072 = process_effects
-	         $108b = process_effects.after_effect1
-	         $109c = process_effects.process_ch2
-	         $10b5 = process_effects.after_effect2
-	         $10c6 = process_effects.process_ch3
-	         $10df = process_effects.after_effect3
-	         $10f0 = process_effects.process_ch4
-	         $1109 = process_effects.after_effect4
-	         $111a = tick_time
-	         $1136 = tick_time.no_break
-	         $1140 = tick_time.neworder
-	         $114d = tick_time.update_current_order
-	         $1155 = tick_time.noreset
-	         $1159 = note_table
-	SECTION: $11e9-$193f ($0757 bytes) ["GameplayBackgroundSection"]
-	         $11e9 = starFieldMap
-	         $15e9 = starFieldTileData
-	         $15e9 = starFieldMapEnd
-	         $18f9 = InitializeBackground
-	         $18f9 = starFieldTileDataEnd
-	         $1919 = UpdateBackground
-	SECTION: $1940-$1ca9 ($036a bytes) ["Text"]
-	         $1940 = textFontTileData
-	         $1c80 = textFontTileDataEnd
-	         $1c80 = LoadTextFontIntoVRAM
-	         $1c8c = DrawTextTilesLoop
-	         $1c97 = DrawText_WithTypewriterEffect
-	SECTION: $1caa-$1e20 ($0177 bytes) ["Player"]
-	         $1caa = playerShipTileData
-	         $1cea = playerTestMetaSprite
-	         $1cea = playerTestMetaSprite.metasprite1
-	         $1cea = playerShipTileDataEnd
-	         $1cee = playerTestMetaSprite.metasprite2
-	         $1cf2 = playerTestMetaSprite.metaspriteEnd
-	         $1cf3 = InitializePlayer
-	         $1d09 = CopyPlayerTileDataIntoVRAM
-	         $1d16 = UpdatePlayer_HandleInput
-	         $1d16 = UpdatePlayer
-	         $1d46 = UpdatePlayer_UpdateSprite_CheckFlashing
-	         $1d53 = UpdatePlayer_UpdateSprite_DecreaseFlashing
-	         $1d76 = UpdatePlayer_UpdateSprite_Flashing
-	         $1d77 = UpdatePlayer_UpdateSprite_StopFlashing
-	         $1d7e = UpdatePlayer_UpdateSprite
-	         $1dc4 = TryShoot
-	         $1dcd = DamagePlayer
-	         $1ddd = MoveUp
-	         $1dee = MoveDown
-	         $1dff = MoveLeft
-	         $1e10 = MoveRight
-	SECTION: $1e21-$1f8a ($016a bytes) ["Enemies"]
-	         $1e21 = enemyShipTileData
-	         $1e61 = enemyShipMetasprite
-	         $1e61 = enemyShipMetasprite.metasprite1
-	         $1e61 = enemyShipTileDataEnd
-	         $1e65 = enemyShipMetasprite.metasprite2
-	         $1e69 = enemyShipMetasprite.metaspriteEnd
-	         $1e6a = InitializeEnemies
-	         $1e84 = InitializeEnemies_Loop
-	         $1e96 = UpdateEnemies
-	         $1eb0 = UpdateEnemies_Loop
-	         $1ec2 = UpdateEnemies_PerEnemy
-	         $1ec7 = UpdateEnemies_SpawnNewEnemy
-	         $1ee4 = UpdateEnemies_PerEnemy_Update
-	         $1f12 = UpdateEnemies_PerEnemy_CheckPlayerCollision
-	         $1f2c = UpdateEnemies_DeActivateEnemy
-	         $1f38 = UpdateEnemies_NoCollisionWithPlayer
-	         $1f5e = TryToSpawnEnemies
-	         $1f77 = GetSpawnPosition
-	SECTION: $1f8b-$209b ($0111 bytes) ["Bullets"]
-	         $1f8b = bulletMetasprite
-	         $1f8b = bulletMetasprite.metasprite1
-	         $1f8f = bulletMetasprite.metaspriteEnd
-	         $1f90 = bulletTileData
-	         $1fb0 = bulletTileDataEnd
-	         $1fb0 = InitializeBullets
-	         $1fc9 = InitializeBullets_Loop
-	         $1fda = UpdateBullets
-	         $1ff2 = UpdateBullets_Loop
-	         $2007 = UpdateBullets_PerBullet
-	         $2013 = UpdateBullets_PerBullet_SpawnDeactivatedBullet
-	         $2045 = UpdateBullets_PerBullet_Normal
-	         $2084 = UpdateBullets_DeActivateIfOutOfBounds
-	         $2090 = FireNextBullet
-	SECTION: $209c-$2160 ($00c5 bytes) ["StoryStateASM"]
-	         $209c = InitStoryState
-	         $20a2 = Story.Line1
-	         $20a2 = Story
-	         $20b5 = Story.Line2
-	         $20c6 = Story.Line3
-	         $20d3 = Story.Line4
-	         $20d9 = Story.Line5
-	         $20e9 = Story.Line6
-	         $20fb = Story.Line7
-	         $210a = UpdateStoryState
-	SECTION: $2161-$220e ($00ae bytes) ["EnemyBulletCollision"]
-	         $2161 = CheckCurrentEnemyAgainstBullets
-	         $2176 = CheckCurrentEnemyAgainstBullets_Loop
-	         $2188 = CheckCurrentEnemyAgainstBullets_PerBullet
-	         $218e = CheckCurrentEnemyAgainstBullets_Check_X_Overlap
-	         $21b4 = CheckCurrentEnemyAgainstBullets_Check_X_Overlap_Fail
-	         $21b9 = CheckCurrentEnemyAgainstBullets_PerBullet_Y_Overlap
-	         $21ec = CheckCurrentEnemyAgainstBullets_PerBullet_Collision
-	SECTION: $220f-$227b ($006d bytes) ["EnemiesPlayerCollision"]
-	         $220f = CheckEnemyPlayerCollision
-	         $2277 = NoCollisionWithPlayer
-	SECTION: $227c-$22cb ($0050 bytes) ["Sprites"]
-	         $227c = ClearAllSprites
-	         $2282 = ClearOamLoop
-	         $2290 = ClearRemainingSprites_Loop
-	         $2290 = ClearRemainingSprites
-	         $22a8 = ResetOAMSpriteAddress
-	         $22b7 = NextOAMSprite
-	SECTION: $22cc-$2316 ($004b bytes) ["MetaSprites"]
-	         $22cc = DrawMetasprites
-	SECTION: $2317-$234a ($0034 bytes) ["GameplayHUD"]
-	         $2317 = IncreaseScore
-	         $231c = IncreaseScore_Loop
-	         $2322 = IncreaseScore_Next
-	         $232e = DrawLives
-	         $2339 = DrawScore
-	         $2341 = DrawScore_Loop
-	SECTION: $234b-$2378 ($002e bytes) ["Input"]
-	         $234b = Input
-	         $236b = Input.onenibble
-	         $2378 = Input.knownret
-	SECTION: $2379-$23a1 ($0029 bytes) ["InputUtils"]
-	         $2379 = WaitForKeyFunction
-	         $237a = WaitForKeyFunction_Loop
-	         $2397 = WaitForKeyFunction_NotPressed
-	SECTION: $23a2-$23c5 ($0024 bytes) ["CollisionUtils"]
-	         $23a2 = CheckObjectPositionDifference
-	         $23c0 = CheckObjectPositionDifference_Failure
-	SECTION: $23c6-$23e4 ($001f bytes) ["Initialize Sprite Object Library"]
-	         $23c6 = InitSprObjLibWrapper
-	         $23cf = InitSprObjLibWrapper.resetOAM
-	         $23d4 = InitSprObjLib
-	         $23db = InitSprObjLib.memcpy
-	SECTION: $23e5-$23fc ($0018 bytes) ["Background"]
-	         $23e5 = ClearBackground
-	         $23ef = ClearBackgroundLoop
-	SECTION: $23fd-$2413 ($0017 bytes) ["Interrupts"]
-	         $23fd = DisableInterrupts
-	         $2401 = EnableVBlankInterrupt
-	         $2405 = InitStatInterrupts
-	SECTION: $2414-$242a ($0017 bytes) ["Reset Shadow OAM"]
-	         $2414 = ResetShadowOAM
-	         $2421 = ResetShadowOAM.clearOAM
-	         $242a = ResetShadowOAM.skip
-	SECTION: $242b-$2440 ($0016 bytes) ["MemoryUtilsSection"]
-	         $242b = CopyDEintoMemoryAtHL
-	         $2435 = CopyDEintoMemoryAtHL_With52Offset
-	SECTION: $2441-$2455 ($0015 bytes) ["Render Simple Sprite"]
-	         $2441 = RenderSimpleSprite
-	SECTION: $2456-$2467 ($0012 bytes) ["VBlankFunctions"]
-	         $2456 = WaitForOneVBlank
-	         $245b = WaitForVBlankFunction_Loop
-	         $245b = WaitForVBlankFunction
-	SECTION: $2468-$2477 ($0010 bytes) ["Math"]
-	         $2468 = rand
-	EMPTY: $2478-$3fff ($1b88 bytes)
-	TOTAL EMPTY: $1b90 bytes
+	         $0184 = NextGameState
+	SECTION: $01c6-$0a4f ($088a bytes) ["TitleScreenState"]
+	         $01c6 = PressPlayText
+	         $01d6 = titleScreenTileData
+	         $0616 = titleScreenTileMap
+	         $0616 = titleScreenTileDataEnd
+	         $0a16 = titleScreenTileMapEnd
+	         $0a16 = InitTitleScreenState
+	         $0a28 = DrawTitleScreen
+	         $0a40 = UpdateTitleScreenState
+	SECTION: $0a50-$11e4 ($0795 bytes) ["Sound Driver"]
+	         $0a50 = hUGE_init
+	         $0a61 = hUGE_init.copy_song_descriptor_loop
+	         $0a6d = hUGE_init.fill_loop
+	         $0a80 = load_patterns
+	         $0a98 = load_patterns.load_pattern
+	         $0aa6 = hUGE_mute_channel
+	         $0aac = hUGE_mute_channel.enable_loop
+	         $0ab3 = hUGE_mute_channel.enable_cut
+	         $0ac0 = get_current_row
+	         $0ac3 = get_current_row.row_in_a
+	         $0acf = get_current_note
+	         $0adc = get_note_period
+	         $0ae9 = get_note_poly
+	         $0aff = ptr_to_channel_member
+	         $0b0b = update_channel_freq
+	         $0b0d = update_channel_freq.nonzero_highmask
+	         $0b1a = update_channel_freq.update_channel1
+	         $0b2b = update_channel_freq.update_channel2
+	         $0b3c = update_channel_freq.update_channel3
+	         $0b4d = update_channel_freq.update_channel4
+	         $0b5f = play_note_routines
+	         $0b67 = play_ch1_note
+	         $0b7a = play_ch2_note
+	         $0b8d = play_ch3_note
+	         $0bb0 = play_ch4_note
+	         $0bc1 = do_table
+	         $0bd5 = do_table.no_steal
+	         $0bdb = do_table.no_jump
+	         $0bf9 = do_table.is_ch4
+	         $0c00 = do_table.no_note
+	         $0c01 = do_table.no_note2
+	         $0c06 = do_effect
+	         $0c08 = do_effect.no_set_offset
+	         $0c20 = do_effect.no_offset
+	         $0c26 = do_effect.jump
+	         $0c46 = fx_set_master_volume
+	         $0c4b = fx_call_routine
+	         $0c65 = fx_set_pan
+	         $0c6a = fx_set_duty
+	         $0c77 = fx_set_duty.chan1
+	         $0c7e = fx_set_duty.chan2
+	         $0c85 = fx_set_duty.chan4
+	         $0c90 = fx_set_duty.chan3
+	         $0c9f = update_ch3_waveform
+	         $0cee = fx_set_speed
+	         $0cf4 = fx_pos_jump
+	         $0cf4 = hUGE_set_position
+	         $0cfd = fx_pos_jump.already_broken
+	         $0d00 = fx_pattern_break
+	         $0d06 = fx_note_cut
+	         $0d17 = note_cut
+	         $0d2a = fx_set_volume
+	         $0d39 = fx_set_volume.set_chn_1_vol
+	         $0d46 = fx_set_volume.set_chn_2_vol
+	         $0d53 = fx_set_volume.set_chn_3_vol
+	         $0d62 = fx_set_volume.three
+	         $0d66 = fx_set_volume.two
+	         $0d6a = fx_set_volume.one
+	         $0d6c = fx_set_volume.done
+	         $0d6f = fx_set_volume.set_chn_4_vol
+	         $0d78 = fx_vibrato
+	         $0d8b = fx_vibrato.restore
+	         $0d92 = fx_vibrato.go_up
+	         $0d9d = fx_vibrato.finish_vibrato
+	         $0da0 = fx_arpeggio
+	         $0dad = fx_arpeggio.greater_than_two
+	         $0daf = fx_arpeggio.test_greater_than_two
+	         $0dbc = fx_arpeggio.arp_options
+	         $0dc0 = fx_arpeggio.reset_arp
+	         $0dc3 = fx_arpeggio.set_arp2
+	         $0dc7 = fx_arpeggio.set_arp1
+	         $0dc8 = fx_arpeggio.finish_arp
+	         $0dcb = fx_arpeggio.finish_skip_add
+	         $0dd3 = fx_porta_up
+	         $0de2 = fx_porta_down
+	         $0df1 = fx_toneporta
+	         $0e06 = fx_toneporta.high_byte_same
+	         $0e0c = fx_toneporta.add
+	         $0e1e = fx_toneporta.subtract
+	         $0e34 = fx_toneporta.set_exact
+	         $0e36 = fx_toneporta.done
+	         $0e48 = fx_toneporta.setup
+	         $0e58 = ret_dont_play_note
+	         $0e5d = fx_vol_slide
+	         $0e87 = fx_vol_slide.cont1
+	         $0e8e = fx_vol_slide.cont2
+	         $0e99 = fx_note_delay
+	         $0e9d = play_note
+	         $0ea7 = setup_instrument_pointer
+	         $0eae = setup_instrument_pointer.finish
+	         $0eb9 = hUGE_dosound
+	         $0eb9 = _hUGE_dosound
+	         $0edb = hUGE_dosound.toneporta
+	         $0f08 = hUGE_dosound.write_mask1
+	         $0f0b = hUGE_dosound.do_setvol1
+	         $0f25 = process_ch2
+	         $0f40 = process_ch2.toneporta
+	         $0f6b = process_ch2.write_mask2
+	         $0f6e = process_ch2.do_setvol2
+	         $0f88 = process_ch3
+	         $0fa4 = process_ch3.toneporta
+	         $0fcc = process_ch3.no_wave_copy
+	         $0fda = process_ch3.write_mask3
+	         $0fdd = process_ch3.do_setvol3
+	         $0ff7 = process_ch4
+	         $104e = process_ch4.write_mask4
+	         $1051 = process_ch4.do_setvol4
+	         $106e = process_effects
+	         $1087 = process_effects.after_effect1
+	         $1098 = process_effects.process_ch2
+	         $10b1 = process_effects.after_effect2
+	         $10c2 = process_effects.process_ch3
+	         $10db = process_effects.after_effect3
+	         $10ec = process_effects.process_ch4
+	         $1105 = process_effects.after_effect4
+	         $1116 = tick_time
+	         $1132 = tick_time.no_break
+	         $113c = tick_time.neworder
+	         $1149 = tick_time.update_current_order
+	         $1151 = tick_time.noreset
+	         $1155 = note_table
+	SECTION: $11e5-$193b ($0757 bytes) ["GameplayBackgroundSection"]
+	         $11e5 = starFieldMap
+	         $15e5 = starFieldTileData
+	         $15e5 = starFieldMapEnd
+	         $18f5 = InitializeBackground
+	         $18f5 = starFieldTileDataEnd
+	         $1915 = UpdateBackground
+	SECTION: $193c-$1ca5 ($036a bytes) ["Text"]
+	         $193c = textFontTileData
+	         $1c7c = textFontTileDataEnd
+	         $1c7c = LoadTextFontIntoVRAM
+	         $1c88 = DrawTextTilesLoop
+	         $1c93 = DrawText_WithTypewriterEffect
+	SECTION: $1ca6-$1e1c ($0177 bytes) ["Player"]
+	         $1ca6 = playerShipTileData
+	         $1ce6 = playerTestMetaSprite
+	         $1ce6 = playerTestMetaSprite.metasprite1
+	         $1ce6 = playerShipTileDataEnd
+	         $1cea = playerTestMetaSprite.metasprite2
+	         $1cee = playerTestMetaSprite.metaspriteEnd
+	         $1cef = InitializePlayer
+	         $1d05 = CopyPlayerTileDataIntoVRAM
+	         $1d12 = UpdatePlayer_HandleInput
+	         $1d12 = UpdatePlayer
+	         $1d42 = UpdatePlayer_UpdateSprite_CheckFlashing
+	         $1d4f = UpdatePlayer_UpdateSprite_DecreaseFlashing
+	         $1d72 = UpdatePlayer_UpdateSprite_Flashing
+	         $1d73 = UpdatePlayer_UpdateSprite_StopFlashing
+	         $1d7a = UpdatePlayer_UpdateSprite
+	         $1dc0 = TryShoot
+	         $1dc9 = DamagePlayer
+	         $1dd9 = MoveUp
+	         $1dea = MoveDown
+	         $1dfb = MoveLeft
+	         $1e0c = MoveRight
+	SECTION: $1e1d-$1f86 ($016a bytes) ["Enemies"]
+	         $1e1d = enemyShipTileData
+	         $1e5d = enemyShipMetasprite
+	         $1e5d = enemyShipMetasprite.metasprite1
+	         $1e5d = enemyShipTileDataEnd
+	         $1e61 = enemyShipMetasprite.metasprite2
+	         $1e65 = enemyShipMetasprite.metaspriteEnd
+	         $1e66 = InitializeEnemies
+	         $1e80 = InitializeEnemies_Loop
+	         $1e92 = UpdateEnemies
+	         $1eac = UpdateEnemies_Loop
+	         $1ebe = UpdateEnemies_PerEnemy
+	         $1ec3 = UpdateEnemies_SpawnNewEnemy
+	         $1ee0 = UpdateEnemies_PerEnemy_Update
+	         $1f0e = UpdateEnemies_PerEnemy_CheckPlayerCollision
+	         $1f28 = UpdateEnemies_DeActivateEnemy
+	         $1f34 = UpdateEnemies_NoCollisionWithPlayer
+	         $1f5a = TryToSpawnEnemies
+	         $1f73 = GetSpawnPosition
+	SECTION: $1f87-$2097 ($0111 bytes) ["Bullets"]
+	         $1f87 = bulletMetasprite
+	         $1f87 = bulletMetasprite.metasprite1
+	         $1f8b = bulletMetasprite.metaspriteEnd
+	         $1f8c = bulletTileData
+	         $1fac = bulletTileDataEnd
+	         $1fac = InitializeBullets
+	         $1fc5 = InitializeBullets_Loop
+	         $1fd6 = UpdateBullets
+	         $1fee = UpdateBullets_Loop
+	         $2003 = UpdateBullets_PerBullet
+	         $200f = UpdateBullets_PerBullet_SpawnDeactivatedBullet
+	         $2041 = UpdateBullets_PerBullet_Normal
+	         $2080 = UpdateBullets_DeActivateIfOutOfBounds
+	         $208c = FireNextBullet
+	SECTION: $2098-$2195 ($00fe bytes) ["StoryStateASM"]
+	         $2098 = InitStoryState
+	         $209e = Story.Line1
+	         $209e = Story
+	         $20b1 = Story.Line2
+	         $20c4 = Story.Line3
+	         $20d7 = Story.Line4
+	         $20ea = Story.Line5
+	         $20fd = Story.Line6
+	         $2110 = Story.Line7
+	         $2123 = Story.Line8
+	         $2136 = UpdateStoryState
+	SECTION: $2196-$2243 ($00ae bytes) ["EnemyBulletCollision"]
+	         $2196 = CheckCurrentEnemyAgainstBullets
+	         $21ab = CheckCurrentEnemyAgainstBullets_Loop
+	         $21bd = CheckCurrentEnemyAgainstBullets_PerBullet
+	         $21c3 = CheckCurrentEnemyAgainstBullets_Check_X_Overlap
+	         $21e9 = CheckCurrentEnemyAgainstBullets_Check_X_Overlap_Fail
+	         $21ee = CheckCurrentEnemyAgainstBullets_PerBullet_Y_Overlap
+	         $2221 = CheckCurrentEnemyAgainstBullets_PerBullet_Collision
+	SECTION: $2244-$22b0 ($006d bytes) ["EnemiesPlayerCollision"]
+	         $2244 = CheckEnemyPlayerCollision
+	         $22ac = NoCollisionWithPlayer
+	SECTION: $22b1-$2300 ($0050 bytes) ["Sprites"]
+	         $22b1 = ClearAllSprites
+	         $22b7 = ClearOamLoop
+	         $22c5 = ClearRemainingSprites_Loop
+	         $22c5 = ClearRemainingSprites
+	         $22dd = ResetOAMSpriteAddress
+	         $22ec = NextOAMSprite
+	SECTION: $2301-$234b ($004b bytes) ["MetaSprites"]
+	         $2301 = DrawMetasprites
+	SECTION: $234c-$237f ($0034 bytes) ["GameplayHUD"]
+	         $234c = IncreaseScore
+	         $2351 = IncreaseScore_Loop
+	         $2357 = IncreaseScore_Next
+	         $2363 = DrawLives
+	         $236e = DrawScore
+	         $2376 = DrawScore_Loop
+	SECTION: $2380-$23ad ($002e bytes) ["Input"]
+	         $2380 = Input
+	         $23a0 = Input.onenibble
+	         $23ad = Input.knownret
+	SECTION: $23ae-$23d6 ($0029 bytes) ["InputUtils"]
+	         $23ae = WaitForKeyFunction
+	         $23af = WaitForKeyFunction_Loop
+	         $23cc = WaitForKeyFunction_NotPressed
+	SECTION: $23d7-$23fa ($0024 bytes) ["CollisionUtils"]
+	         $23d7 = CheckObjectPositionDifference
+	         $23f5 = CheckObjectPositionDifference_Failure
+	SECTION: $23fb-$2419 ($001f bytes) ["VBlankFunctions"]
+	         $23fb = WaitForOneVBlank
+	         $2400 = WaitForVBlankFunction.waitTop
+	         $2400 = WaitForVBlankFunction
+	         $2412 = WaitForVBlankFunction.waitBottom
+	SECTION: $241a-$2438 ($001f bytes) ["Initialize Sprite Object Library"]
+	         $241a = InitSprObjLibWrapper
+	         $2423 = InitSprObjLibWrapper.resetOAM
+	         $2428 = InitSprObjLib
+	         $242f = InitSprObjLib.memcpy
+	SECTION: $2439-$2450 ($0018 bytes) ["Background"]
+	         $2439 = ClearBackground
+	         $2443 = ClearBackgroundLoop
+	SECTION: $2451-$2467 ($0017 bytes) ["Reset Shadow OAM"]
+	         $2451 = ResetShadowOAM
+	         $245e = ResetShadowOAM.clearOAM
+	         $2467 = ResetShadowOAM.skip
+	SECTION: $2468-$247d ($0016 bytes) ["MemoryUtilsSection"]
+	         $2468 = CopyDEintoMemoryAtHL
+	         $2472 = CopyDEintoMemoryAtHL_With52Offset
+	SECTION: $247e-$2492 ($0015 bytes) ["Render Simple Sprite"]
+	         $247e = RenderSimpleSprite
+	SECTION: $2493-$24a2 ($0010 bytes) ["Math"]
+	         $2493 = rand
+	SECTION: $24a3-$24aa ($0008 bytes) ["OAM DMA Code"]
+	         $24a3 = OAMDMACode
+	         $24ab = OAMDMACodeEnd
+	EMPTY: $24ab-$3fff ($1b55 bytes)
+	TOTAL EMPTY: $1b58 bytes
 
 ROMX bank #1:
 	SECTION: $4000-$7489 ($348a bytes) ["song Song Data"]

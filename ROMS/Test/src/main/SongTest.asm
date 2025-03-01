@@ -19,6 +19,9 @@ EntryPoint:
 
     ei
 
+    ld hl, song
+    call hUGE_init
+
     ; Wait for the vertical blank phase before initiating the library
     call WaitForOneVBlank
 
@@ -53,8 +56,6 @@ EntryPoint:
     ld a, $FF
     ld [rNR51], a
 
-    call EnableVBlankInterrupt
-
 NextGameState::
 
     ; Do not turn the LCD off outside of VBlank
@@ -72,10 +73,12 @@ NextGameState::
     ld [rWX], a
     ld [rWY], a
     ; disable interrupts
-    call DisableInterrupts
+    di
     
     ; Clear all sprites
     call ClearAllSprites
+
+    ei
 
     ; Initiate the next state
     ld a, [wGameState]

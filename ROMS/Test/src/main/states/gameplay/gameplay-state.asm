@@ -79,6 +79,8 @@ UpdateGameplayState::
 	; In their words (paraphrased): reading player input for gameboy is NOT a trivial task
 	; So it's best to use some tested code
     call Input
+
+	call hUGE_dosound
 ; ANCHOR_END: update-gameplay-state-start
 
 ; ANCHOR: update-gameplay-oam

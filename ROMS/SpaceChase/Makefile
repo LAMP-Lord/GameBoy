@@ -1,18 +1,29 @@
 # You can set the name of the .gb ROM file here
-PROJECTNAME    	= SpaceChase
-SRCDIR      	= src
-LIBDIR      	= libs
-OBJDIR      	= obj
-DSTDIR      	= dist
-RESDIR      	= $(SRCDIR)/resources
-ASMDIR          = $(SRCDIR)/main
-RESSPRITES      = $(RESDIR)/sprites
-RESSOUNDS       = $(RESDIR)/sounds
-RESBACKGROUNDS  = $(RESDIR)/backgrounds
-GENDIR	    	= generated
-GENSPRITES	    = $(GENDIR)/sprites
-GENBACKGROUNDS	= $(GENDIR)/backgrounds
-BINS	    	= $(DSTDIR)/$(PROJECTNAME).gb
+PROJECTNAME    		= SpaceChase
+
+SRC         		= src
+LIBS        		= libs
+OBJ         	    = obj
+DIST        	    = dist
+GEN     	        = generated
+
+RESOURCES         	= $(SRC)/resources
+APP                 = $(SRC)/app
+
+IMAGES              = $(RESOURCES)/images
+IMAGES_SPRITES      = $(IMAGES)/sprites
+IMAGES_UI           = $(IMAGES)/ui
+IMAGES_BACKGROUNDS  = $(IMAGES_UI)/backgrounds
+IMAGES_FONTS        = $(IMAGES_UI)/fonts
+
+AUDIO           	= $(RESOURCES)/audio
+AUDIO_MUSIC     	= $(AUDIO)/music
+AUDIO_SOUNDS    	= $(AUDIO)/sounds
+
+GEN_SPRITES	    	= $(GEN)/sprites
+GEN_BACKGROUNDS		= $(GEN)/backgrounds
+GEN_FONTS			= $(GEN)/fonts
+BINS	    		= $(DIST)/$(PROJECTNAME).gb
 
 # Tools
 RGBDS ?=
@@ -37,38 +48,43 @@ unique = $(if $1,\
 			$(firstword $1) $(call unique,$(filter-out $(firstword $1),$1)) \
 		)
 
-# Collect ASM sources from ASMDIR and LIBDIR.
+# Collect ASM sources
 ASMSOURCES_COLLECTED = \
-	$(call rwildcard,$(ASMDIR),*.asm) $(call rwildcard,$(LIBDIR),*.asm) $(call rwildcard,$(RESSOUNDS),*.asm)
+	$(call rwildcard,$(APP),*.asm) $(call rwildcard,$(LIBS),*.asm) \
+	$(call rwildcard,$(AUDIO_MUSIC),*.asm) \
+	$(call rwildcard,$(AUDIO_SOUNDS),*.asm)
 
-OBJS = $(patsubst %.asm,$(OBJDIR)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
+OBJS = $(patsubst %.asm,$(OBJ)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
 
 all: $(BINS)
 
 # ANCHOR: generate-graphics
 NEEDED_GRAPHICS = \
-	$(GENSPRITES)/player-ship.2bpp \
-	$(GENSPRITES)/enemy-ship.2bpp \
-	$(GENSPRITES)/bullet.2bpp \
-	$(GENBACKGROUNDS)/text-font.2bpp \
-	$(GENBACKGROUNDS)/star-field.tilemap \
-	$(GENBACKGROUNDS)/title-screen.tilemap
-
+	$(GEN_SPRITES)/player-ship.2bpp \
+	$(GEN_SPRITES)/enemy-ship.2bpp \
+	$(GEN_SPRITES)/bullet.2bpp \
+	$(GEN_BACKGROUNDS)/star-field.tilemap \
+	$(GEN_BACKGROUNDS)/title-screen.tilemap \
+	$(GEN_FONTS)/text-font.2bpp
+	
 # Generate sprites, ensuring the containing directories have been created.
-$(GENSPRITES)/%.2bpp: $(RESSPRITES)/%.png | $(GENSPRITES)
+$(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
 	$(GFX) -c "#FFFFFF,#cfcfcf,#686868,#000000;" --columns -o $@ $<
 
 # Generate background tile set, ensuring the containing directories have been created.
-$(GENBACKGROUNDS)/%.2bpp: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
+$(GEN_BACKGROUNDS)/%.2bpp: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
+	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" -o $@ $<
+
+$(GEN_FONTS)/%.2bpp: $(IMAGES_FONTS)/%.png | $(GEN_FONTS)
 	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" -o $@ $<
 
 # Generate background tile map *and* tile set, ensuring the containing directories
 # have been created.
-$(GENBACKGROUNDS)/%.tilemap: $(RESBACKGROUNDS)/%.png | $(GENBACKGROUNDS)
+$(GEN_BACKGROUNDS)/%.tilemap: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
 	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" \
 		--tilemap $@ \
 		--unique-tiles \
-		-o $(GENBACKGROUNDS)/$*.2bpp \
+		-o $(GEN_BACKGROUNDS)/$*.2bpp \
 		$<
 # ANCHOR_END: generate-graphics
 
@@ -88,7 +104,7 @@ ASMSOURCES_DIRS = $(patsubst %,%%.asm,\
 # It defines a %.o target from a corresponding %.asm, ensuring the
 # "prepare" step has ran and the graphics are already generated.
 define object-from-asm
-$(OBJDIR)/%.o: $1 | $(OBJDIR) $(NEEDED_GRAPHICS)
+$(OBJ)/%.o: $1 | $(OBJ) $(NEEDED_GRAPHICS)
 	$$(ASM) -o $$@ $$<
 endef
 
@@ -98,7 +114,7 @@ $(foreach i, $(ASMSOURCES_DIRS), $(eval $(call object-from-asm,$i)))
 # ANCHOR_END: generate-objects
 
 # Link and build the final ROM.
-$(BINS): $(OBJS) | $(DSTDIR)
+$(BINS): $(OBJS) | $(DIST)
 	$(LINK) -m dist/$(PROJECTNAME).map -n dist/$(PROJECTNAME).sym -o $@ $^
 	$(FIX) $(FIXFLAGS) $@
 # Ensure directories for generated files exist.
@@ -108,7 +124,7 @@ $1:
 endef
 
 PREPARE_DIRECTORIES = \
-	$(OBJDIR) $(GENSPRITES) $(GENBACKGROUNDS) $(DSTDIR)
+	$(OBJ) $(GEN_SPRITES) $(GEN_BACKGROUNDS) $(GEN_FONTS) $(DIST)
 
 $(foreach i, $(PREPARE_DIRECTORIES), $(eval $(call ensure-directory,$i)))
 

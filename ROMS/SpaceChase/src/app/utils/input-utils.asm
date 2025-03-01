@@ -47,7 +47,7 @@ WaitForKeyFunction_NotPressed:
     ld [wVBlankCount], a
 
     ; Call our function that performs the code
-    call WaitForVBlankFunction
+    call WaitForVBlank
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     jp WaitForKeyFunction_Loop

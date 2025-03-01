@@ -21,12 +21,12 @@ WaitForKeyFunction_Loop:
     ; In their words (paraphrased): reading player input for gameboy is NOT a trivial task
     ; So it's best to use some tested code
     call Input
-
     
     ld a, [mWaitKey]
     ld b, a
     ld a, [wCurKeys]
     and b
+
     jp z, WaitForKeyFunction_NotPressed
     
     ld a, [wLastKeys]

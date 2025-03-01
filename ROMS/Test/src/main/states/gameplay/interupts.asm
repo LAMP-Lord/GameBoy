@@ -4,18 +4,9 @@ INCLUDE "include/hardware.inc"
 
 SECTION "Interrupts", ROM0
 
-DisableInterrupts::
-	xor a
-	ldh [rSTAT], a
-	ret
-
-EnableVBlankInterrupt::
-	ld a, IEF_VBLANK
-    ldh [rIE], a
-
 InitStatInterrupts::
 
-    ld a, IEF_STAT | IEF_VBLANK
+    ld a, IEF_STAT
     ldh [rIE], a
 
 	xor a
@@ -24,6 +15,8 @@ InitStatInterrupts::
 	; This makes our stat interrupts occur when the current scanline is equal to the rLYC register
 	ld a, STATF_LYC
 	ldh [rSTAT], a
+	
+	ei
 
 	; We'll start with the first scanline
 	; The first stat interrupt will call the next time rLY = 0
@@ -74,12 +67,3 @@ EndStatInterrupts:
 
 	reti;
 ; ANCHOR_END: interrupts-section
-
-SECTION "VBlank Vector", ROM0[$0040]
-
-; This label is optional, but let's be explicit
-VBlankInterrupt:
-	push bc
-    call _hUGE_dosound   ; call the music driver update routine
-	pop bc
-    reti                 ; return from interrupt
