@@ -1,0 +1,731 @@
+SUMMARY:
+	ROM0: 9328 bytes used / 7056 free
+	ROMX: 26900 bytes used / 5868 free in 2 banks
+	WRAM0: 391 bytes used / 3705 free
+	HRAM: 9 bytes used / 118 free
+
+ROM0 bank #0:
+	SECTION: $0000-$0037 ($0038 bytes) ["Render Metasprite"]
+	         $0000 = RenderMetasprite
+	         $0021 = RenderMetasprite.loop
+	SECTION: $0038-$003f ($0008 bytes) ["OAM DMA Code"]
+	         $0038 = OAMDMACode
+	         $0040 = OAMDMACodeEnd
+	SECTION: $0040-$0045 ($0006 bytes) ["VBlank Vector"]
+	         $0040 = VBlankInterrupt
+	EMPTY: $0046-$0047 ($0002 bytes)
+	SECTION: $0048-$0062 ($001b bytes) ["Stat Interrupt"]
+	         $0048 = StatInterrupt
+	         $004f = LYCEquals8
+	         $0059 = LYCEqualsZero
+	         $0061 = EndStatInterrupts
+	SECTION: $0063-$00f9 ($0097 bytes) ["GameplayState"]
+	         $0063 = wScoreText
+	         $0069 = wLivesText
+	         $006f = InitGameplayState
+	         $00be = UpdateGameplayState
+	         $00f2 = EndGameplay
+	EMPTY: $00fa-$00ff ($0006 bytes)
+	SECTION: $0100-$01c3 ($00c4 bytes) ["Header"]
+	         $0150 = EntryPoint
+	         $0181 = NextGameState
+	SECTION: $01c4-$0a53 ($0890 bytes) ["TitleScreenState"]
+	         $01c4 = PressPlayText
+	         $01d4 = titleScreenTileData
+	         $0614 = titleScreenTileMap
+	         $0614 = titleScreenTileDataEnd
+	         $0a14 = titleScreenTileMapEnd
+	         $0a14 = InitTitleScreenState
+	         $0a2c = DrawTitleScreen
+	         $0a44 = UpdateTitleScreenState
+	SECTION: $0a54-$11e8 ($0795 bytes) ["Sound Driver"]
+	         $0a54 = hUGE_init
+	         $0a65 = hUGE_init.copy_song_descriptor_loop
+	         $0a71 = hUGE_init.fill_loop
+	         $0a84 = load_patterns
+	         $0a9c = load_patterns.load_pattern
+	         $0aaa = hUGE_mute_channel
+	         $0ab0 = hUGE_mute_channel.enable_loop
+	         $0ab7 = hUGE_mute_channel.enable_cut
+	         $0ac4 = get_current_row
+	         $0ac7 = get_current_row.row_in_a
+	         $0ad3 = get_current_note
+	         $0ae0 = get_note_period
+	         $0aed = get_note_poly
+	         $0b03 = ptr_to_channel_member
+	         $0b0f = update_channel_freq
+	         $0b11 = update_channel_freq.nonzero_highmask
+	         $0b1e = update_channel_freq.update_channel1
+	         $0b2f = update_channel_freq.update_channel2
+	         $0b40 = update_channel_freq.update_channel3
+	         $0b51 = update_channel_freq.update_channel4
+	         $0b63 = play_note_routines
+	         $0b6b = play_ch1_note
+	         $0b7e = play_ch2_note
+	         $0b91 = play_ch3_note
+	         $0bb4 = play_ch4_note
+	         $0bc5 = do_table
+	         $0bd9 = do_table.no_steal
+	         $0bdf = do_table.no_jump
+	         $0bfd = do_table.is_ch4
+	         $0c04 = do_table.no_note
+	         $0c05 = do_table.no_note2
+	         $0c0a = do_effect
+	         $0c0c = do_effect.no_set_offset
+	         $0c24 = do_effect.no_offset
+	         $0c2a = do_effect.jump
+	         $0c4a = fx_set_master_volume
+	         $0c4f = fx_call_routine
+	         $0c69 = fx_set_pan
+	         $0c6e = fx_set_duty
+	         $0c7b = fx_set_duty.chan1
+	         $0c82 = fx_set_duty.chan2
+	         $0c89 = fx_set_duty.chan4
+	         $0c94 = fx_set_duty.chan3
+	         $0ca3 = update_ch3_waveform
+	         $0cf2 = fx_set_speed
+	         $0cf8 = fx_pos_jump
+	         $0cf8 = hUGE_set_position
+	         $0d01 = fx_pos_jump.already_broken
+	         $0d04 = fx_pattern_break
+	         $0d0a = fx_note_cut
+	         $0d1b = note_cut
+	         $0d2e = fx_set_volume
+	         $0d3d = fx_set_volume.set_chn_1_vol
+	         $0d4a = fx_set_volume.set_chn_2_vol
+	         $0d57 = fx_set_volume.set_chn_3_vol
+	         $0d66 = fx_set_volume.three
+	         $0d6a = fx_set_volume.two
+	         $0d6e = fx_set_volume.one
+	         $0d70 = fx_set_volume.done
+	         $0d73 = fx_set_volume.set_chn_4_vol
+	         $0d7c = fx_vibrato
+	         $0d8f = fx_vibrato.restore
+	         $0d96 = fx_vibrato.go_up
+	         $0da1 = fx_vibrato.finish_vibrato
+	         $0da4 = fx_arpeggio
+	         $0db1 = fx_arpeggio.greater_than_two
+	         $0db3 = fx_arpeggio.test_greater_than_two
+	         $0dc0 = fx_arpeggio.arp_options
+	         $0dc4 = fx_arpeggio.reset_arp
+	         $0dc7 = fx_arpeggio.set_arp2
+	         $0dcb = fx_arpeggio.set_arp1
+	         $0dcc = fx_arpeggio.finish_arp
+	         $0dcf = fx_arpeggio.finish_skip_add
+	         $0dd7 = fx_porta_up
+	         $0de6 = fx_porta_down
+	         $0df5 = fx_toneporta
+	         $0e0a = fx_toneporta.high_byte_same
+	         $0e10 = fx_toneporta.add
+	         $0e22 = fx_toneporta.subtract
+	         $0e38 = fx_toneporta.set_exact
+	         $0e3a = fx_toneporta.done
+	         $0e4c = fx_toneporta.setup
+	         $0e5c = ret_dont_play_note
+	         $0e61 = fx_vol_slide
+	         $0e8b = fx_vol_slide.cont1
+	         $0e92 = fx_vol_slide.cont2
+	         $0e9d = fx_note_delay
+	         $0ea1 = play_note
+	         $0eab = setup_instrument_pointer
+	         $0eb2 = setup_instrument_pointer.finish
+	         $0ebd = hUGE_dosound
+	         $0ebd = _hUGE_dosound
+	         $0edf = hUGE_dosound.toneporta
+	         $0f0c = hUGE_dosound.write_mask1
+	         $0f0f = hUGE_dosound.do_setvol1
+	         $0f29 = process_ch2
+	         $0f44 = process_ch2.toneporta
+	         $0f6f = process_ch2.write_mask2
+	         $0f72 = process_ch2.do_setvol2
+	         $0f8c = process_ch3
+	         $0fa8 = process_ch3.toneporta
+	         $0fd0 = process_ch3.no_wave_copy
+	         $0fde = process_ch3.write_mask3
+	         $0fe1 = process_ch3.do_setvol3
+	         $0ffb = process_ch4
+	         $1052 = process_ch4.write_mask4
+	         $1055 = process_ch4.do_setvol4
+	         $1072 = process_effects
+	         $108b = process_effects.after_effect1
+	         $109c = process_effects.process_ch2
+	         $10b5 = process_effects.after_effect2
+	         $10c6 = process_effects.process_ch3
+	         $10df = process_effects.after_effect3
+	         $10f0 = process_effects.process_ch4
+	         $1109 = process_effects.after_effect4
+	         $111a = tick_time
+	         $1136 = tick_time.no_break
+	         $1140 = tick_time.neworder
+	         $114d = tick_time.update_current_order
+	         $1155 = tick_time.noreset
+	         $1159 = note_table
+	SECTION: $11e9-$193f ($0757 bytes) ["GameplayBackgroundSection"]
+	         $11e9 = starFieldMap
+	         $15e9 = starFieldTileData
+	         $15e9 = starFieldMapEnd
+	         $18f9 = InitializeBackground
+	         $18f9 = starFieldTileDataEnd
+	         $1919 = UpdateBackground
+	SECTION: $1940-$1ca9 ($036a bytes) ["Text"]
+	         $1940 = textFontTileData
+	         $1c80 = textFontTileDataEnd
+	         $1c80 = LoadTextFontIntoVRAM
+	         $1c8c = DrawTextTilesLoop
+	         $1c97 = DrawText_WithTypewriterEffect
+	SECTION: $1caa-$1e20 ($0177 bytes) ["Player"]
+	         $1caa = playerShipTileData
+	         $1cea = playerTestMetaSprite
+	         $1cea = playerTestMetaSprite.metasprite1
+	         $1cea = playerShipTileDataEnd
+	         $1cee = playerTestMetaSprite.metasprite2
+	         $1cf2 = playerTestMetaSprite.metaspriteEnd
+	         $1cf3 = InitializePlayer
+	         $1d09 = CopyPlayerTileDataIntoVRAM
+	         $1d16 = UpdatePlayer_HandleInput
+	         $1d16 = UpdatePlayer
+	         $1d46 = UpdatePlayer_UpdateSprite_CheckFlashing
+	         $1d53 = UpdatePlayer_UpdateSprite_DecreaseFlashing
+	         $1d76 = UpdatePlayer_UpdateSprite_Flashing
+	         $1d77 = UpdatePlayer_UpdateSprite_StopFlashing
+	         $1d7e = UpdatePlayer_UpdateSprite
+	         $1dc4 = TryShoot
+	         $1dcd = DamagePlayer
+	         $1ddd = MoveUp
+	         $1dee = MoveDown
+	         $1dff = MoveLeft
+	         $1e10 = MoveRight
+	SECTION: $1e21-$1f8a ($016a bytes) ["Enemies"]
+	         $1e21 = enemyShipTileData
+	         $1e61 = enemyShipMetasprite
+	         $1e61 = enemyShipMetasprite.metasprite1
+	         $1e61 = enemyShipTileDataEnd
+	         $1e65 = enemyShipMetasprite.metasprite2
+	         $1e69 = enemyShipMetasprite.metaspriteEnd
+	         $1e6a = InitializeEnemies
+	         $1e84 = InitializeEnemies_Loop
+	         $1e96 = UpdateEnemies
+	         $1eb0 = UpdateEnemies_Loop
+	         $1ec2 = UpdateEnemies_PerEnemy
+	         $1ec7 = UpdateEnemies_SpawnNewEnemy
+	         $1ee4 = UpdateEnemies_PerEnemy_Update
+	         $1f12 = UpdateEnemies_PerEnemy_CheckPlayerCollision
+	         $1f2c = UpdateEnemies_DeActivateEnemy
+	         $1f38 = UpdateEnemies_NoCollisionWithPlayer
+	         $1f5e = TryToSpawnEnemies
+	         $1f77 = GetSpawnPosition
+	SECTION: $1f8b-$209b ($0111 bytes) ["Bullets"]
+	         $1f8b = bulletMetasprite
+	         $1f8b = bulletMetasprite.metasprite1
+	         $1f8f = bulletMetasprite.metaspriteEnd
+	         $1f90 = bulletTileData
+	         $1fb0 = bulletTileDataEnd
+	         $1fb0 = InitializeBullets
+	         $1fc9 = InitializeBullets_Loop
+	         $1fda = UpdateBullets
+	         $1ff2 = UpdateBullets_Loop
+	         $2007 = UpdateBullets_PerBullet
+	         $2013 = UpdateBullets_PerBullet_SpawnDeactivatedBullet
+	         $2045 = UpdateBullets_PerBullet_Normal
+	         $2084 = UpdateBullets_DeActivateIfOutOfBounds
+	         $2090 = FireNextBullet
+	SECTION: $209c-$2160 ($00c5 bytes) ["StoryStateASM"]
+	         $209c = InitStoryState
+	         $20a2 = Story.Line1
+	         $20a2 = Story
+	         $20b5 = Story.Line2
+	         $20c6 = Story.Line3
+	         $20d3 = Story.Line4
+	         $20d9 = Story.Line5
+	         $20e9 = Story.Line6
+	         $20fb = Story.Line7
+	         $210a = UpdateStoryState
+	SECTION: $2161-$220e ($00ae bytes) ["EnemyBulletCollision"]
+	         $2161 = CheckCurrentEnemyAgainstBullets
+	         $2176 = CheckCurrentEnemyAgainstBullets_Loop
+	         $2188 = CheckCurrentEnemyAgainstBullets_PerBullet
+	         $218e = CheckCurrentEnemyAgainstBullets_Check_X_Overlap
+	         $21b4 = CheckCurrentEnemyAgainstBullets_Check_X_Overlap_Fail
+	         $21b9 = CheckCurrentEnemyAgainstBullets_PerBullet_Y_Overlap
+	         $21ec = CheckCurrentEnemyAgainstBullets_PerBullet_Collision
+	SECTION: $220f-$227b ($006d bytes) ["EnemiesPlayerCollision"]
+	         $220f = CheckEnemyPlayerCollision
+	         $2277 = NoCollisionWithPlayer
+	SECTION: $227c-$22cb ($0050 bytes) ["Sprites"]
+	         $227c = ClearAllSprites
+	         $2282 = ClearOamLoop
+	         $2290 = ClearRemainingSprites_Loop
+	         $2290 = ClearRemainingSprites
+	         $22a8 = ResetOAMSpriteAddress
+	         $22b7 = NextOAMSprite
+	SECTION: $22cc-$2316 ($004b bytes) ["MetaSprites"]
+	         $22cc = DrawMetasprites
+	SECTION: $2317-$234a ($0034 bytes) ["GameplayHUD"]
+	         $2317 = IncreaseScore
+	         $231c = IncreaseScore_Loop
+	         $2322 = IncreaseScore_Next
+	         $232e = DrawLives
+	         $2339 = DrawScore
+	         $2341 = DrawScore_Loop
+	SECTION: $234b-$2378 ($002e bytes) ["Input"]
+	         $234b = Input
+	         $236b = Input.onenibble
+	         $2378 = Input.knownret
+	SECTION: $2379-$23a1 ($0029 bytes) ["InputUtils"]
+	         $2379 = WaitForKeyFunction
+	         $237a = WaitForKeyFunction_Loop
+	         $2397 = WaitForKeyFunction_NotPressed
+	SECTION: $23a2-$23c5 ($0024 bytes) ["CollisionUtils"]
+	         $23a2 = CheckObjectPositionDifference
+	         $23c0 = CheckObjectPositionDifference_Failure
+	SECTION: $23c6-$23e4 ($001f bytes) ["Initialize Sprite Object Library"]
+	         $23c6 = InitSprObjLibWrapper
+	         $23cf = InitSprObjLibWrapper.resetOAM
+	         $23d4 = InitSprObjLib
+	         $23db = InitSprObjLib.memcpy
+	SECTION: $23e5-$23fc ($0018 bytes) ["Background"]
+	         $23e5 = ClearBackground
+	         $23ef = ClearBackgroundLoop
+	SECTION: $23fd-$2413 ($0017 bytes) ["Interrupts"]
+	         $23fd = DisableInterrupts
+	         $2401 = EnableVBlankInterrupt
+	         $2405 = InitStatInterrupts
+	SECTION: $2414-$242a ($0017 bytes) ["Reset Shadow OAM"]
+	         $2414 = ResetShadowOAM
+	         $2421 = ResetShadowOAM.clearOAM
+	         $242a = ResetShadowOAM.skip
+	SECTION: $242b-$2440 ($0016 bytes) ["MemoryUtilsSection"]
+	         $242b = CopyDEintoMemoryAtHL
+	         $2435 = CopyDEintoMemoryAtHL_With52Offset
+	SECTION: $2441-$2455 ($0015 bytes) ["Render Simple Sprite"]
+	         $2441 = RenderSimpleSprite
+	SECTION: $2456-$2467 ($0012 bytes) ["VBlankFunctions"]
+	         $2456 = WaitForOneVBlank
+	         $245b = WaitForVBlankFunction_Loop
+	         $245b = WaitForVBlankFunction
+	SECTION: $2468-$2477 ($0010 bytes) ["Math"]
+	         $2468 = rand
+	EMPTY: $2478-$3fff ($1b88 bytes)
+	TOTAL EMPTY: $1b90 bytes
+
+ROMX bank #1:
+	SECTION: $4000-$7489 ($348a bytes) ["song Song Data"]
+	         $4000 = song
+	         $4015 = order_cnt
+	         $4016 = order1
+	         $406c = order2
+	         $40c2 = order3
+	         $4118 = order4
+	         $416e = P0
+	         $422e = P2
+	         $42ee = P3
+	         $43ae = P4
+	         $446e = P6
+	         $452e = P7
+	         $45ee = P10
+	         $46ae = P12
+	         $476e = P13
+	         $482e = P14
+	         $48ee = P15
+	         $49ae = P16
+	         $4a6e = P17
+	         $4b2e = P19
+	         $4bee = P20
+	         $4cae = P21
+	         $4d6e = P23
+	         $4e2e = P24
+	         $4eee = P25
+	         $4fae = P26
+	         $506e = P28
+	         $512e = P29
+	         $51ee = P30
+	         $52ae = P32
+	         $536e = P33
+	         $542e = P34
+	         $54ee = P36
+	         $55ae = P37
+	         $566e = P38
+	         $572e = P39
+	         $57ee = P40
+	         $58ae = P41
+	         $596e = P42
+	         $5a2e = P43
+	         $5aee = P44
+	         $5bae = P45
+	         $5c6e = P46
+	         $5d2e = P47
+	         $5dee = P48
+	         $5eae = P53
+	         $5f6e = P54
+	         $602e = P55
+	         $60ee = P56
+	         $61ae = P59
+	         $626e = P60
+	         $632e = P61
+	         $63ee = P62
+	         $64ae = P64
+	         $656e = P65
+	         $662e = P66
+	         $66ee = P67
+	         $67ae = P68
+	         $686e = P70
+	         $692e = P72
+	         $69ee = P73
+	         $6aae = P74
+	         $6b6e = P75
+	         $6c2e = P76
+	         $6cee = P77
+	         $6dae = P78
+	         $6e6e = P79
+	         $6f2e = P81
+	         $6fee = itSquareSP1
+	         $704e = itSquareSP3
+	         $70ae = itSquareSP4
+	         $710e = itSquareSP5
+	         $716e = itSquareSP6
+	         $71ce = itSquareSP7
+	         $722e = itSquareSP8
+	         $728e = itSquareSP9
+	         $72ee = itWaveSP6
+	         $734e = itNoiseSP2
+	         $73ae = duty_instruments
+	         $73ae = itSquareinst1
+	         $73b4 = itSquareinst2
+	         $73ba = itSquareinst3
+	         $73c0 = itSquareinst4
+	         $73c6 = itSquareinst5
+	         $73cc = itSquareinst6
+	         $73d2 = itSquareinst7
+	         $73d8 = itSquareinst8
+	         $73de = itSquareinst9
+	         $73e4 = wave_instruments
+	         $73e4 = itWaveinst1
+	         $73ea = itWaveinst2
+	         $73f0 = itWaveinst3
+	         $73f6 = itWaveinst4
+	         $73fc = itWaveinst5
+	         $7402 = itWaveinst6
+	         $7408 = noise_instruments
+	         $7408 = itNoiseinst1
+	         $740e = itNoiseinst2
+	         $7414 = itNoiseinst3
+	         $741a = routines
+	         $741a = __hUGE_Routine_0
+	         $741a = __end_hUGE_Routine_0
+	         $741b = __hUGE_Routine_1
+	         $741b = __end_hUGE_Routine_1
+	         $741c = __end_hUGE_Routine_2
+	         $741c = __hUGE_Routine_2
+	         $741d = __end_hUGE_Routine_3
+	         $741d = __hUGE_Routine_3
+	         $741e = __end_hUGE_Routine_4
+	         $741e = __hUGE_Routine_4
+	         $741f = __end_hUGE_Routine_5
+	         $741f = __hUGE_Routine_5
+	         $7420 = __hUGE_Routine_6
+	         $7420 = __end_hUGE_Routine_6
+	         $7421 = __hUGE_Routine_7
+	         $7421 = __end_hUGE_Routine_7
+	         $7422 = __end_hUGE_Routine_8
+	         $7422 = __hUGE_Routine_8
+	         $7423 = __end_hUGE_Routine_9
+	         $7423 = __hUGE_Routine_9
+	         $7424 = __end_hUGE_Routine_10
+	         $7424 = __hUGE_Routine_10
+	         $7425 = __end_hUGE_Routine_11
+	         $7425 = __hUGE_Routine_11
+	         $7426 = __end_hUGE_Routine_12
+	         $7426 = __hUGE_Routine_12
+	         $7427 = __end_hUGE_Routine_13
+	         $7427 = __hUGE_Routine_13
+	         $7428 = __end_hUGE_Routine_14
+	         $7428 = __hUGE_Routine_14
+	         $7429 = __end_hUGE_Routine_15
+	         $7429 = __hUGE_Routine_15
+	         $742a = waves
+	         $742a = wave0
+	         $743a = wave1
+	         $744a = wave2
+	         $745a = wave3
+	         $746a = wave4
+	         $747a = wave5
+	EMPTY: $748a-$7fff ($0b76 bytes)
+	TOTAL EMPTY: $0b76 bytes
+
+ROMX bank #2:
+	SECTION: $4000-$7489 ($348a bytes) ["test Song Data"]
+	         $4000 = test
+	         $4015 = order_cnt
+	         $4016 = order1
+	         $406c = order2
+	         $40c2 = order3
+	         $4118 = order4
+	         $416e = P0
+	         $422e = P2
+	         $42ee = P3
+	         $43ae = P4
+	         $446e = P6
+	         $452e = P7
+	         $45ee = P10
+	         $46ae = P12
+	         $476e = P13
+	         $482e = P14
+	         $48ee = P15
+	         $49ae = P16
+	         $4a6e = P17
+	         $4b2e = P19
+	         $4bee = P20
+	         $4cae = P21
+	         $4d6e = P23
+	         $4e2e = P24
+	         $4eee = P25
+	         $4fae = P26
+	         $506e = P28
+	         $512e = P29
+	         $51ee = P30
+	         $52ae = P32
+	         $536e = P33
+	         $542e = P34
+	         $54ee = P36
+	         $55ae = P37
+	         $566e = P38
+	         $572e = P39
+	         $57ee = P40
+	         $58ae = P41
+	         $596e = P42
+	         $5a2e = P43
+	         $5aee = P44
+	         $5bae = P45
+	         $5c6e = P46
+	         $5d2e = P47
+	         $5dee = P48
+	         $5eae = P53
+	         $5f6e = P54
+	         $602e = P55
+	         $60ee = P56
+	         $61ae = P59
+	         $626e = P60
+	         $632e = P61
+	         $63ee = P62
+	         $64ae = P64
+	         $656e = P65
+	         $662e = P66
+	         $66ee = P67
+	         $67ae = P68
+	         $686e = P70
+	         $692e = P72
+	         $69ee = P73
+	         $6aae = P74
+	         $6b6e = P75
+	         $6c2e = P76
+	         $6cee = P77
+	         $6dae = P78
+	         $6e6e = P79
+	         $6f2e = P81
+	         $6fee = itSquareSP1
+	         $704e = itSquareSP3
+	         $70ae = itSquareSP4
+	         $710e = itSquareSP5
+	         $716e = itSquareSP6
+	         $71ce = itSquareSP7
+	         $722e = itSquareSP8
+	         $728e = itSquareSP9
+	         $72ee = itWaveSP6
+	         $734e = itNoiseSP2
+	         $73ae = duty_instruments
+	         $73ae = itSquareinst1
+	         $73b4 = itSquareinst2
+	         $73ba = itSquareinst3
+	         $73c0 = itSquareinst4
+	         $73c6 = itSquareinst5
+	         $73cc = itSquareinst6
+	         $73d2 = itSquareinst7
+	         $73d8 = itSquareinst8
+	         $73de = itSquareinst9
+	         $73e4 = wave_instruments
+	         $73e4 = itWaveinst1
+	         $73ea = itWaveinst2
+	         $73f0 = itWaveinst3
+	         $73f6 = itWaveinst4
+	         $73fc = itWaveinst5
+	         $7402 = itWaveinst6
+	         $7408 = noise_instruments
+	         $7408 = itNoiseinst1
+	         $740e = itNoiseinst2
+	         $7414 = itNoiseinst3
+	         $741a = routines
+	         $741a = __hUGE_Routine_0
+	         $741a = __end_hUGE_Routine_0
+	         $741b = __hUGE_Routine_1
+	         $741b = __end_hUGE_Routine_1
+	         $741c = __end_hUGE_Routine_2
+	         $741c = __hUGE_Routine_2
+	         $741d = __end_hUGE_Routine_3
+	         $741d = __hUGE_Routine_3
+	         $741e = __end_hUGE_Routine_4
+	         $741e = __hUGE_Routine_4
+	         $741f = __hUGE_Routine_5
+	         $741f = __end_hUGE_Routine_5
+	         $7420 = __hUGE_Routine_6
+	         $7420 = __end_hUGE_Routine_6
+	         $7421 = __hUGE_Routine_7
+	         $7421 = __end_hUGE_Routine_7
+	         $7422 = __end_hUGE_Routine_8
+	         $7422 = __hUGE_Routine_8
+	         $7423 = __end_hUGE_Routine_9
+	         $7423 = __hUGE_Routine_9
+	         $7424 = __end_hUGE_Routine_10
+	         $7424 = __hUGE_Routine_10
+	         $7425 = __end_hUGE_Routine_11
+	         $7425 = __hUGE_Routine_11
+	         $7426 = __end_hUGE_Routine_12
+	         $7426 = __hUGE_Routine_12
+	         $7427 = __end_hUGE_Routine_13
+	         $7427 = __hUGE_Routine_13
+	         $7428 = __end_hUGE_Routine_14
+	         $7428 = __hUGE_Routine_14
+	         $7429 = __end_hUGE_Routine_15
+	         $7429 = __hUGE_Routine_15
+	         $742a = waves
+	         $742a = wave0
+	         $743a = wave1
+	         $744a = wave2
+	         $745a = wave3
+	         $746a = wave4
+	         $747a = wave5
+	EMPTY: $748a-$7fff ($0b76 bytes)
+	TOTAL EMPTY: $0b76 bytes
+
+WRAM0 bank #0:
+	SECTION: $c000-$c09f ($00a0 bytes) ["Shadow OAM"]
+	         $c000 = wShadowOAM
+	SECTION: $c0a0-$c103 ($0064 bytes) ["Playback variables"]
+	         $c0a0 = order_cnt
+	         $c0a1 = order1
+	         $c0a1 = _start_song_descriptor_pointers
+	         $c0a3 = order2
+	         $c0a5 = order3
+	         $c0a7 = order4
+	         $c0a9 = duty_instruments
+	         $c0ab = wave_instruments
+	         $c0ad = noise_instruments
+	         $c0af = routines
+	         $c0b1 = waves
+	         $c0b3 = pattern1
+	         $c0b3 = _end_song_descriptor_pointers
+	         $c0b5 = pattern2
+	         $c0b7 = pattern3
+	         $c0b9 = pattern4
+	         $c0bb = ticks_per_row
+	         $c0bc = current_wave
+	         $c0bc = hUGE_current_wave
+	         $c0bc = _hUGE_current_wave
+	         $c0bd = start_zero
+	         $c0bd = mute_channels
+	         $c0bd = _hUGE_mute_mask
+	         $c0be = counter
+	         $c0bf = tick
+	         $c0c0 = row_break
+	         $c0c1 = next_order
+	         $c0c2 = row
+	         $c0c3 = current_order
+	         $c0c4 = channels
+	         $c0c4 = channel_period1
+	         $c0c4 = channel1
+	         $c0c6 = toneporta_target1
+	         $c0c8 = channel_note1
+	         $c0c9 = highmask1
+	         $c0ca = vibrato_tremolo_phase1
+	         $c0cb = envelope1
+	         $c0cc = table1
+	         $c0ce = table_row1
+	         $c0d4 = channel_period2
+	         $c0d4 = channel2
+	         $c0d6 = toneporta_target2
+	         $c0d8 = channel_note2
+	         $c0d9 = highmask2
+	         $c0da = vibrato_tremolo_phase2
+	         $c0db = envelope2
+	         $c0dc = table2
+	         $c0de = table_row2
+	         $c0e4 = channel_period3
+	         $c0e4 = channel3
+	         $c0e6 = toneporta_target3
+	         $c0e8 = channel_note3
+	         $c0e9 = highmask3
+	         $c0ea = vibrato_tremolo_phase3
+	         $c0eb = envelope3
+	         $c0ec = table3
+	         $c0ee = table_row3
+	         $c0f4 = channel_period4
+	         $c0f4 = channel4
+	         $c0f6 = toneporta_target4
+	         $c0f8 = channel_note4
+	         $c0f9 = highmask4
+	         $c0fa = step_width4
+	         $c0fb = vibrato_tremolo_phase4
+	         $c0fc = envelope4
+	         $c0fd = table4
+	         $c0ff = table_row4
+	         $c104 = end_zero
+	SECTION: $c104-$c147 ($0044 bytes) ["EnemyVariables"]
+	         $c104 = wCurrentEnemyX
+	         $c105 = wCurrentEnemyY
+	         $c106 = wSpawnCounter
+	         $c107 = wNextEnemyXPosition
+	         $c108 = wActiveEnemyCounter
+	         $c109 = wUpdateEnemiesCounter
+	         $c10a = wUpdateEnemiesCurrentEnemyAddress
+	         $c10c = wEnemies
+	SECTION: $c148-$c15e ($0017 bytes) ["BulletVariables"]
+	         $c148 = wSpawnBullet
+	         $c149 = wActiveBulletCounter
+	         $c14a = wUpdateBulletsCounter
+	         $c14b = wBullets
+	SECTION: $c15f-$c165 ($0007 bytes) ["GameplayVariables"]
+	         $c15f = wScore
+	         $c165 = wLives
+	SECTION: $c166-$c16b ($0006 bytes) ["PlayerVariables"]
+	         $c166 = wPlayerPositionX
+	         $c168 = wPlayerPositionY
+	         $c16a = mPlayerFlash
+	SECTION: $c16c-$c16f ($0004 bytes) ["GameVariables"]
+	         $c16c = wLastKeys
+	         $c16d = wCurKeys
+	         $c16e = wNewKeys
+	         $c16f = wGameState
+	SECTION: $c170-$c173 ($0004 bytes) ["CollisionUtilsVariables"]
+	         $c170 = wResult
+	         $c171 = wSize
+	         $c172 = wObject1Value
+	         $c173 = wObject2Value
+	SECTION: $c174-$c177 ($0004 bytes) ["MathVariables"]
+	         $c174 = randstate
+	SECTION: $c178-$c17b ($0004 bytes) ["MetaSpriteVariables"]
+	         $c178 = wMetaspriteAddress
+	         $c17a = wMetaspriteX
+	         $c17b = wMetaspriteY
+	SECTION: $c17c-$c17f ($0004 bytes) ["SpriteVariables"]
+	         $c17c = wLastOAMAddress
+	         $c17e = wSpritesUsed
+	         $c17f = wHelperValue
+	SECTION: $c180-$c182 ($0003 bytes) ["EnemyBulletCollisionVariables"]
+	         $c180 = wEnemyBulletCollisionCounter
+	         $c181 = wBulletAddresses
+	SECTION: $c183-$c184 ($0002 bytes) ["BackgroundVariables"]
+	         $c183 = mBackgroundScroll
+	SECTION: $c185-$c185 ($0001 byte) ["InputUtilsVariables"]
+	         $c185 = mWaitKey
+	SECTION: $c186-$c186 ($0001 byte) ["VBlankVariables"]
+	         $c186 = wVBlankCount
+	EMPTY: $c187-$cfff ($0e79 bytes)
+	TOTAL EMPTY: $0e79 bytes
+
+HRAM bank #0:
+	SECTION: $ff80-$ff87 ($0008 bytes) ["OAM DMA"]
+	         $ff80 = hOAMDMA
+	         $ff84 = hOAMDMA.wait
+	SECTION: $ff88-$ff88 ($0001 byte) ["Shadow OAM Index"]
+	         $ff88 = hOAMIndex
+	EMPTY: $ff89-$fffe ($0076 bytes)
+	TOTAL EMPTY: $0076 bytes

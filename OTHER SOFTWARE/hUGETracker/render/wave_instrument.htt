@@ -1,0 +1,7 @@
+itWaveinst1:
+db 8
+db 32
+db 0
+dw 0
+db 128
+
