@@ -2,13 +2,13 @@
 <CONFIG>
   <grid version="3">
     <saveoptions create="True" position="True" content="True"/>
-    <design columncount="2" rowcount="5" fixedcols="0" fixedrows="1" defaultcolwidth="120" isdefaultcolwidth="1" defaultrowheight="22" isdefaultrowheight="0" color="clWindow">
+    <design columncount="2" rowcount="5" fixedcols="0" fixedrows="1" defaultcolwidth="99" isdefaultcolwidth="1" defaultrowheight="24" isdefaultrowheight="0" color="clWindow">
       <columns columnsenabled="True" columncount="2">
         <column0>
           <index value="0"/>
-          <width value="182"/>
-          <minsize value="10"/>
-          <maxsize value="200"/>
+          <width value="166"/>
+          <minsize value="8"/>
+          <maxsize value="166"/>
           <buttonstyle value="0"/>
           <title>
             <caption value="Key"/>
@@ -16,9 +16,9 @@
         </column0>
         <column1>
           <index value="1"/>
-          <width value="182"/>
-          <minsize value="10"/>
-          <maxsize value="200"/>
+          <width value="166"/>
+          <minsize value="8"/>
+          <maxsize value="166"/>
           <buttonstyle value="0"/>
           <title>
             <caption value="Note"/>

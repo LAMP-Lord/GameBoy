@@ -1,6 +1,6 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Input Variables", WRAM0
+SECTION "Util - Input Variables", WRAM0
 
 wLastKeys:: db
 wCurKeys:: db
