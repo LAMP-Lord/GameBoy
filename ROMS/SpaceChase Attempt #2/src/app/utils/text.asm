@@ -2,7 +2,7 @@ INCLUDE "include/hardware.inc"
 
 SECTION "Util - Text Functions", ROM0
 
-textFontTileData: INCBIN "generated/fonts/text-font.2bpp"
+textFontTileData: INCBIN "generated/fonts/text-two.2bpp"
 textFontTileDataEnd:
 
 Text_LoadFont::

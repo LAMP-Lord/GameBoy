@@ -18,4 +18,5 @@ EntryPoint:
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ8 | LCDCF_WINON | LCDCF_WIN9C00
     ld [rLCDC], a
 
-    
+Loop:
+    jp Loop
