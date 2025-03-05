@@ -70,19 +70,19 @@ NEEDED_GRAPHICS = \
 	
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
-	$(GFX) -c "#FFFFFF,#cfcfcf,#686868,#000000;" --columns -o $@ $<
+	$(GFX) --columns -o $@ $<
 
 # Generate background tile set, ensuring the containing directories have been created.
 $(GEN_BACKGROUNDS)/%.2bpp: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
-	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" -o $@ $<
+	$(GFX) -o $@ $<
 
 $(GEN_FONTS)/%.2bpp: $(IMAGES_FONTS)/%.png | $(GEN_FONTS)
-	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" -o $@ $<
+	$(GFX) -o $@ $<
 
 # Generate background tile map *and* tile set, ensuring the containing directories
 # have been created.
 $(GEN_BACKGROUNDS)/%.tilemap: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
-	$(GFX) -c "#FFFFFF,#cbcbcb,#414141,#000000;" \
+	$(GFX) \
 		--tilemap $@ \
 		--unique-tiles \
 		-o $(GEN_BACKGROUNDS)/$*.2bpp \
@@ -130,7 +130,7 @@ PREPARE_DIRECTORIES = \
 $(foreach i, $(PREPARE_DIRECTORIES), $(eval $(call ensure-directory,$i)))
 
 # Clean up generated directories.
-# clean:
-# 	rm -rfv  $(PREPARE_DIRECTORIES)
+clean:
+	rm -rfv  $(PREPARE_DIRECTORIES)
 # Declare these targets as "not actually files".
-# .PHONY: clean all
+.PHONY: clean all
