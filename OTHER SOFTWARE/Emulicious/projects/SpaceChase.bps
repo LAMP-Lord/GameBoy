@@ -1,1 +1,0 @@
-type=instruction address=Text_PrintText end=Text_PrintText%20+%201 enabled=true suspend=true condition= message=
