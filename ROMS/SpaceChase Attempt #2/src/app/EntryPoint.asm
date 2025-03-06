@@ -19,6 +19,7 @@ EntryPoint:
     ld [rBGP], a
 
     call Text_LoadFont
+    call Text_PrintText
 
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ8 | LCDCF_WINON | LCDCF_WIN9C00
     ld [rLCDC], a

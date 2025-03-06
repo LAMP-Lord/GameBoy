@@ -65,8 +65,7 @@ NEEDED_GRAPHICS = \
 	$(GEN_SPRITES)/bullet.2bpp \
 	$(GEN_BACKGROUNDS)/star-field.tilemap \
 	$(GEN_BACKGROUNDS)/title-screen.tilemap \
-	$(GEN_FONTS)/text-font.2bpp \
-	$(GEN_FONTS)/text-two.2bpp
+	$(GEN_FONTS)/text-font.2bpp 
 	
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
