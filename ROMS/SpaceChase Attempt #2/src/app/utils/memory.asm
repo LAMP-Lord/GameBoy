@@ -1,6 +1,6 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Util - Memory Functions", ROM0
+SECTION "Memory - Memory Functions", ROM0
 
 Memory_Copy::
     ld a, [de]
@@ -11,5 +11,5 @@ Memory_Copy::
 
     ld a, b
     or c
-    jp nz, Memory_Copy
+    jr nz, Memory_Copy
     ret

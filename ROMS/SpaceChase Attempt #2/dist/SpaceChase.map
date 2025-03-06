@@ -1,20 +1,36 @@
 SUMMARY:
-	ROM0: 3663 bytes used / 12721 free
+	ROM0: 3681 bytes used / 12703 free
 	ROMX: 26900 bytes used / 5868 free in 2 banks
 	WRAM0: 263 bytes used / 3833 free
 	HRAM: 9 bytes used / 118 free
 
 ROM0 bank #0:
-	SECTION: $0000-$00bb ($00bc bytes) ["Entry Point"]
-	         $0000 = text
-	         $009b = EntryPoint
-	         $00b9 = Loop
-	SECTION: $00bc-$00f3 ($0038 bytes) ["Render Metasprite"]
-	         $00bc = RenderMetasprite
-	         $00dd = RenderMetasprite.loop
-	SECTION: $00f4-$00ff ($000c bytes) ["Util - Text Functions"]
-	         $00f4 = Text_PrintText
-	         $00f7 = Text_PrintTextLoop
+	SECTION: $0000-$003f ($0040 bytes) ["Audio - Channel Overrides"]
+	         $0000 = Audio_OverrideCh1
+	         $0008 = Audio_OverrideCh2
+	         $0010 = Audio_OverrideCh3
+	         $0018 = Audio_OverrideCh4
+	         $0020 = Audio_ResetCh1
+	         $0028 = Audio_ResetCh2
+	         $0030 = Audio_ResetCh3
+	         $0038 = Audio_ResetCh4
+	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
+	EMPTY: $0043-$0047 ($0005 bytes)
+	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
+	SECTION: $004b-$0082 ($0038 bytes) ["Audio - Sound Functions"]
+	         $004b = Audio_SFX_Lazer
+	         $0064 = Laser_Loop
+	         $007c = Laser_Loop.no_overflow
+	SECTION: $0083-$00ba ($0038 bytes) ["Render Metasprite"]
+	         $0083 = RenderMetasprite
+	         $00a4 = RenderMetasprite.loop
+	SECTION: $00bb-$00e9 ($002f bytes) ["Entry Point"]
+	         $00bb = text
+	         $00c0 = EntryPoint
+	         $00e4 = Loop
+	SECTION: $00ea-$00fe ($0015 bytes) ["Render Simple Sprite"]
+	         $00ea = RenderSimpleSprite
+	EMPTY: $00ff-$00ff ($0001 byte)
 	SECTION: $0100-$014f ($0050 bytes) ["Header"]
 	SECTION: $0150-$08e4 ($0795 bytes) ["Sound Driver"]
 	         $0150 = hUGE_init
@@ -138,28 +154,34 @@ ROM0 bank #0:
 	         $0849 = tick_time.update_current_order
 	         $0851 = tick_time.noreset
 	         $0855 = note_table
-	SECTION: $08e5-$0df1 ($050d bytes) ["Util - Text Loading"]
+	SECTION: $08e5-$0df1 ($050d bytes) ["Text - Font Loading"]
 	         $08e5 = FontTileData
 	         $0de5 = FontTileDataEnd
 	         $0de5 = Text_LoadFont
-	SECTION: $0df2-$0e10 ($001f bytes) ["Initialize Sprite Object Library"]
-	         $0df2 = InitSprObjLibWrapper
-	         $0dfb = InitSprObjLibWrapper.resetOAM
-	         $0e00 = InitSprObjLib
-	         $0e07 = InitSprObjLib.memcpy
-	SECTION: $0e11-$0e27 ($0017 bytes) ["Reset Shadow OAM"]
-	         $0e11 = ResetShadowOAM
-	         $0e1e = ResetShadowOAM.clearOAM
-	         $0e27 = ResetShadowOAM.skip
-	SECTION: $0e28-$0e3c ($0015 bytes) ["Render Simple Sprite"]
-	         $0e28 = RenderSimpleSprite
-	SECTION: $0e3d-$0e46 ($000a bytes) ["Util - Memory Functions"]
-	         $0e3d = Memory_Copy
-	SECTION: $0e47-$0e4e ($0008 bytes) ["OAM DMA Code"]
-	         $0e47 = OAMDMACode
-	         $0e4f = OAMDMACodeEnd
-	EMPTY: $0e4f-$3fff ($31b1 bytes)
-	TOTAL EMPTY: $31b1 bytes
+	SECTION: $0df2-$0e14 ($0023 bytes) ["Interrupts - Interrupt Functions"]
+	         $0df2 = Int_InitInterrupts
+	         $0e02 = Int_VBlankInterrupt
+	         $0e06 = Int_StatInterrupt
+	         $0e0a = Int_WaitForVBlank
+	SECTION: $0e15-$0e33 ($001f bytes) ["Initialize Sprite Object Library"]
+	         $0e15 = InitSprObjLibWrapper
+	         $0e1e = InitSprObjLibWrapper.resetOAM
+	         $0e23 = InitSprObjLib
+	         $0e2a = InitSprObjLib.memcpy
+	SECTION: $0e34-$0e4a ($0017 bytes) ["Reset Shadow OAM"]
+	         $0e34 = ResetShadowOAM
+	         $0e41 = ResetShadowOAM.clearOAM
+	         $0e4a = ResetShadowOAM.skip
+	SECTION: $0e4b-$0e55 ($000b bytes) ["Text - Functions"]
+	         $0e4b = Text_PrintText
+	         $0e4e = Text_PrintTextLoop
+	SECTION: $0e56-$0e5e ($0009 bytes) ["Memory - Memory Functions"]
+	         $0e56 = Memory_Copy
+	SECTION: $0e5f-$0e66 ($0008 bytes) ["OAM DMA Code"]
+	         $0e5f = OAMDMACode
+	         $0e67 = OAMDMACodeEnd
+	EMPTY: $0e67-$3fff ($3199 bytes)
+	TOTAL EMPTY: $319f bytes
 
 ROMX bank #1:
 	SECTION: $4000-$7489 ($348a bytes) ["song Song Data"]
@@ -521,7 +543,7 @@ WRAM0 bank #0:
 	         $c0fd = table4
 	         $c0ff = table_row4
 	         $c104 = end_zero
-	SECTION: $c104-$c106 ($0003 bytes) ["Util - Input Variables"]
+	SECTION: $c104-$c106 ($0003 bytes) ["Input - Input Variables"]
 	         $c104 = wLastKeys
 	         $c105 = wCurKeys
 	         $c106 = wNewKeys
