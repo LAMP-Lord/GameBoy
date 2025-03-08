@@ -1,6 +1,6 @@
 include "include/hUGE.inc"
 
-SECTION "test Song Data", ROMX
+SECTION "test Song Data", ROMX, BANK[$03]
 
 test::
 db 8

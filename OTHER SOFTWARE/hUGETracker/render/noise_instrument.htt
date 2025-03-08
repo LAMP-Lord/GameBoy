@@ -1,48 +1,12 @@
 itNoiseinst1:
-db 241
+db 245
 dw itNoiseSP1
-db 128
+db 104
 ds 2
 
 itNoiseinst2:
-db 241
+db 243
 dw itNoiseSP2
-db 119
-ds 2
-
-itNoiseinst3:
-db 241
-dw itNoiseSP3
-db 0
-ds 2
-
-itNoiseinst4:
-db 240
-dw 0
-db 0
-ds 2
-
-itNoiseinst5:
-db 240
-dw 0
-db 0
-ds 2
-
-itNoiseinst6:
-db 240
-dw 0
-db 0
-ds 2
-
-itNoiseinst7:
-db 240
-dw 0
-db 0
-ds 2
-
-itNoiseinst8:
-db 14
-dw 0
-db 128
+db 120
 ds 2
 

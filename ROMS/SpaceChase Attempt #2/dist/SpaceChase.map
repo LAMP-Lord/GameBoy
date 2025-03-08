@@ -1,8 +1,7 @@
 SUMMARY:
-	ROM0: 3681 bytes used / 12703 free
-	ROMX: 26900 bytes used / 5868 free in 2 banks
-	WRAM0: 263 bytes used / 3833 free
-	HRAM: 9 bytes used / 118 free
+	ROM0: 3733 bytes used / 12651 free
+	ROMX: 42772 bytes used / 6380 free in 3 banks
+	WRAM0: 111 bytes used / 3985 free
 
 ROM0 bank #0:
 	SECTION: $0000-$003f ($0040 bytes) ["Audio - Channel Overrides"]
@@ -17,173 +16,184 @@ ROM0 bank #0:
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
 	EMPTY: $0043-$0047 ($0005 bytes)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$0082 ($0038 bytes) ["Audio - Sound Functions"]
-	         $004b = Audio_SFX_Lazer
-	         $0064 = Laser_Loop
-	         $007c = Laser_Loop.no_overflow
-	SECTION: $0083-$00ba ($0038 bytes) ["Render Metasprite"]
-	         $0083 = RenderMetasprite
-	         $00a4 = RenderMetasprite.loop
-	SECTION: $00bb-$00e9 ($002f bytes) ["Entry Point"]
-	         $00bb = text
-	         $00c0 = EntryPoint
-	         $00e4 = Loop
-	SECTION: $00ea-$00fe ($0015 bytes) ["Render Simple Sprite"]
-	         $00ea = RenderSimpleSprite
-	EMPTY: $00ff-$00ff ($0001 byte)
+	SECTION: $004b-$007e ($0034 bytes) ["Entry Point"]
+	         $004b = EntryPoint
+	         $0079 = Loop
+	SECTION: $007f-$00a4 ($0026 bytes) ["Interrupts - Interrupt Functions"]
+	         $007f = Int_InitInterrupts
+	         $008f = Int_VBlankInterrupt
+	         $0093 = Int_StatInterrupt
+	         $0097 = Int_WaitForVBlank
+	SECTION: $00a5-$00af ($000b bytes) ["Text - Functions"]
+	         $00a5 = Text_PrintText
+	         $00a8 = Text_PrintTextLoop
+	SECTION: $00b0-$00b8 ($0009 bytes) ["Memory - Memory Functions"]
+	         $00b0 = Memory_Copy
+	EMPTY: $00b9-$00ff ($0047 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["Header"]
-	SECTION: $0150-$08e4 ($0795 bytes) ["Sound Driver"]
+	         $0104 = NintendoLogo
+	         $0134 = ROMTitle
+	         $0143 = GBCSupport
+	         $0144 = NewLicenseCode
+	         $0146 = SGBSupport
+	         $0147 = CartType
+	         $0148 = ROMSize
+	         $0149 = RAMSize
+	         $014a = DestCode
+	         $014b = OldLicenseCode
+	         $014c = ROMVersion
+	         $014d = HeaderChecksum
+	         $014e = ROMChecksum
+	SECTION: $0150-$08f0 ($07a1 bytes) ["Sound Driver"]
 	         $0150 = hUGE_init
-	         $0161 = hUGE_init.copy_song_descriptor_loop
-	         $016d = hUGE_init.fill_loop
-	         $0180 = load_patterns
-	         $0198 = load_patterns.load_pattern
-	         $01a6 = hUGE_mute_channel
-	         $01ac = hUGE_mute_channel.enable_loop
-	         $01b3 = hUGE_mute_channel.enable_cut
-	         $01c0 = get_current_row
-	         $01c3 = get_current_row.row_in_a
-	         $01cf = get_current_note
-	         $01dc = get_note_period
-	         $01e9 = get_note_poly
-	         $01ff = ptr_to_channel_member
-	         $020b = update_channel_freq
-	         $020d = update_channel_freq.nonzero_highmask
-	         $021a = update_channel_freq.update_channel1
-	         $022b = update_channel_freq.update_channel2
-	         $023c = update_channel_freq.update_channel3
-	         $024d = update_channel_freq.update_channel4
-	         $025f = play_note_routines
-	         $0267 = play_ch1_note
-	         $027a = play_ch2_note
-	         $028d = play_ch3_note
-	         $02b0 = play_ch4_note
-	         $02c1 = do_table
-	         $02d5 = do_table.no_steal
-	         $02db = do_table.no_jump
-	         $02f9 = do_table.is_ch4
-	         $0300 = do_table.no_note
-	         $0301 = do_table.no_note2
-	         $0306 = do_effect
-	         $0308 = do_effect.no_set_offset
-	         $0320 = do_effect.no_offset
-	         $0326 = do_effect.jump
-	         $0346 = fx_set_master_volume
-	         $034b = fx_call_routine
-	         $0365 = fx_set_pan
-	         $036a = fx_set_duty
-	         $0377 = fx_set_duty.chan1
-	         $037e = fx_set_duty.chan2
-	         $0385 = fx_set_duty.chan4
-	         $0390 = fx_set_duty.chan3
-	         $039f = update_ch3_waveform
-	         $03ee = fx_set_speed
-	         $03f4 = fx_pos_jump
-	         $03f4 = hUGE_set_position
-	         $03fd = fx_pos_jump.already_broken
-	         $0400 = fx_pattern_break
-	         $0406 = fx_note_cut
-	         $0417 = note_cut
-	         $042a = fx_set_volume
-	         $0439 = fx_set_volume.set_chn_1_vol
-	         $0446 = fx_set_volume.set_chn_2_vol
-	         $0453 = fx_set_volume.set_chn_3_vol
-	         $0462 = fx_set_volume.three
-	         $0466 = fx_set_volume.two
-	         $046a = fx_set_volume.one
-	         $046c = fx_set_volume.done
-	         $046f = fx_set_volume.set_chn_4_vol
-	         $0478 = fx_vibrato
-	         $048b = fx_vibrato.restore
-	         $0492 = fx_vibrato.go_up
-	         $049d = fx_vibrato.finish_vibrato
-	         $04a0 = fx_arpeggio
-	         $04ad = fx_arpeggio.greater_than_two
-	         $04af = fx_arpeggio.test_greater_than_two
-	         $04bc = fx_arpeggio.arp_options
-	         $04c0 = fx_arpeggio.reset_arp
-	         $04c3 = fx_arpeggio.set_arp2
-	         $04c7 = fx_arpeggio.set_arp1
-	         $04c8 = fx_arpeggio.finish_arp
-	         $04cb = fx_arpeggio.finish_skip_add
-	         $04d3 = fx_porta_up
-	         $04e2 = fx_porta_down
-	         $04f1 = fx_toneporta
-	         $0506 = fx_toneporta.high_byte_same
-	         $050c = fx_toneporta.add
-	         $051e = fx_toneporta.subtract
-	         $0534 = fx_toneporta.set_exact
-	         $0536 = fx_toneporta.done
-	         $0548 = fx_toneporta.setup
-	         $0558 = ret_dont_play_note
-	         $055d = fx_vol_slide
-	         $0587 = fx_vol_slide.cont1
-	         $058e = fx_vol_slide.cont2
-	         $0599 = fx_note_delay
-	         $059d = play_note
-	         $05a7 = setup_instrument_pointer
-	         $05ae = setup_instrument_pointer.finish
-	         $05b9 = hUGE_dosound
-	         $05b9 = _hUGE_dosound
-	         $05db = hUGE_dosound.toneporta
-	         $0608 = hUGE_dosound.write_mask1
-	         $060b = hUGE_dosound.do_setvol1
-	         $0625 = process_ch2
-	         $0640 = process_ch2.toneporta
-	         $066b = process_ch2.write_mask2
-	         $066e = process_ch2.do_setvol2
-	         $0688 = process_ch3
-	         $06a4 = process_ch3.toneporta
-	         $06cc = process_ch3.no_wave_copy
-	         $06da = process_ch3.write_mask3
-	         $06dd = process_ch3.do_setvol3
-	         $06f7 = process_ch4
-	         $074e = process_ch4.write_mask4
-	         $0751 = process_ch4.do_setvol4
-	         $076e = process_effects
-	         $0787 = process_effects.after_effect1
-	         $0798 = process_effects.process_ch2
-	         $07b1 = process_effects.after_effect2
-	         $07c2 = process_effects.process_ch3
-	         $07db = process_effects.after_effect3
-	         $07ec = process_effects.process_ch4
-	         $0805 = process_effects.after_effect4
-	         $0816 = tick_time
-	         $0832 = tick_time.no_break
-	         $083c = tick_time.neworder
-	         $0849 = tick_time.update_current_order
-	         $0851 = tick_time.noreset
-	         $0855 = note_table
-	SECTION: $08e5-$0df1 ($050d bytes) ["Text - Font Loading"]
-	         $08e5 = FontTileData
-	         $0de5 = FontTileDataEnd
-	         $0de5 = Text_LoadFont
-	SECTION: $0df2-$0e14 ($0023 bytes) ["Interrupts - Interrupt Functions"]
-	         $0df2 = Int_InitInterrupts
-	         $0e02 = Int_VBlankInterrupt
-	         $0e06 = Int_StatInterrupt
-	         $0e0a = Int_WaitForVBlank
-	SECTION: $0e15-$0e33 ($001f bytes) ["Initialize Sprite Object Library"]
-	         $0e15 = InitSprObjLibWrapper
-	         $0e1e = InitSprObjLibWrapper.resetOAM
-	         $0e23 = InitSprObjLib
-	         $0e2a = InitSprObjLib.memcpy
-	SECTION: $0e34-$0e4a ($0017 bytes) ["Reset Shadow OAM"]
-	         $0e34 = ResetShadowOAM
-	         $0e41 = ResetShadowOAM.clearOAM
-	         $0e4a = ResetShadowOAM.skip
-	SECTION: $0e4b-$0e55 ($000b bytes) ["Text - Functions"]
-	         $0e4b = Text_PrintText
-	         $0e4e = Text_PrintTextLoop
-	SECTION: $0e56-$0e5e ($0009 bytes) ["Memory - Memory Functions"]
-	         $0e56 = Memory_Copy
-	SECTION: $0e5f-$0e66 ($0008 bytes) ["OAM DMA Code"]
-	         $0e5f = OAMDMACode
-	         $0e67 = OAMDMACodeEnd
-	EMPTY: $0e67-$3fff ($3199 bytes)
-	TOTAL EMPTY: $319f bytes
+	         $0167 = hUGE_init.copy_song_descriptor_loop
+	         $0173 = hUGE_init.fill_loop
+	         $0186 = load_patterns
+	         $019e = load_patterns.load_pattern
+	         $01ac = hUGE_mute_channel
+	         $01b2 = hUGE_mute_channel.enable_loop
+	         $01b9 = hUGE_mute_channel.enable_cut
+	         $01c6 = get_current_row
+	         $01c9 = get_current_row.row_in_a
+	         $01d5 = get_current_note
+	         $01e2 = get_note_period
+	         $01ef = get_note_poly
+	         $0205 = ptr_to_channel_member
+	         $0211 = update_channel_freq
+	         $0213 = update_channel_freq.nonzero_highmask
+	         $0220 = update_channel_freq.update_channel1
+	         $0231 = update_channel_freq.update_channel2
+	         $0242 = update_channel_freq.update_channel3
+	         $0253 = update_channel_freq.update_channel4
+	         $0265 = play_note_routines
+	         $026d = play_ch1_note
+	         $0280 = play_ch2_note
+	         $0293 = play_ch3_note
+	         $02b6 = play_ch4_note
+	         $02c7 = do_table
+	         $02db = do_table.no_steal
+	         $02e1 = do_table.no_jump
+	         $02ff = do_table.is_ch4
+	         $0306 = do_table.no_note
+	         $0307 = do_table.no_note2
+	         $030c = do_effect
+	         $030e = do_effect.no_set_offset
+	         $0326 = do_effect.no_offset
+	         $032c = do_effect.jump
+	         $034c = fx_set_master_volume
+	         $0351 = fx_call_routine
+	         $036b = fx_set_pan
+	         $0370 = fx_set_duty
+	         $037d = fx_set_duty.chan1
+	         $0384 = fx_set_duty.chan2
+	         $038b = fx_set_duty.chan4
+	         $0396 = fx_set_duty.chan3
+	         $03a5 = update_ch3_waveform
+	         $03f4 = fx_set_speed
+	         $03fa = fx_pos_jump
+	         $03fa = hUGE_set_position
+	         $0403 = fx_pos_jump.already_broken
+	         $0406 = fx_pattern_break
+	         $040c = fx_note_cut
+	         $041d = note_cut
+	         $0430 = fx_set_volume
+	         $043f = fx_set_volume.set_chn_1_vol
+	         $044c = fx_set_volume.set_chn_2_vol
+	         $0459 = fx_set_volume.set_chn_3_vol
+	         $0468 = fx_set_volume.three
+	         $046c = fx_set_volume.two
+	         $0470 = fx_set_volume.one
+	         $0472 = fx_set_volume.done
+	         $0475 = fx_set_volume.set_chn_4_vol
+	         $047e = fx_vibrato
+	         $0491 = fx_vibrato.restore
+	         $0498 = fx_vibrato.go_up
+	         $04a3 = fx_vibrato.finish_vibrato
+	         $04a6 = fx_arpeggio
+	         $04b3 = fx_arpeggio.greater_than_two
+	         $04b5 = fx_arpeggio.test_greater_than_two
+	         $04c2 = fx_arpeggio.arp_options
+	         $04c6 = fx_arpeggio.reset_arp
+	         $04c9 = fx_arpeggio.set_arp2
+	         $04cd = fx_arpeggio.set_arp1
+	         $04ce = fx_arpeggio.finish_arp
+	         $04d1 = fx_arpeggio.finish_skip_add
+	         $04d9 = fx_porta_up
+	         $04e8 = fx_porta_down
+	         $04f7 = fx_toneporta
+	         $050c = fx_toneporta.high_byte_same
+	         $0512 = fx_toneporta.add
+	         $0524 = fx_toneporta.subtract
+	         $053a = fx_toneporta.set_exact
+	         $053c = fx_toneporta.done
+	         $054e = fx_toneporta.setup
+	         $055e = ret_dont_play_note
+	         $0563 = fx_vol_slide
+	         $058d = fx_vol_slide.cont1
+	         $0594 = fx_vol_slide.cont2
+	         $059f = fx_note_delay
+	         $05a3 = play_note
+	         $05ad = setup_instrument_pointer
+	         $05b4 = setup_instrument_pointer.finish
+	         $05bf = hUGE_dosound
+	         $05bf = _hUGE_dosound
+	         $05e7 = hUGE_dosound.toneporta
+	         $0614 = hUGE_dosound.write_mask1
+	         $0617 = hUGE_dosound.do_setvol1
+	         $0631 = process_ch2
+	         $064c = process_ch2.toneporta
+	         $0677 = process_ch2.write_mask2
+	         $067a = process_ch2.do_setvol2
+	         $0694 = process_ch3
+	         $06b0 = process_ch3.toneporta
+	         $06d8 = process_ch3.no_wave_copy
+	         $06e6 = process_ch3.write_mask3
+	         $06e9 = process_ch3.do_setvol3
+	         $0703 = process_ch4
+	         $075a = process_ch4.write_mask4
+	         $075d = process_ch4.do_setvol4
+	         $077a = process_effects
+	         $0793 = process_effects.after_effect1
+	         $07a4 = process_effects.process_ch2
+	         $07bd = process_effects.after_effect2
+	         $07ce = process_effects.process_ch3
+	         $07e7 = process_effects.after_effect3
+	         $07f8 = process_effects.process_ch4
+	         $0811 = process_effects.after_effect4
+	         $0822 = tick_time
+	         $083e = tick_time.no_break
+	         $0848 = tick_time.neworder
+	         $0855 = tick_time.update_current_order
+	         $085d = tick_time.noreset
+	         $0861 = note_table
+	SECTION: $08f1-$0dfd ($050d bytes) ["Text - Font Loading"]
+	         $08f1 = FontTileData
+	         $0df1 = FontTileDataEnd
+	         $0df1 = Text_LoadFont
+	SECTION: $0dfe-$0ee0 ($00e3 bytes) ["FX Hammer"]
+	         $0dfe = FXHammer_Trig
+	         $0e10 = FXHammer_Trig.sameprio
+	         $0e2e = FXHammer_Stop
+	         $0e3f = FXHammer_Stop.skip_ch2
+	         $0e51 = FXHammer_Stop.skip_ch4
+	         $0e57 = FXHammer_Update
+	         $0e71 = FXHammer_Update.keepprio
+	         $0e88 = FXHammer_Update.notmute_ch2
+	         $0ea6 = FXHammer_Update.skip_ch2
+	         $0ea7 = FXHammer_Update.skip_ch2mute
+	         $0eaa = FXHammer_Update.noskip
+	         $0ec1 = FXHammer_Update.notmute_ch4
+	         $0eda = FXHammer_Update.skip_ch4
+	EMPTY: $0ee1-$3fff ($311f bytes)
+	TOTAL EMPTY: $316b bytes
 
 ROMX bank #1:
+	SECTION: $4000-$7dff ($3e00 bytes) ["FXHammer Sounds"]
+	         $4000 = FXHammerData
+	EMPTY: $7e00-$7fff ($0200 bytes)
+	TOTAL EMPTY: $0200 bytes
+
+ROMX bank #2:
 	SECTION: $4000-$7489 ($348a bytes) ["song Song Data"]
 	         $4000 = song
 	         $4015 = order_cnt
@@ -327,7 +337,7 @@ ROMX bank #1:
 	EMPTY: $748a-$7fff ($0b76 bytes)
 	TOTAL EMPTY: $0b76 bytes
 
-ROMX bank #2:
+ROMX bank #3:
 	SECTION: $4000-$7489 ($348a bytes) ["test Song Data"]
 	         $4000 = test
 	         $4015 = order_cnt
@@ -472,89 +482,83 @@ ROMX bank #2:
 	TOTAL EMPTY: $0b76 bytes
 
 WRAM0 bank #0:
-	SECTION: $c000-$c09f ($00a0 bytes) ["Shadow OAM"]
-	         $c000 = wShadowOAM
-	SECTION: $c0a0-$c103 ($0064 bytes) ["Playback variables"]
-	         $c0a0 = order_cnt
-	         $c0a1 = order1
-	         $c0a1 = _start_song_descriptor_pointers
-	         $c0a3 = order2
-	         $c0a5 = order3
-	         $c0a7 = order4
-	         $c0a9 = duty_instruments
-	         $c0ab = wave_instruments
-	         $c0ad = noise_instruments
-	         $c0af = routines
-	         $c0b1 = waves
-	         $c0b3 = pattern1
-	         $c0b3 = _end_song_descriptor_pointers
-	         $c0b5 = pattern2
-	         $c0b7 = pattern3
-	         $c0b9 = pattern4
-	         $c0bb = ticks_per_row
-	         $c0bc = current_wave
-	         $c0bc = hUGE_current_wave
-	         $c0bc = _hUGE_current_wave
-	         $c0bd = start_zero
-	         $c0bd = mute_channels
-	         $c0bd = _hUGE_mute_mask
-	         $c0be = counter
-	         $c0bf = tick
-	         $c0c0 = row_break
-	         $c0c1 = next_order
-	         $c0c2 = row
-	         $c0c3 = current_order
-	         $c0c4 = channels
-	         $c0c4 = channel_period1
-	         $c0c4 = channel1
-	         $c0c6 = toneporta_target1
-	         $c0c8 = channel_note1
-	         $c0c9 = highmask1
-	         $c0ca = vibrato_tremolo_phase1
-	         $c0cb = envelope1
-	         $c0cc = table1
-	         $c0ce = table_row1
-	         $c0d4 = channel_period2
-	         $c0d4 = channel2
-	         $c0d6 = toneporta_target2
-	         $c0d8 = channel_note2
-	         $c0d9 = highmask2
-	         $c0da = vibrato_tremolo_phase2
-	         $c0db = envelope2
-	         $c0dc = table2
-	         $c0de = table_row2
-	         $c0e4 = channel_period3
-	         $c0e4 = channel3
-	         $c0e6 = toneporta_target3
-	         $c0e8 = channel_note3
-	         $c0e9 = highmask3
-	         $c0ea = vibrato_tremolo_phase3
-	         $c0eb = envelope3
-	         $c0ec = table3
-	         $c0ee = table_row3
-	         $c0f4 = channel_period4
-	         $c0f4 = channel4
-	         $c0f6 = toneporta_target4
-	         $c0f8 = channel_note4
-	         $c0f9 = highmask4
-	         $c0fa = step_width4
-	         $c0fb = vibrato_tremolo_phase4
-	         $c0fc = envelope4
-	         $c0fd = table4
-	         $c0ff = table_row4
-	         $c104 = end_zero
-	SECTION: $c104-$c106 ($0003 bytes) ["Input - Input Variables"]
-	         $c104 = wLastKeys
-	         $c105 = wCurKeys
-	         $c106 = wNewKeys
-	EMPTY: $c107-$cfff ($0ef9 bytes)
-	TOTAL EMPTY: $0ef9 bytes
-
-HRAM bank #0:
-	SECTION: $ff80-$ff87 ($0008 bytes) ["OAM DMA"]
-	         $ff80 = hOAMDMA
-	         $ff84 = hOAMDMA.wait
-	SECTION: $ff88-$ff88 ($0001 byte) ["Shadow OAM Index"]
-	         $ff88 = hOAMIndex
-	EMPTY: $ff89-$fffe ($0076 bytes)
-	TOTAL EMPTY: $0076 bytes
+	SECTION: $c000-$c063 ($0064 bytes) ["Playback variables"]
+	         $c000 = order_cnt
+	         $c001 = order1
+	         $c001 = _start_song_descriptor_pointers
+	         $c003 = order2
+	         $c005 = order3
+	         $c007 = order4
+	         $c009 = duty_instruments
+	         $c00b = wave_instruments
+	         $c00d = noise_instruments
+	         $c00f = routines
+	         $c011 = waves
+	         $c013 = pattern1
+	         $c013 = _end_song_descriptor_pointers
+	         $c015 = pattern2
+	         $c017 = pattern3
+	         $c019 = pattern4
+	         $c01b = ticks_per_row
+	         $c01c = current_wave
+	         $c01c = hUGE_current_wave
+	         $c01c = _hUGE_current_wave
+	         $c01d = start_zero
+	         $c01d = mute_channels
+	         $c01d = _hUGE_mute_mask
+	         $c01e = counter
+	         $c01f = tick
+	         $c020 = row_break
+	         $c021 = next_order
+	         $c022 = row
+	         $c023 = current_order
+	         $c024 = channels
+	         $c024 = channel_period1
+	         $c024 = channel1
+	         $c026 = toneporta_target1
+	         $c028 = channel_note1
+	         $c029 = highmask1
+	         $c02a = vibrato_tremolo_phase1
+	         $c02b = envelope1
+	         $c02c = table1
+	         $c02e = table_row1
+	         $c034 = channel_period2
+	         $c034 = channel2
+	         $c036 = toneporta_target2
+	         $c038 = channel_note2
+	         $c039 = highmask2
+	         $c03a = vibrato_tremolo_phase2
+	         $c03b = envelope2
+	         $c03c = table2
+	         $c03e = table_row2
+	         $c044 = channel_period3
+	         $c044 = channel3
+	         $c046 = toneporta_target3
+	         $c048 = channel_note3
+	         $c049 = highmask3
+	         $c04a = vibrato_tremolo_phase3
+	         $c04b = envelope3
+	         $c04c = table3
+	         $c04e = table_row3
+	         $c054 = channel_period4
+	         $c054 = channel4
+	         $c056 = toneporta_target4
+	         $c058 = channel_note4
+	         $c059 = highmask4
+	         $c05a = step_width4
+	         $c05b = vibrato_tremolo_phase4
+	         $c05c = envelope4
+	         $c05d = table4
+	         $c05f = table_row4
+	         $c064 = end_zero
+	SECTION: $c064-$c069 ($0006 bytes) ["FX Hammer RAM"]
+	         $c064 = FXHammerRAM
+	SECTION: $c06a-$c06c ($0003 bytes) ["Input - Input Variables"]
+	         $c06a = wLastKeys
+	         $c06b = wCurKeys
+	         $c06c = wNewKeys
+	SECTION: $c06d-$c06e ($0002 bytes) ["Audio - Variables"]
+	         $c06d = hUGE_Bank
+	         $c06e = FXHammer_Bank
+	EMPTY: $c06f-$cfff ($0f91 bytes)
+	TOTAL EMPTY: $0f91 bytes

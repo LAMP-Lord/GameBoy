@@ -161,6 +161,9 @@ ENDC
 ;;; Param: HL = Pointer to the "song descriptor" you wish to load (typically exported by hUGETracker).
 ;;; Destroys: AF C DE HL
 hUGE_init::
+    ld a, [hUGE_Bank]
+    ld [$2000], a
+
     ld a, [hl+] ; tempo
     ld [ticks_per_row], a
 
@@ -1409,6 +1412,9 @@ _hUGE_dosound::
 ;;; Ticks the sound engine once.
 ;;; Destroy: AF BC DE HL
 hUGE_dosound::
+    ld a, [hUGE_Bank]
+    ld [$2000], a
+
 IF DEF(PREVIEW_MODE)
    ld a, [single_stepping]
    ld hl, single_step_stopped

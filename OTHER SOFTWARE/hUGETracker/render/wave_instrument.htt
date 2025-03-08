@@ -8,7 +8,7 @@ db 128
 itWaveinst2:
 db 0
 db 32
-db 1
+db 10
 dw 0
 db 128
 
@@ -16,20 +16,6 @@ itWaveinst3:
 db 0
 db 32
 db 2
-dw 0
-db 128
-
-itWaveinst4:
-db 0
-db 32
-db 3
-dw 0
-db 128
-
-itWaveinst5:
-db 0
-db 32
-db 4
 dw 0
 db 128
 
