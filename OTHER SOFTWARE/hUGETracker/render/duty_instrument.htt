@@ -1,0 +1,7 @@
+itSquareinst1:
+db 8
+db 0
+db 167
+dw itSquareSP1
+db 128
+

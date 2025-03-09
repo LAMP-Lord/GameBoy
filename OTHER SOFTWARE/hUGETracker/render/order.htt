@@ -1,5 +1,5 @@
-order_cnt: db 2
-order1: dw P0
-order2: dw P1
-order3: dw P2
-order4: dw P3
+order_cnt: db 4
+order1: dw P0,P0
+order2: dw P1,P5
+order3: dw P0,P0
+order4: dw P0,P0

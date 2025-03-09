@@ -1,15 +1,16 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Audio - Variables", WRAM0
+SECTION "Audio      - Variables", WRAM0
 
 hUGE_Bank:: db
-FXHammer_Bank:: db
 
-; SECTION "Audio - Sound Functions", ROM0
+SECTION "Audio      - Sound Functions", ROM0
 
+SoundFX_Lazer::
+    call Audio_OverrideCh2
+    ret
 
-
-SECTION "Audio - Channel Overrides", ROM0
+SECTION "Audio      - Channel Overrides", ROM0
 
 Audio_OverrideCh1::
     ld b, $0
@@ -48,6 +49,9 @@ Audio_ResetCh2::
     ret
 
 Audio_ResetCh3::
+    ld a, 100
+    ld [hUGE_current_wave], a
+
     ld b, $2
     ld c, $0
     call hUGE_mute_channel

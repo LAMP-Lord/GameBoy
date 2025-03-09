@@ -6,7 +6,7 @@
 
 include "include/hardware.inc"
 
- SECTION "Input", ROM0
+SECTION "Input      - Main", ROM0
 
 Input::
   ; Poll half the controller

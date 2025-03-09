@@ -1,35 +1,40 @@
 SUMMARY:
-	ROM0: 3733 bytes used / 12651 free
-	ROMX: 42772 bytes used / 6380 free in 3 banks
-	WRAM0: 111 bytes used / 3985 free
+	ROM0: 3528 bytes used / 12856 free
+	ROMX: 26901 bytes used / 22251 free in 3 banks
+	WRAM0: 104 bytes used / 3992 free
 
 ROM0 bank #0:
-	SECTION: $0000-$003f ($0040 bytes) ["Audio - Channel Overrides"]
-	         $0000 = Audio_OverrideCh1
-	         $0008 = Audio_OverrideCh2
-	         $0010 = Audio_OverrideCh3
-	         $0018 = Audio_OverrideCh4
-	         $0020 = Audio_ResetCh1
-	         $0028 = Audio_ResetCh2
-	         $0030 = Audio_ResetCh3
-	         $0038 = Audio_ResetCh4
+	SECTION: $0000-$0037 ($0038 bytes) ["Entry Point"]
+	         $0000 = EntryPoint
+	         $0032 = Loop
+	SECTION: $0038-$003b ($0004 bytes) ["Audio      - Sound Functions"]
+	         $0038 = SoundFX_Lazer
+	EMPTY: $003c-$003f ($0004 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
 	EMPTY: $0043-$0047 ($0005 bytes)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$007e ($0034 bytes) ["Entry Point"]
-	         $004b = EntryPoint
-	         $0079 = Loop
-	SECTION: $007f-$00a4 ($0026 bytes) ["Interrupts - Interrupt Functions"]
-	         $007f = Int_InitInterrupts
-	         $008f = Int_VBlankInterrupt
-	         $0093 = Int_StatInterrupt
-	         $0097 = Int_WaitForVBlank
-	SECTION: $00a5-$00af ($000b bytes) ["Text - Functions"]
-	         $00a5 = Text_PrintText
-	         $00a8 = Text_PrintTextLoop
-	SECTION: $00b0-$00b8 ($0009 bytes) ["Memory - Memory Functions"]
-	         $00b0 = Memory_Copy
-	EMPTY: $00b9-$00ff ($0047 bytes)
+	SECTION: $004b-$008f ($0045 bytes) ["Audio      - Channel Overrides"]
+	         $004b = Audio_OverrideCh1
+	         $0053 = Audio_OverrideCh2
+	         $005b = Audio_OverrideCh3
+	         $0063 = Audio_OverrideCh4
+	         $006b = Audio_ResetCh1
+	         $0073 = Audio_ResetCh2
+	         $007b = Audio_ResetCh3
+	         $0088 = Audio_ResetCh4
+	SECTION: $0090-$00b2 ($0023 bytes) ["Interrupts - Interrupt Functions"]
+	         $0090 = Int_InitInterrupts
+	         $00a0 = Int_VBlankInterrupt
+	         $00a4 = Int_StatInterrupt
+	         $00a8 = Int_WaitForVBlank
+	SECTION: $00b3-$00be ($000c bytes) ["Scream Lib - Driver"]
+	         $00b3 = SL_PlaySFX
+	SECTION: $00bf-$00c9 ($000b bytes) ["Text       - Functions"]
+	         $00bf = Text_PrintText
+	         $00c2 = Text_PrintTextLoop
+	SECTION: $00ca-$00d2 ($0009 bytes) ["Memory     - Memory Functions"]
+	         $00ca = Memory_Copy
+	EMPTY: $00d3-$00ff ($002d bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -44,7 +49,7 @@ ROM0 bank #0:
 	         $014c = ROMVersion
 	         $014d = HeaderChecksum
 	         $014e = ROMChecksum
-	SECTION: $0150-$08f0 ($07a1 bytes) ["Sound Driver"]
+	SECTION: $0150-$08f0 ($07a1 bytes) ["hUGE       - Sound Driver"]
 	         $0150 = hUGE_init
 	         $0167 = hUGE_init.copy_song_descriptor_loop
 	         $0173 = hUGE_init.fill_loop
@@ -166,32 +171,18 @@ ROM0 bank #0:
 	         $0855 = tick_time.update_current_order
 	         $085d = tick_time.noreset
 	         $0861 = note_table
-	SECTION: $08f1-$0dfd ($050d bytes) ["Text - Font Loading"]
+	SECTION: $08f1-$0dfd ($050d bytes) ["Text       - Font Loading"]
 	         $08f1 = FontTileData
 	         $0df1 = FontTileDataEnd
 	         $0df1 = Text_LoadFont
-	SECTION: $0dfe-$0ee0 ($00e3 bytes) ["FX Hammer"]
-	         $0dfe = FXHammer_Trig
-	         $0e10 = FXHammer_Trig.sameprio
-	         $0e2e = FXHammer_Stop
-	         $0e3f = FXHammer_Stop.skip_ch2
-	         $0e51 = FXHammer_Stop.skip_ch4
-	         $0e57 = FXHammer_Update
-	         $0e71 = FXHammer_Update.keepprio
-	         $0e88 = FXHammer_Update.notmute_ch2
-	         $0ea6 = FXHammer_Update.skip_ch2
-	         $0ea7 = FXHammer_Update.skip_ch2mute
-	         $0eaa = FXHammer_Update.noskip
-	         $0ec1 = FXHammer_Update.notmute_ch4
-	         $0eda = FXHammer_Update.skip_ch4
-	EMPTY: $0ee1-$3fff ($311f bytes)
-	TOTAL EMPTY: $316b bytes
+	EMPTY: $0dfe-$3fff ($3202 bytes)
+	TOTAL EMPTY: $3238 bytes
 
 ROMX bank #1:
-	SECTION: $4000-$7dff ($3e00 bytes) ["FXHammer Sounds"]
-	         $4000 = FXHammerData
-	EMPTY: $7e00-$7fff ($0200 bytes)
-	TOTAL EMPTY: $0200 bytes
+	SECTION: $4000-$4000 ($0001 byte) ["Scream Lib - SFX Data"]
+	         $4000 = SSFX_Lazer
+	EMPTY: $4001-$7fff ($3fff bytes)
+	TOTAL EMPTY: $3fff bytes
 
 ROMX bank #2:
 	SECTION: $4000-$7489 ($348a bytes) ["song Song Data"]
@@ -482,7 +473,8 @@ ROMX bank #3:
 	TOTAL EMPTY: $0b76 bytes
 
 WRAM0 bank #0:
-	SECTION: $c000-$c063 ($0064 bytes) ["Playback variables"]
+	SECTION: $c000 ($0000 bytes) ["Scream Lib - Variables"]
+	SECTION: $c000-$c063 ($0064 bytes) ["hUGE       - Playback Variables"]
 	         $c000 = order_cnt
 	         $c001 = order1
 	         $c001 = _start_song_descriptor_pointers
@@ -551,14 +543,11 @@ WRAM0 bank #0:
 	         $c05d = table4
 	         $c05f = table_row4
 	         $c064 = end_zero
-	SECTION: $c064-$c069 ($0006 bytes) ["FX Hammer RAM"]
-	         $c064 = FXHammerRAM
-	SECTION: $c06a-$c06c ($0003 bytes) ["Input - Input Variables"]
-	         $c06a = wLastKeys
-	         $c06b = wCurKeys
-	         $c06c = wNewKeys
-	SECTION: $c06d-$c06e ($0002 bytes) ["Audio - Variables"]
-	         $c06d = hUGE_Bank
-	         $c06e = FXHammer_Bank
-	EMPTY: $c06f-$cfff ($0f91 bytes)
-	TOTAL EMPTY: $0f91 bytes
+	SECTION: $c064-$c066 ($0003 bytes) ["Input      - Input Variables"]
+	         $c064 = wLastKeys
+	         $c065 = wCurKeys
+	         $c066 = wNewKeys
+	SECTION: $c067-$c067 ($0001 byte) ["Audio      - Variables"]
+	         $c067 = hUGE_Bank
+	EMPTY: $c068-$cfff ($0f98 bytes)
+	TOTAL EMPTY: $0f98 bytes

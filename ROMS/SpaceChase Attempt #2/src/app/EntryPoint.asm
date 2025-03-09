@@ -33,37 +33,31 @@ EntryPoint:
 
     call Text_LoadFont
 
-    ld a, $1
-    ld [FXHammer_Bank], a
-
     ld a, $2
     ld [hUGE_Bank], a
     ld hl, song
     call hUGE_init
 
-    ; ld	c,low(rNR52)
-	; xor	a
-	; ld	[c], a	; disable sound output (resets all sound regs)
-	; set	7,a
-	; ld	[c], a	; enable sound output
+    ld	c,low(rNR52)
+	xor	a
+	ldh	[c], a	; disable sound output (resets all sound regs)
+	set	7,a
+	ldh	[c], a	; enable sound output
 
-	; dec	c
-	; or	$ff
-	; ld	[c],a	; all sound channels to left+right speakers
+	dec	c
+	or	$ff
+	ldh	[c],a	; all sound channels to left+right speakers
 
-	; dec	c
-	; and	$77
-	; ld	[c],a	; VIN output off + master volume max
+	dec	c
+	and	$77
+	ldh	[c],a	; VIN output off + master volume max
 
     call Int_InitInterrupts
 
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ8 | LCDCF_WINON | LCDCF_WIN9C00
     ld [rLCDC], a
 
-    call Audio_OverrideCh2
-    ld a, $10
-    ld b, a
-    call FXHammer_Trig
+    call SL_PlaySFX
 
 Loop:
     call Int_WaitForVBlank

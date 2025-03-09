@@ -51,8 +51,7 @@ unique = $(if $1,\
 # Collect ASM sources
 ASMSOURCES_COLLECTED = \
 	$(call rwildcard,$(APP),*.asm) $(call rwildcard,$(LIBS),*.asm) \
-	$(call rwildcard,$(AUDIO_MUSIC),*.asm) \
-	$(call rwildcard,$(AUDIO_SOUNDS),*.asm)
+	$(call rwildcard,$(AUDIO_MUSIC),*.asm)
 
 OBJS = $(patsubst %.asm,$(OBJ)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
 

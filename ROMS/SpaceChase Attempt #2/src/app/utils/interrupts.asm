@@ -36,7 +36,6 @@ Int_StatInterrupt:
     reti
 
 
-
 Int_WaitForVBlank::
     ; push af
     ; push bc
@@ -44,11 +43,10 @@ Int_WaitForVBlank::
     ; push hl
 
     ld a, [rLY]
-    cp $90
+    cp $144
     ret nc
 
     call hUGE_dosound
-    call FXHammer_Update
     halt
 
     ; pop hl
