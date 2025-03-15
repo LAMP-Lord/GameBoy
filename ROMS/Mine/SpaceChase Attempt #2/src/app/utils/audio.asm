@@ -8,8 +8,6 @@ sMOL_Bank:: db
 SECTION "Audio      - Music Functions", ROM0
 
 Music_MainTheme::
-    call Audio_ResetChannels
-
     ld a, $2
     ld [hUGE_Bank], a
     ld hl, MitA
@@ -20,13 +18,18 @@ Music_MainTheme::
 SECTION "Audio      - SFX Functions", ROM0
 
 SFX_Lazer::
+    ; call Audio_hUGEDriverCh1
+    ; call Audio_sMOLDriverCh2
+    ; call Audio_hUGEDriverCh3
+    ; call Audio_hUGEDriverCh4
+
+    ld hl, SFX
+    call sMOL_init
+
     call Audio_hUGEDriverCh1
     call Audio_sMOLDriverCh2
     call Audio_hUGEDriverCh3
     call Audio_hUGEDriverCh4
-
-    ld hl, SFX
-    call sMOL_init
 
     ret
 
@@ -35,10 +38,10 @@ SFX_Lazer::
 SECTION "Audio      - Channel Overrides", ROM0
 
 Audio_ResetChannels::
-    call Audio_hUGEDriverCh1
+    ; call Audio_hUGEDriverCh1
     call Audio_hUGEDriverCh2
-    call Audio_hUGEDriverCh3
-    call Audio_hUGEDriverCh4
+    ; call Audio_hUGEDriverCh3
+    ; call Audio_hUGEDriverCh4
     ret
 
 Audio_sMOLDriverCh1::

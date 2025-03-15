@@ -1,7 +1,7 @@
 itSquareinst1:
 db 8
 db 0
-db 242
+db 241
 dw itSquareSP1
 db 128
 

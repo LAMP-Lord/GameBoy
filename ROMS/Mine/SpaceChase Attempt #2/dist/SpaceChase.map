@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 5653 bytes used / 10731 free
+	ROM0: 5641 bytes used / 10743 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
 	WRAM0: 206 bytes used / 3890 free
 
@@ -8,28 +8,28 @@ ROM0 bank #0:
 	         $0000 = Input
 	         $0020 = Input.onenibble
 	         $002d = Input.knownret
-	SECTION: $002e-$003c ($000f bytes) ["Audio      - Music Functions"]
+	SECTION: $002e-$0039 ($000c bytes) ["Audio      - Music Functions"]
 	         $002e = Music_MainTheme
-	EMPTY: $003d-$003f ($0003 bytes)
+	SECTION: $003a-$003e ($0005 bytes) ["Test       - Text"]
+	         $003a = TestText
+	EMPTY: $003f-$003f ($0001 byte)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
-	SECTION: $0043-$0047 ($0005 bytes) ["Test       - Text"]
-	         $0043 = TestText
+	EMPTY: $0043-$0047 ($0005 bytes)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$00d9 ($008f bytes) ["Audio      - Channel Overrides"]
+	SECTION: $004b-$00d0 ($0086 bytes) ["Audio      - Channel Overrides"]
 	         $004b = Audio_ResetChannels
-	         $0058 = Audio_sMOLDriverCh1
-	         $0067 = Audio_sMOLDriverCh2
-	         $0076 = Audio_sMOLDriverCh3
-	         $008a = Audio_sMOLDriverCh4
-	         $0099 = Audio_hUGEDriverCh1
-	         $00a8 = Audio_hUGEDriverCh2
-	         $00b7 = Audio_hUGEDriverCh3
-	         $00cb = Audio_hUGEDriverCh4
-	SECTION: $00da-$00ff ($0026 bytes) ["Interrupts - Interrupt Functions"]
-	         $00da = Int_InitInterrupts
-	         $00ea = Int_VBlankInterrupt
-	         $00ee = Int_StatInterrupt
-	         $00f2 = Int_WaitForVBlank
+	         $004f = Audio_sMOLDriverCh1
+	         $005e = Audio_sMOLDriverCh2
+	         $006d = Audio_sMOLDriverCh3
+	         $0081 = Audio_sMOLDriverCh4
+	         $0090 = Audio_hUGEDriverCh1
+	         $009f = Audio_hUGEDriverCh2
+	         $00ae = Audio_hUGEDriverCh3
+	         $00c2 = Audio_hUGEDriverCh4
+	SECTION: $00d1-$00f8 ($0028 bytes) ["Entry Point"]
+	         $00d1 = EntryPoint
+	         $00eb = Loop
+	EMPTY: $00f9-$00ff ($0007 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -292,25 +292,27 @@ ROM0 bank #0:
 	         $1098 = FontTileData
 	         $1598 = FontTileDataEnd
 	         $1598 = Text_LoadFont
-	SECTION: $15a5-$15cc ($0028 bytes) ["Entry Point"]
-	         $15a5 = EntryPoint
-	         $15bf = Loop
-	SECTION: $15cd-$15f0 ($0024 bytes) ["InputUtils"]
-	         $15cd = WaitForKeyFunction
-	         $15ce = WaitForKeyFunction_Loop
-	         $15eb = WaitForKeyFunction_NotPressed
-	SECTION: $15f1-$1603 ($0013 bytes) ["Audio      - SFX Functions"]
-	         $15f1 = SFX_Lazer
-	SECTION: $1604-$160e ($000b bytes) ["Text       - Functions"]
-	         $1604 = Text_PrintText
-	         $1607 = Text_PrintTextLoop
-	SECTION: $160f-$1617 ($0009 bytes) ["Memory     - Memory Functions"]
-	         $160f = Memory_Copy
-	EMPTY: $1618-$3fff ($29e8 bytes)
-	TOTAL EMPTY: $29eb bytes
+	SECTION: $15a5-$15ca ($0026 bytes) ["Interrupts - Interrupt Functions"]
+	         $15a5 = Int_InitInterrupts
+	         $15b5 = Int_VBlankInterrupt
+	         $15b9 = Int_StatInterrupt
+	         $15bd = Int_WaitForVBlank
+	SECTION: $15cb-$15ee ($0024 bytes) ["InputUtils"]
+	         $15cb = WaitForKeyFunction
+	         $15cc = WaitForKeyFunction_Loop
+	         $15e9 = WaitForKeyFunction_NotPressed
+	SECTION: $15ef-$1601 ($0013 bytes) ["Audio      - SFX Functions"]
+	         $15ef = SFX_Lazer
+	SECTION: $1602-$160c ($000b bytes) ["Text       - Functions"]
+	         $1602 = Text_PrintText
+	         $1605 = Text_PrintTextLoop
+	SECTION: $160d-$1615 ($0009 bytes) ["Memory     - Memory Functions"]
+	         $160d = Memory_Copy
+	EMPTY: $1616-$3fff ($29ea bytes)
+	TOTAL EMPTY: $29f7 bytes
 
 ROMX bank #1:
-	SECTION: $4000-$4213 ($0214 bytes) ["SFX       - Data"]
+	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
 	         $4000 = SFX
 	         $4015 = order_cnt
 	         $4016 = order1
