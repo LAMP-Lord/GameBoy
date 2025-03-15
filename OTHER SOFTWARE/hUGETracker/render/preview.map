@@ -1,6 +1,6 @@
 SUMMARY:
 	ROM0: 2225 bytes used / 14159 free
-	ROMX: 764 bytes used / 15620 free in 1 bank
+	ROMX: 564 bytes used / 15820 free in 1 bank
 	WRAM0: 103 bytes used / 3993 free
 	HRAM: 122 bytes used / 5 free
 
@@ -149,57 +149,56 @@ ROM0 bank #0:
 	TOTAL EMPTY: $374f bytes
 
 ROMX bank #1:
-	SECTION: $4000-$42fb ($02fc bytes) ["Song Data"]
+	SECTION: $4000-$4233 ($0234 bytes) ["Song Data"]
 	         $4000 = song
 	         $4015 = order_cnt
 	         $4016 = order1
-	         $401a = order2
-	         $401e = order3
-	         $4022 = order4
-	         $4026 = P0
-	         $40e6 = P1
-	         $41a6 = P5
-	         $4266 = itSquareSP1
-	         $42c6 = duty_instruments
-	         $42c6 = itSquareinst1
-	         $42cc = wave_instruments
-	         $42cc = noise_instruments
-	         $42cc = __hUGE_Routine_0
-	         $42cc = __end_hUGE_Routine_0
-	         $42cd = __hUGE_Routine_1
-	         $42cd = __end_hUGE_Routine_1
-	         $42ce = __hUGE_Routine_2
-	         $42ce = __end_hUGE_Routine_2
-	         $42cf = __hUGE_Routine_3
-	         $42cf = __end_hUGE_Routine_3
-	         $42d0 = __hUGE_Routine_4
-	         $42d0 = __end_hUGE_Routine_4
-	         $42d1 = __hUGE_Routine_5
-	         $42d1 = __end_hUGE_Routine_5
-	         $42d2 = __hUGE_Routine_6
-	         $42d2 = __end_hUGE_Routine_6
-	         $42d3 = __hUGE_Routine_7
-	         $42d3 = __end_hUGE_Routine_7
-	         $42d4 = __hUGE_Routine_8
-	         $42d4 = __end_hUGE_Routine_8
-	         $42d5 = __hUGE_Routine_9
-	         $42d5 = __end_hUGE_Routine_9
-	         $42d6 = __hUGE_Routine_10
-	         $42d6 = __end_hUGE_Routine_10
-	         $42d7 = __hUGE_Routine_11
-	         $42d7 = __end_hUGE_Routine_11
-	         $42d8 = __hUGE_Routine_12
-	         $42d8 = __end_hUGE_Routine_12
-	         $42d9 = __hUGE_Routine_13
-	         $42d9 = __end_hUGE_Routine_13
-	         $42da = __hUGE_Routine_14
-	         $42da = __end_hUGE_Routine_14
-	         $42db = __hUGE_Routine_15
-	         $42db = __end_hUGE_Routine_15
-	         $42dc = routines
-	         $42fc = waves
-	EMPTY: $42fc-$7fff ($3d04 bytes)
-	TOTAL EMPTY: $3d04 bytes
+	         $4018 = order2
+	         $401a = order3
+	         $401c = order4
+	         $401e = P0
+	         $40de = P1
+	         $419e = itSquareSP1
+	         $41fe = duty_instruments
+	         $41fe = itSquareinst1
+	         $4204 = wave_instruments
+	         $4204 = noise_instruments
+	         $4204 = __hUGE_Routine_0
+	         $4204 = __end_hUGE_Routine_0
+	         $4205 = __hUGE_Routine_1
+	         $4205 = __end_hUGE_Routine_1
+	         $4206 = __hUGE_Routine_2
+	         $4206 = __end_hUGE_Routine_2
+	         $4207 = __hUGE_Routine_3
+	         $4207 = __end_hUGE_Routine_3
+	         $4208 = __hUGE_Routine_4
+	         $4208 = __end_hUGE_Routine_4
+	         $4209 = __hUGE_Routine_5
+	         $4209 = __end_hUGE_Routine_5
+	         $420a = __hUGE_Routine_6
+	         $420a = __end_hUGE_Routine_6
+	         $420b = __hUGE_Routine_7
+	         $420b = __end_hUGE_Routine_7
+	         $420c = __hUGE_Routine_8
+	         $420c = __end_hUGE_Routine_8
+	         $420d = __hUGE_Routine_9
+	         $420d = __end_hUGE_Routine_9
+	         $420e = __hUGE_Routine_10
+	         $420e = __end_hUGE_Routine_10
+	         $420f = __hUGE_Routine_11
+	         $420f = __end_hUGE_Routine_11
+	         $4210 = __hUGE_Routine_12
+	         $4210 = __end_hUGE_Routine_12
+	         $4211 = __hUGE_Routine_13
+	         $4211 = __end_hUGE_Routine_13
+	         $4212 = __hUGE_Routine_14
+	         $4212 = __end_hUGE_Routine_14
+	         $4213 = __hUGE_Routine_15
+	         $4213 = __end_hUGE_Routine_15
+	         $4214 = routines
+	         $4234 = waves
+	EMPTY: $4234-$7fff ($3dcc bytes)
+	TOTAL EMPTY: $3dcc bytes
 
 WRAM0 bank #0:
 	SECTION: $c000-$c066 ($0067 bytes) ["Playback variables"]

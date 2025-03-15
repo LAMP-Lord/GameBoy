@@ -1,0 +1,14 @@
+/obj/
+
+/*.gb
+/*.sym
+/*.map
+/*.dbg
+/*.tbl
+/*.sn*
+/*.sav
+/*.srm
+
+/.redo
+/.do_built*
+*.did

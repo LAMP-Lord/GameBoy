@@ -1,0 +1,12 @@
+[package]
+name = "font_encoder"
+# Use the same version as gb-vwf. Always. It'll avoid confusing people.
+version = "2.1.0"
+edition = "2021"
+repository = "https://github.com/ISSOtm/gb-vwf"
+rust-version = "1.70"
+
+[dependencies]
+plumers = "1.0.2"
+slicedisplay = "0.2.2"
+xflags = "0.3.2"

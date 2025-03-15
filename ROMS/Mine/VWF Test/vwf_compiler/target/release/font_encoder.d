@@ -1,0 +1,1 @@
+/mnt/c/Users/bgren/Desktop/GameBoy/ROMS/Mine/SpaceChase\ Attempt\ #2/vwf_compiler/target/release/font_encoder: /mnt/c/Users/bgren/Desktop/GameBoy/ROMS/Mine/SpaceChase\ Attempt\ #2/vwf_compiler/src/main.rs

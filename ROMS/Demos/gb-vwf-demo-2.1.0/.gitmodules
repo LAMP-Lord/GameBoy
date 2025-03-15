@@ -1,0 +1,9 @@
+[submodule "src/gb-vwf"]
+	path = src/gb-vwf
+	url = https://github.com/ISSOtm/gb-vwf.git
+[submodule "src/hardware.inc"]
+	path = src/hardware.inc
+	url = https://github.com/gbdev/hardware.inc.git
+[submodule "src/debugfile.inc"]
+	path = src/debugfile.inc
+	url = https://github.com/ISSOtm/debugfile.inc.git
