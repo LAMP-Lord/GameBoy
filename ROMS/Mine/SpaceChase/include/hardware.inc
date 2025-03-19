@@ -77,6 +77,7 @@ DEF rRAMB        EQU $4000 ; $4000->$5fff - Bit 3 enables rumble (if present)
 ; -- Register for reading joy pad info. (R/W)
 ; --
 DEF rP1 EQU $FF00
+DEF rPE EQU $FF03
 
 DEF P1F_5 EQU %00100000 ; P15 out port, set to 0 to get buttons
 DEF P1F_4 EQU %00010000 ; P14 out port, set to 0 to get dpad
@@ -852,6 +853,20 @@ DEF PADB_SELECT EQU $2
 DEF PADB_B      EQU $1
 DEF PADB_A      EQU $0
 
+; New Keys
+DEF PADF_X      EQU $01
+DEF PADF_Y      EQU $02
+DEF PADF_L      EQU $10
+DEF PADF_R      EQU $20
+DEF PADF_L2     EQU $40
+DEF PADF_R2     EQU $80
+
+DEF PADB_X      EQU $8
+DEF PADB_Y      EQU $9
+DEF PADB_L      EQU $A
+DEF PADB_R      EQU $B
+DEF PADB_L2     EQU $C
+DEF PADB_R2     EQU $D
 
 ;***************************************************************************
 ;*

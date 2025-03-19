@@ -13,3 +13,11 @@ Memory_Copy::
     or c
     jr nz, Memory_Copy
     ret
+
+Memory_Fill::
+    ld [hli], a
+    dec bc
+    ld a, b
+    or c
+    jr nz, Memory_Fill
+    ret

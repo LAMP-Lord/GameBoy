@@ -41,8 +41,8 @@ Int_WaitForVBlank::
     cp $144
     ret nc
 
-    call hUGE_dosound
-    call sMOL_dosound
+    ; call hUGE_dosound
+    ; call sMOL_dosound
 
     halt
     ret

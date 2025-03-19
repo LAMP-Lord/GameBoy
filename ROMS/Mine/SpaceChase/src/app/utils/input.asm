@@ -1,11 +1,18 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Input      - Input Variables", WRAM0
+SECTION "Input      - Input Variables", HRAM
 
 wLastKeys:: db
 wCurKeys:: db
 wNewKeys:: db
+
+nLastKeys:: db
+nCurKeys:: db
+nNewKeys:: db
+
 mWaitKey:: db
+
+OnCart:: db
 
 SECTION "InputUtils", ROM0
 
@@ -18,8 +25,8 @@ WaitForKeyFunction::
 WaitForKeyFunction_Loop:
 
     ; save the keys last frame
-    ld a, [wCurKeys]
-    ld [wLastKeys], a
+    ld a, [nCurKeys]
+    ld [nLastKeys], a
     
     ; This is in input.asm
     ; It's straight from: https://gbdev.io/gb-asm-tutorial/part2/input.html
@@ -29,11 +36,11 @@ WaitForKeyFunction_Loop:
     
     ld a, [mWaitKey]
     ld b, a
-    ld a, [wCurKeys]
+    ld a, [nCurKeys]
     and b
     jp z, WaitForKeyFunction_NotPressed
     
-    ld a, [wLastKeys]
+    ld a, [nLastKeys]
     and b
     jp nz, WaitForKeyFunction_NotPressed
 

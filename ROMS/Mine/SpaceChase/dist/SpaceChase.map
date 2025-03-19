@@ -1,35 +1,44 @@
 SUMMARY:
-	ROM0: 5641 bytes used / 10743 free
+	ROM0: 5862 bytes used / 10522 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
-	WRAM0: 206 bytes used / 3890 free
+	WRAM0: 202 bytes used / 3894 free
+	HRAM: 8 bytes used / 119 free
 
 ROM0 bank #0:
-	SECTION: $0000-$002d ($002e bytes) ["Input      - Main"]
-	         $0000 = Input
-	         $0020 = Input.onenibble
-	         $002d = Input.knownret
-	SECTION: $002e-$0039 ($000c bytes) ["Audio      - Music Functions"]
-	         $002e = Music_MainTheme
-	SECTION: $003a-$003e ($0005 bytes) ["Test       - Text"]
-	         $003a = TestText
-	EMPTY: $003f-$003f ($0001 byte)
+	SECTION: $0000-$0023 ($0024 bytes) ["InputUtils"]
+	         $0000 = WaitForKeyFunction
+	         $0001 = WaitForKeyFunction_Loop
+	         $001e = WaitForKeyFunction_NotPressed
+	SECTION: $0024-$0036 ($0013 bytes) ["Audio      - SFX Functions"]
+	         $0024 = SFX_Lazer
+	SECTION: $0037-$003b ($0005 bytes) ["Test       - Text"]
+	         $0037 = TestText
+	EMPTY: $003c-$003f ($0004 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
 	EMPTY: $0043-$0047 ($0005 bytes)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$00d0 ($0086 bytes) ["Audio      - Channel Overrides"]
-	         $004b = Audio_ResetChannels
-	         $004f = Audio_sMOLDriverCh1
-	         $005e = Audio_sMOLDriverCh2
-	         $006d = Audio_sMOLDriverCh3
-	         $0081 = Audio_sMOLDriverCh4
-	         $0090 = Audio_hUGEDriverCh1
-	         $009f = Audio_hUGEDriverCh2
-	         $00ae = Audio_hUGEDriverCh3
-	         $00c2 = Audio_hUGEDriverCh4
-	SECTION: $00d1-$00f8 ($0028 bytes) ["Entry Point"]
-	         $00d1 = EntryPoint
-	         $00eb = Loop
-	EMPTY: $00f9-$00ff ($0007 bytes)
+	SECTION: $004b-$00d7 ($008d bytes) ["Display - Functions"]
+	         $004b = DisplayInputs
+	         $005a = DisplayInputs.set_a
+	         $0063 = DisplayInputs.set_b
+	         $006c = DisplayInputs.set_select
+	         $0075 = DisplayInputs.set_start
+	         $007e = DisplayInputs.set_right
+	         $0087 = DisplayInputs.set_left
+	         $0090 = DisplayInputs.set_up
+	         $0099 = DisplayInputs.set_down
+	         $00a9 = DisplayInputs.set_x
+	         $00b2 = DisplayInputs.set_y
+	         $00bb = DisplayInputs.set_l
+	         $00c4 = DisplayInputs.set_r
+	         $00cd = DisplayInputs.set_l2
+	         $00d6 = DisplayInputs.set_r2
+	SECTION: $00d8-$00f7 ($0020 bytes) ["Interrupts - Interrupt Functions"]
+	         $00d8 = Int_InitInterrupts
+	         $00e8 = Int_VBlankInterrupt
+	         $00ec = Int_StatInterrupt
+	         $00f0 = Int_WaitForVBlank
+	EMPTY: $00f8-$00ff ($0008 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -292,24 +301,34 @@ ROM0 bank #0:
 	         $1098 = FontTileData
 	         $1598 = FontTileDataEnd
 	         $1598 = Text_LoadFont
-	SECTION: $15a5-$15ca ($0026 bytes) ["Interrupts - Interrupt Functions"]
-	         $15a5 = Int_InitInterrupts
-	         $15b5 = Int_VBlankInterrupt
-	         $15b9 = Int_StatInterrupt
-	         $15bd = Int_WaitForVBlank
-	SECTION: $15cb-$15ee ($0024 bytes) ["InputUtils"]
-	         $15cb = WaitForKeyFunction
-	         $15cc = WaitForKeyFunction_Loop
-	         $15e9 = WaitForKeyFunction_NotPressed
-	SECTION: $15ef-$1601 ($0013 bytes) ["Audio      - SFX Functions"]
-	         $15ef = SFX_Lazer
-	SECTION: $1602-$160c ($000b bytes) ["Text       - Functions"]
-	         $1602 = Text_PrintText
-	         $1605 = Text_PrintTextLoop
-	SECTION: $160d-$1615 ($0009 bytes) ["Memory     - Memory Functions"]
-	         $160d = Memory_Copy
-	EMPTY: $1616-$3fff ($29ea bytes)
-	TOTAL EMPTY: $29f7 bytes
+	SECTION: $15a5-$162a ($0086 bytes) ["Audio      - Channel Overrides"]
+	         $15a5 = Audio_ResetChannels
+	         $15a9 = Audio_sMOLDriverCh1
+	         $15b8 = Audio_sMOLDriverCh2
+	         $15c7 = Audio_sMOLDriverCh3
+	         $15db = Audio_sMOLDriverCh4
+	         $15ea = Audio_hUGEDriverCh1
+	         $15f9 = Audio_hUGEDriverCh2
+	         $1608 = Audio_hUGEDriverCh3
+	         $161c = Audio_hUGEDriverCh4
+	SECTION: $162b-$1686 ($005c bytes) ["Input      - Main"]
+	         $162b = Input
+	         $166a = Input.onenibble
+	         $1678 = Input.onenibble_extra
+	         $1686 = Input.knownret
+	SECTION: $1687-$16cf ($0049 bytes) ["Entry Point"]
+	         $1687 = EntryPoint
+	         $16c1 = Loop
+	SECTION: $16d0-$16df ($0010 bytes) ["Memory     - Memory Functions"]
+	         $16d0 = Memory_Copy
+	         $16d9 = Memory_Fill
+	SECTION: $16e0-$16eb ($000c bytes) ["Audio      - Music Functions"]
+	         $16e0 = Music_MainTheme
+	SECTION: $16ec-$16f6 ($000b bytes) ["Text       - Functions"]
+	         $16ec = Text_PrintText
+	         $16ef = Text_PrintTextLoop
+	EMPTY: $16f7-$3fff ($2909 bytes)
+	TOTAL EMPTY: $291a bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
@@ -695,8 +714,8 @@ WRAM0 bank #0:
 	         $c07d = pattern4
 	         $c07f = ticks_per_row
 	         $c080 = current_wave
-	         $c080 = _sMOL_current_wave
 	         $c080 = sMOL_current_wave
+	         $c080 = _sMOL_current_wave
 	         $c081 = start_zero
 	         $c081 = mute_channels
 	         $c081 = _sMOL_mute_mask
@@ -745,13 +764,21 @@ WRAM0 bank #0:
 	         $c0c1 = table4
 	         $c0c3 = table_row4
 	         $c0c8 = end_zero
-	SECTION: $c0c8-$c0cb ($0004 bytes) ["Input      - Input Variables"]
-	         $c0c8 = wLastKeys
-	         $c0c9 = wCurKeys
-	         $c0ca = wNewKeys
-	         $c0cb = mWaitKey
-	SECTION: $c0cc-$c0cd ($0002 bytes) ["Audio      - Variables"]
-	         $c0cc = hUGE_Bank
-	         $c0cd = sMOL_Bank
-	EMPTY: $c0ce-$cfff ($0f32 bytes)
-	TOTAL EMPTY: $0f32 bytes
+	SECTION: $c0c8-$c0c9 ($0002 bytes) ["Audio      - Variables"]
+	         $c0c8 = hUGE_Bank
+	         $c0c9 = sMOL_Bank
+	EMPTY: $c0ca-$cfff ($0f36 bytes)
+	TOTAL EMPTY: $0f36 bytes
+
+HRAM bank #0:
+	SECTION: $ff80-$ff87 ($0008 bytes) ["Input      - Input Variables"]
+	         $ff80 = wLastKeys
+	         $ff81 = wCurKeys
+	         $ff82 = wNewKeys
+	         $ff83 = nLastKeys
+	         $ff84 = nCurKeys
+	         $ff85 = nNewKeys
+	         $ff86 = mWaitKey
+	         $ff87 = OnCart
+	EMPTY: $ff88-$fffe ($0077 bytes)
+	TOTAL EMPTY: $0077 bytes
