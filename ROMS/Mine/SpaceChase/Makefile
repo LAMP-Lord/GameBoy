@@ -12,9 +12,8 @@ APP                 = $(SRC)/app
 
 IMAGES              = $(RESOURCES)/images
 IMAGES_SPRITES      = $(IMAGES)/sprites
+IMAGES_BACKGROUNDS  = $(IMAGES)/backgrounds
 IMAGES_UI           = $(IMAGES)/ui
-IMAGES_BACKGROUNDS  = $(IMAGES_UI)/backgrounds
-IMAGES_FONTS        = $(IMAGES_UI)/fonts
 
 AUDIO           	= $(RESOURCES)/audio
 AUDIO_MUSIC     	= $(AUDIO)/music
@@ -22,7 +21,7 @@ AUDIO_SOUNDS    	= $(AUDIO)/sounds
 
 GEN_SPRITES	    	= $(GEN)/sprites
 GEN_BACKGROUNDS		= $(GEN)/backgrounds
-GEN_FONTS			= $(GEN)/fonts
+GEN_UI   			= $(GEN)/ui
 BINS	    		= $(DIST)/$(PROJECTNAME).gb
 
 # Tools
@@ -64,23 +63,22 @@ default: rom
 
 # ANCHOR: generate-graphics
 NEEDED_GRAPHICS = \
-	$(GEN_SPRITES)/player-ship.2bpp \
-	$(GEN_SPRITES)/enemy-ship.2bpp \
-	$(GEN_SPRITES)/bullet.2bpp \
 	$(GEN_BACKGROUNDS)/star-field.tilemap \
 	$(GEN_BACKGROUNDS)/title-screen.tilemap \
-	$(GEN_FONTS)/text-font.2bpp
+	$(GEN_UI)/text-font.2bpp \
+	$(GEN_UI)/display-box.2bpp \
+	$(GEN_UI)/module-base.2bpp
 	
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
-	$(GFX) --columns -o $@ $<
+	$(GFX) --columns --unique-tiles -o $@ $<
 
 # Generate background tile set, ensuring the containing directories have been created.
 $(GEN_BACKGROUNDS)/%.2bpp: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
-	$(GFX) -o $@ $<
+	$(GFX) --unique-tiles -o $@ $<
 
-$(GEN_FONTS)/%.2bpp: $(IMAGES_FONTS)/%.png | $(GEN_FONTS)
-	$(GFX) -o $@ $<
+$(GEN_UI)/%.2bpp: $(IMAGES_UI)/%.png | $(GEN_UI)
+	$(GFX) --unique-tiles -o $@ $<
 
 # Generate background tile map *and* tile set, ensuring the containing directories
 # have been created.
@@ -128,7 +126,7 @@ $1:
 endef
 
 PREPARE_DIRECTORIES = \
-	$(OBJ) $(GEN_SPRITES) $(GEN_BACKGROUNDS) $(GEN_FONTS) $(DIST)
+	$(OBJ) $(GEN_SPRITES) $(GEN_BACKGROUNDS) $(GEN_UI) $(DIST)
 
 $(foreach i, $(PREPARE_DIRECTORIES), $(eval $(call ensure-directory,$i)))
 
@@ -137,4 +135,4 @@ clean:
 	rm -rfv  $(PREPARE_DIRECTORIES)
 
 # Declare these targets as "not actually files".
-.PHONY: default rom fonts all
+.PHONY: default rom all

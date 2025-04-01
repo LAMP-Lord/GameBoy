@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 5862 bytes used / 10522 free
+	ROM0: 5985 bytes used / 10399 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
 	WRAM0: 202 bytes used / 3894 free
 	HRAM: 8 bytes used / 119 free
@@ -297,38 +297,40 @@ ROM0 bank #0:
 	         $0ffc = tick_time.update_current_order
 	         $1004 = tick_time.noreset
 	         $1008 = note_table
-	SECTION: $1098-$15a4 ($050d bytes) ["Text       - Font Loading"]
+	SECTION: $1098-$162a ($0593 bytes) ["UI         - Functions"]
 	         $1098 = FontTileData
+	         $1598 = DisplayBoxTileData
 	         $1598 = FontTileDataEnd
-	         $1598 = Text_LoadFont
-	SECTION: $15a5-$162a ($0086 bytes) ["Audio      - Channel Overrides"]
-	         $15a5 = Audio_ResetChannels
-	         $15a9 = Audio_sMOLDriverCh1
-	         $15b8 = Audio_sMOLDriverCh2
-	         $15c7 = Audio_sMOLDriverCh3
-	         $15db = Audio_sMOLDriverCh4
-	         $15ea = Audio_hUGEDriverCh1
-	         $15f9 = Audio_hUGEDriverCh2
-	         $1608 = Audio_hUGEDriverCh3
-	         $161c = Audio_hUGEDriverCh4
-	SECTION: $162b-$1686 ($005c bytes) ["Input      - Main"]
-	         $162b = Input
-	         $166a = Input.onenibble
-	         $1678 = Input.onenibble_extra
-	         $1686 = Input.knownret
-	SECTION: $1687-$16cf ($0049 bytes) ["Entry Point"]
-	         $1687 = EntryPoint
-	         $16c1 = Loop
-	SECTION: $16d0-$16df ($0010 bytes) ["Memory     - Memory Functions"]
-	         $16d0 = Memory_Copy
-	         $16d9 = Memory_Fill
-	SECTION: $16e0-$16eb ($000c bytes) ["Audio      - Music Functions"]
-	         $16e0 = Music_MainTheme
-	SECTION: $16ec-$16f6 ($000b bytes) ["Text       - Functions"]
-	         $16ec = Text_PrintText
-	         $16ef = Text_PrintTextLoop
-	EMPTY: $16f7-$3fff ($2909 bytes)
-	TOTAL EMPTY: $291a bytes
+	         $1608 = UI_Load
+	         $1608 = DisplayBoxTileDataEnd
+	         $161f = UI_PlaceBox
+	         $1620 = UI_PrintText
+	         $1623 = UI_PrintTextLoop
+	SECTION: $162b-$16b0 ($0086 bytes) ["Audio      - Channel Overrides"]
+	         $162b = Audio_ResetChannels
+	         $162f = Audio_sMOLDriverCh1
+	         $163e = Audio_sMOLDriverCh2
+	         $164d = Audio_sMOLDriverCh3
+	         $1661 = Audio_sMOLDriverCh4
+	         $1670 = Audio_hUGEDriverCh1
+	         $167f = Audio_hUGEDriverCh2
+	         $168e = Audio_hUGEDriverCh3
+	         $16a2 = Audio_hUGEDriverCh4
+	SECTION: $16b1-$170c ($005c bytes) ["Input      - Main"]
+	         $16b1 = Input
+	         $16f0 = Input.onenibble
+	         $16fe = Input.onenibble_extra
+	         $170c = Input.knownret
+	SECTION: $170d-$1755 ($0049 bytes) ["Entry Point"]
+	         $170d = EntryPoint
+	         $1747 = Loop
+	SECTION: $1756-$1765 ($0010 bytes) ["Memory     - Memory Functions"]
+	         $1756 = Memory_Copy
+	         $175f = Memory_Fill
+	SECTION: $1766-$1771 ($000c bytes) ["Audio      - Music Functions"]
+	         $1766 = Music_MainTheme
+	EMPTY: $1772-$3fff ($288e bytes)
+	TOTAL EMPTY: $289f bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
