@@ -32,7 +32,7 @@ EntryPoint:
     ld a, %00_01_10_11
     ld [rBGP], a
 
-    call Text_LoadFont
+    call UI_Load
 
     ; Clear screen (tile map at $9800)
     ld hl, _SCRN0
