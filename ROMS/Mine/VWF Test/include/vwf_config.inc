@@ -29,7 +29,7 @@ def NB_VARIANT_BITS equ 1 ; This demo only uses two variants (plain and bold) pe
 	vwf_alias "<BOLD>", VWF_SET_VARIANT, 1
 
 ; Custom control characters.
-	; control_char !,CLEAR
+	; control_char !,CLEAR,Clear
 
 
 ; Macros required by `vwf.asm`.

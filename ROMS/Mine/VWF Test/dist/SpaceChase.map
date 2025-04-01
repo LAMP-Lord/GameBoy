@@ -1,41 +1,26 @@
 SUMMARY:
-	ROM0: 3265 bytes used / 13119 free
-	ROMX: 34996 bytes used / 14156 free in 3 banks
+	ROM0: 3431 bytes used / 12953 free
+	ROMX: 32980 bytes used / 16172 free in 3 banks
 	WRAM0: 178 bytes used / 3918 free
 	HRAM: 2 bytes used / 125 free
 
 ROM0 bank #0:
 	SECTION: $0000 ($0000 bytes) ["Text       - Font Loading"]
-	SECTION: $0000-$0028 ($0029 bytes) ["Interrupts - Interrupt Functions"]
-	         $0000 = Int_InitInterrupts
-	         $0010 = Int_VBlankInterrupt
-	         $0014 = Int_StatInterrupt
-	         $0018 = Int_WaitForVBlank
-	SECTION: $0029-$0033 ($000b bytes) ["Text       - Functions"]
-	         $0029 = Text_PrintText
-	         $002c = Text_PrintTextLoop
-	SECTION: $0034-$003c ($0009 bytes) ["Memory     - Memory Functions"]
-	         $0034 = Memory_Copy
-	EMPTY: $003d-$003f ($0003 bytes)
+	SECTION: $0000-$003d ($003e bytes) ["Entry Point"]
+	         $0000 = EntryPoint
+	         $0038 = Loop
+	EMPTY: $003e-$003f ($0002 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
-	SECTION: $0043-$0047 ($0005 bytes) ["Test Text"]
-	         $0043 = TestText
+	SECTION: $0043-$0046 ($0004 bytes) ["Audio      - Sound Functions"]
+	         $0043 = SoundFX_Lazer
+	EMPTY: $0047-$0047 ($0001 byte)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$008f ($0045 bytes) ["Audio      - Channel Overrides"]
-	         $004b = Audio_OverrideCh1
-	         $0053 = Audio_OverrideCh2
-	         $005b = Audio_OverrideCh3
-	         $0063 = Audio_OverrideCh4
-	         $006b = Audio_ResetCh1
-	         $0073 = Audio_ResetCh2
-	         $007b = Audio_ResetCh3
-	         $0088 = Audio_ResetCh4
-	SECTION: $0090-$00d0 ($0041 bytes) ["Entry Point"]
-	         $0090 = EntryPoint
-	         $00cb = Loop
-	SECTION: $00d1-$00d4 ($0004 bytes) ["Audio      - Sound Functions"]
-	         $00d1 = SoundFX_Lazer
-	EMPTY: $00d5-$00ff ($002b bytes)
+	SECTION: $004b-$00fd ($00b3 bytes) ["Text"]
+	         $004b = Text
+	         $00d7 = ClearRow
+	         $00db = Clear
+	         $00f9 = ClearTileBuffer
+	EMPTY: $00fe-$00ff ($0002 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -172,7 +157,7 @@ ROM0 bank #0:
 	         $0855 = tick_time.update_current_order
 	         $085d = tick_time.noreset
 	         $0861 = note_table
-	SECTION: $08f1-$0cee ($03fe bytes) ["VWF engine"]
+	SECTION: $08f1-$0cec ($03fc bytes) ["VWF engine"]
 	         $08f1 = SetupVWFEngine
 	         $091a = SetupVWFEngine.noIDWrap
 	         $091d = SetupVWFEngine.curTileIsBlank
@@ -241,22 +226,40 @@ ROM0 bank #0:
 	         $0c9a = PrintVWFChars.waitVRAM_u5
 	         $0cb5 = PrintVWFChars.computeTilePtr
 	         $0cc7 = FontPtrTable
-	         $0cd1 = ControlChars
-	         $0ce9 = ControlChars.handlers
-	         $0cef = ControlChars.lengths
-	EMPTY: $0cef-$3fff ($3311 bytes)
-	TOTAL EMPTY: $333f bytes
+	         $0ccf = ControlChars
+	         $0ce7 = ControlChars.handlers
+	         $0ced = ControlChars.lengths
+	SECTION: $0ced-$0d31 ($0045 bytes) ["Audio      - Channel Overrides"]
+	         $0ced = Audio_OverrideCh1
+	         $0cf5 = Audio_OverrideCh2
+	         $0cfd = Audio_OverrideCh3
+	         $0d05 = Audio_OverrideCh4
+	         $0d0d = Audio_ResetCh1
+	         $0d15 = Audio_ResetCh2
+	         $0d1d = Audio_ResetCh3
+	         $0d2a = Audio_ResetCh4
+	SECTION: $0d32-$0d57 ($0026 bytes) ["Interrupts - Interrupt Functions"]
+	         $0d32 = Int_InitInterrupts
+	         $0d42 = Int_VBlankInterrupt
+	         $0d46 = Int_StatInterrupt
+	         $0d4a = Int_WaitForVBlank
+	SECTION: $0d58-$0d62 ($000b bytes) ["Text       - Functions"]
+	         $0d58 = Text_PrintText
+	         $0d5b = Text_PrintTextLoop
+	SECTION: $0d63-$0d6b ($0009 bytes) ["Memory     - Memory Functions"]
+	         $0d63 = Memory_Copy
+	EMPTY: $0d6c-$3fff ($3294 bytes)
+	TOTAL EMPTY: $3299 bytes
 
 ROMX bank #1:
-	SECTION: $4000-$5f9f ($1fa0 bytes) ["VWF fonts and barrel shift table"]
+	SECTION: $4000-$57bf ($17c0 bytes) ["VWF fonts and barrel shift table"]
 	         $4000 = ShiftLUT
 	         $4880 = FontBASE_SEVENPtr
 	         $4d00 = FontBASE_SEVEN_BOLDPtr
 	         $5160 = FontOPTIXPtr
 	         $54c0 = FontOPTIX_BOLDPtr
-	         $58a0 = FontCONDENSEDPtr
-	EMPTY: $5fa0-$7fff ($2060 bytes)
-	TOTAL EMPTY: $2060 bytes
+	EMPTY: $57c0-$7fff ($2840 bytes)
+	TOTAL EMPTY: $2840 bytes
 
 ROMX bank #2:
 	SECTION: $4000-$7489 ($348a bytes) ["song Song Data"]

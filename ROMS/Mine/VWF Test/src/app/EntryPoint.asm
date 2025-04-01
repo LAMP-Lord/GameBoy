@@ -33,13 +33,10 @@ EntryPoint:
 
     ; call Text_LoadFont
 
-    ld a, $2
+    ld a, BANK(song)
     ld [hUGE_Bank], a
     ld hl, song
     call hUGE_init
-
-    ld a, 0
-    ld [wNbPixelsDrawn], a
 
     ld	c,low(rNR52)
 	xor	a
@@ -55,6 +52,12 @@ EntryPoint:
 	and	$77
 	ldh	[c],a	; VIN output off + master volume max
 
+    xor a
+	ld [wNbPixelsDrawn], a
+    ld b, BANK(Text)
+    ld hl, Text
+    call SetupVWFEngine
+
     call Int_InitInterrupts
 
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_OBJ8 | LCDCF_WINON | LCDCF_WIN9C00
@@ -62,16 +65,48 @@ EntryPoint:
 
     ; call SL_PlaySFX
 
-    ld b, 0
-    ld hl, TestText
-    ld a, 0
-    call SetupVWFEngine
-
 Loop:
     call Int_WaitForVBlank
     jp Loop
 
 
-SECTION "Test Text", ROM0
-TestText:
-    db "sigma"
+SECTION "Text", ROM0
+Text:
+    db """\
+<CLEAR>Hello World!
+This line should break here, automatically!<WAIT>
+
+Text resumes printing when pressing A, but holding B works too.<WAIT>"""
+
+ClearRow:
+	ld a, [wTextbox.width]
+	ld c, a
+Clear::
+	ldh a, [rSTAT]
+	and STATF_BUSY
+	jr nz, Clear
+	; a = 0 here.
+	ld [hli], a
+	dec c
+	jr nz, Clear
+	ld a, [wTextbox.width]
+	cpl
+	add SCRN_VX_B + 1 ; a = SCRN_VX_B - [wTextbox.width]
+	add a, l
+	ld l, a
+	adc a, h
+	sub l
+	ld h, a
+	dec b
+	jr nz, ClearRow
+
+	; Ensure we'll start printing to a new tile.
+	ld hl, wTileBuffer
+	assert wTileBuffer.end == wNbPixelsDrawn
+	ld c, wTileBuffer.end - wTileBuffer + 1
+	xor a
+ClearTileBuffer:
+	ld [hli], a
+	dec c
+	jr nz, ClearTileBuffer
+	ret

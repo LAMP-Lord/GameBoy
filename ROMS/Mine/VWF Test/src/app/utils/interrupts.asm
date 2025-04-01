@@ -46,11 +46,12 @@ Int_WaitForVBlank::
     cp $144
     ret nc
 
-    call hUGE_dosound
-    call TickVWFEngine
-    call PrintVWFChars
+    ; call hUGE_dosound
 
     halt
+
+    call TickVWFEngine
+    call PrintVWFChars
 
     ; pop hl
     ; pop de

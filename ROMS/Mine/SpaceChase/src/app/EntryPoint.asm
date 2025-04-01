@@ -60,15 +60,15 @@ EntryPoint:
 
     ; call Text_PrintText
 
+    ld hl, SFX
+    call sMOL_init
+
     call Music_MainTheme
 
 Loop:
-    call Int_WaitForVBlank
-    call Input
-
-    call DisplayInputs
-
-    call SFX_Lazer
+    ld a, PADF_A
+    ld [mWaitKey], a
+    call WaitForKeyFunction
 
     jp Loop
 
@@ -80,7 +80,7 @@ TestText:
 
 
 SECTION "Display - Functions", ROM0
-DisplayInputs:
+DisplayInputs::
     ; --- Standard Inputs (Row 1 at $9800) ---
     ld hl, _SCRN0          ; $9800
     ld a, [wCurKeys]       ; Load standard inputs

@@ -13,23 +13,20 @@ Music_MainTheme::
     ld hl, MitA
     call hUGE_init
 
+    call Audio_hUGEDriverCh1
+    call Audio_hUGEDriverCh2
+    call Audio_hUGEDriverCh3
+    call Audio_hUGEDriverCh4
+
     ret
 
 SECTION "Audio      - SFX Functions", ROM0
 
 SFX_Lazer::
-    ; call Audio_hUGEDriverCh1
-    ; call Audio_sMOLDriverCh2
-    ; call Audio_hUGEDriverCh3
-    ; call Audio_hUGEDriverCh4
-
     ld hl, SFX
     call sMOL_init
 
-    call Audio_hUGEDriverCh1
     call Audio_sMOLDriverCh2
-    call Audio_hUGEDriverCh3
-    call Audio_hUGEDriverCh4
 
     ret
 

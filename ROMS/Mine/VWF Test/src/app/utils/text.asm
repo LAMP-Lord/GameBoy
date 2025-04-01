@@ -1,5 +1,4 @@
 INCLUDE "include/hardware.inc"
-INCLUDE "include/charmap.inc"
 
 SECTION "Text       - Font Loading", ROM0
 

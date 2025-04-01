@@ -1,21 +1,22 @@
 SUMMARY:
-	ROM0: 5862 bytes used / 10522 free
+	ROM0: 5882 bytes used / 10502 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
 	WRAM0: 202 bytes used / 3894 free
 	HRAM: 8 bytes used / 119 free
 
 ROM0 bank #0:
-	SECTION: $0000-$0023 ($0024 bytes) ["InputUtils"]
-	         $0000 = WaitForKeyFunction
-	         $0001 = WaitForKeyFunction_Loop
-	         $001e = WaitForKeyFunction_NotPressed
-	SECTION: $0024-$0036 ($0013 bytes) ["Audio      - SFX Functions"]
-	         $0024 = SFX_Lazer
-	SECTION: $0037-$003b ($0005 bytes) ["Test       - Text"]
-	         $0037 = TestText
+	SECTION: $0000-$002b ($002c bytes) ["Interrupts - Interrupt Functions"]
+	         $0000 = Int_InitInterrupts
+	         $0010 = Int_VBlankInterrupt
+	         $0014 = Int_StatInterrupt
+	         $0018 = Int_WaitForVBlank
+	SECTION: $002c-$003b ($0010 bytes) ["Memory     - Memory Functions"]
+	         $002c = Memory_Copy
+	         $0035 = Memory_Fill
 	EMPTY: $003c-$003f ($0004 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
-	EMPTY: $0043-$0047 ($0005 bytes)
+	SECTION: $0043-$0047 ($0005 bytes) ["Test       - Text"]
+	         $0043 = TestText
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
 	SECTION: $004b-$00d7 ($008d bytes) ["Display - Functions"]
 	         $004b = DisplayInputs
@@ -33,12 +34,11 @@ ROM0 bank #0:
 	         $00c4 = DisplayInputs.set_r
 	         $00cd = DisplayInputs.set_l2
 	         $00d6 = DisplayInputs.set_r2
-	SECTION: $00d8-$00f7 ($0020 bytes) ["Interrupts - Interrupt Functions"]
-	         $00d8 = Int_InitInterrupts
-	         $00e8 = Int_VBlankInterrupt
-	         $00ec = Int_StatInterrupt
-	         $00f0 = Int_WaitForVBlank
-	EMPTY: $00f8-$00ff ($0008 bytes)
+	SECTION: $00d8-$00fe ($0027 bytes) ["InputUtils"]
+	         $00d8 = WaitForKeyFunction
+	         $00d9 = WaitForKeyFunction_Loop
+	         $00f9 = WaitForKeyFunction_NotPressed
+	EMPTY: $00ff-$00ff ($0001 byte)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -316,19 +316,18 @@ ROM0 bank #0:
 	         $166a = Input.onenibble
 	         $1678 = Input.onenibble_extra
 	         $1686 = Input.knownret
-	SECTION: $1687-$16cf ($0049 bytes) ["Entry Point"]
+	SECTION: $1687-$16d1 ($004b bytes) ["Entry Point"]
 	         $1687 = EntryPoint
-	         $16c1 = Loop
-	SECTION: $16d0-$16df ($0010 bytes) ["Memory     - Memory Functions"]
-	         $16d0 = Memory_Copy
-	         $16d9 = Memory_Fill
-	SECTION: $16e0-$16eb ($000c bytes) ["Audio      - Music Functions"]
-	         $16e0 = Music_MainTheme
-	SECTION: $16ec-$16f6 ($000b bytes) ["Text       - Functions"]
-	         $16ec = Text_PrintText
-	         $16ef = Text_PrintTextLoop
-	EMPTY: $16f7-$3fff ($2909 bytes)
-	TOTAL EMPTY: $291a bytes
+	         $16c7 = Loop
+	SECTION: $16d2-$16e9 ($0018 bytes) ["Audio      - Music Functions"]
+	         $16d2 = Music_MainTheme
+	SECTION: $16ea-$16f4 ($000b bytes) ["Text       - Functions"]
+	         $16ea = Text_PrintText
+	         $16ed = Text_PrintTextLoop
+	SECTION: $16f5-$16fe ($000a bytes) ["Audio      - SFX Functions"]
+	         $16f5 = SFX_Lazer
+	EMPTY: $16ff-$3fff ($2901 bytes)
+	TOTAL EMPTY: $2906 bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
