@@ -1,44 +1,39 @@
 SUMMARY:
-	ROM0: 5985 bytes used / 10399 free
+	ROM0: 6124 bytes used / 10260 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
-	WRAM0: 202 bytes used / 3894 free
+	WRAM0: 204 bytes used / 3892 free
 	HRAM: 8 bytes used / 119 free
 
 ROM0 bank #0:
-	SECTION: $0000-$0023 ($0024 bytes) ["InputUtils"]
-	         $0000 = WaitForKeyFunction
-	         $0001 = WaitForKeyFunction_Loop
-	         $001e = WaitForKeyFunction_NotPressed
-	SECTION: $0024-$0036 ($0013 bytes) ["Audio      - SFX Functions"]
-	         $0024 = SFX_Lazer
-	SECTION: $0037-$003b ($0005 bytes) ["Test       - Text"]
-	         $0037 = TestText
-	EMPTY: $003c-$003f ($0004 bytes)
+	SECTION: $0000-$002b ($002c bytes) ["Interrupts - Interrupt Functions"]
+	         $0000 = Int_InitInterrupts
+	         $0010 = Int_VBlankInterrupt
+	         $0014 = Int_StatInterrupt
+	         $0018 = Int_WaitForVBlank
+	SECTION: $002c-$003c ($0011 bytes) ["Memory     - Memory Functions"]
+	         $002c = Memory_Copy
+	         $0035 = Memory_Fill
+	EMPTY: $003d-$003f ($0003 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
 	EMPTY: $0043-$0047 ($0005 bytes)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$00d7 ($008d bytes) ["Display - Functions"]
-	         $004b = DisplayInputs
-	         $005a = DisplayInputs.set_a
-	         $0063 = DisplayInputs.set_b
-	         $006c = DisplayInputs.set_select
-	         $0075 = DisplayInputs.set_start
-	         $007e = DisplayInputs.set_right
-	         $0087 = DisplayInputs.set_left
-	         $0090 = DisplayInputs.set_up
-	         $0099 = DisplayInputs.set_down
-	         $00a9 = DisplayInputs.set_x
-	         $00b2 = DisplayInputs.set_y
-	         $00bb = DisplayInputs.set_l
-	         $00c4 = DisplayInputs.set_r
-	         $00cd = DisplayInputs.set_l2
-	         $00d6 = DisplayInputs.set_r2
-	SECTION: $00d8-$00f7 ($0020 bytes) ["Interrupts - Interrupt Functions"]
-	         $00d8 = Int_InitInterrupts
-	         $00e8 = Int_VBlankInterrupt
-	         $00ec = Int_StatInterrupt
-	         $00f0 = Int_WaitForVBlank
-	EMPTY: $00f8-$00ff ($0008 bytes)
+	SECTION: $004b-$00d9 ($008f bytes) ["Audio      - Channel Overrides"]
+	         $004b = Audio_ResetChannels
+	         $0058 = Audio_sMOLDriverCh1
+	         $0067 = Audio_sMOLDriverCh2
+	         $0076 = Audio_sMOLDriverCh3
+	         $008a = Audio_sMOLDriverCh4
+	         $0099 = Audio_hUGEDriverCh1
+	         $00a8 = Audio_hUGEDriverCh2
+	         $00b7 = Audio_hUGEDriverCh3
+	         $00cb = Audio_hUGEDriverCh4
+	SECTION: $00da-$00e6 ($000d bytes) ["Test       - Text"]
+	         $00da = TestText
+	SECTION: $00e7-$00f2 ($000c bytes) ["Audio      - Music Functions"]
+	         $00e7 = Music_MainTheme
+	SECTION: $00f3-$00fc ($000a bytes) ["Audio      - SFX Functions"]
+	         $00f3 = SFX_Lazer
+	EMPTY: $00fd-$00ff ($0003 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -297,40 +292,53 @@ ROM0 bank #0:
 	         $0ffc = tick_time.update_current_order
 	         $1004 = tick_time.noreset
 	         $1008 = note_table
-	SECTION: $1098-$162a ($0593 bytes) ["UI         - Functions"]
+	SECTION: $1098-$1675 ($05de bytes) ["UI         - Functions"]
 	         $1098 = FontTileData
 	         $1598 = DisplayBoxTileData
 	         $1598 = FontTileDataEnd
 	         $1608 = UI_Load
 	         $1608 = DisplayBoxTileDataEnd
-	         $161f = UI_PlaceBox
-	         $1620 = UI_PrintText
-	         $1623 = UI_PrintTextLoop
-	SECTION: $162b-$16b0 ($0086 bytes) ["Audio      - Channel Overrides"]
-	         $162b = Audio_ResetChannels
-	         $162f = Audio_sMOLDriverCh1
-	         $163e = Audio_sMOLDriverCh2
-	         $164d = Audio_sMOLDriverCh3
-	         $1661 = Audio_sMOLDriverCh4
-	         $1670 = Audio_hUGEDriverCh1
-	         $167f = Audio_hUGEDriverCh2
-	         $168e = Audio_hUGEDriverCh3
-	         $16a2 = Audio_hUGEDriverCh4
-	SECTION: $16b1-$170c ($005c bytes) ["Input      - Main"]
-	         $16b1 = Input
-	         $16f0 = Input.onenibble
-	         $16fe = Input.onenibble_extra
-	         $170c = Input.knownret
-	SECTION: $170d-$1755 ($0049 bytes) ["Entry Point"]
-	         $170d = EntryPoint
-	         $1747 = Loop
-	SECTION: $1756-$1765 ($0010 bytes) ["Memory     - Memory Functions"]
-	         $1756 = Memory_Copy
-	         $175f = Memory_Fill
-	SECTION: $1766-$1771 ($000c bytes) ["Audio      - Music Functions"]
-	         $1766 = Music_MainTheme
-	EMPTY: $1772-$3fff ($288e bytes)
-	TOTAL EMPTY: $289f bytes
+	         $161e = UI_PlaceBox.uipb_init_toprow
+	         $161e = UI_PlaceBox
+	         $1625 = UI_PlaceBox.uipb_placetoprow
+	         $162b = UI_PlaceBox.uipb_topright
+	         $162e = UI_PlaceBox.uipb_init_walls
+	         $163d = UI_PlaceBox.uipb_placewalls
+	         $165e = UI_PlaceBox.uipb_init_bottomrow
+	         $1661 = UI_PlaceBox.uipb_placebottomrow
+	         $1667 = UI_PlaceBox.uipb_bottomright
+	         $166b = UI_PrintText
+	         $166e = UI_PrintTextLoop
+	SECTION: $1676-$1702 ($008d bytes) ["Display - Functions"]
+	         $1676 = DisplayInputs
+	         $1685 = DisplayInputs.set_a
+	         $168e = DisplayInputs.set_b
+	         $1697 = DisplayInputs.set_select
+	         $16a0 = DisplayInputs.set_start
+	         $16a9 = DisplayInputs.set_right
+	         $16b2 = DisplayInputs.set_left
+	         $16bb = DisplayInputs.set_up
+	         $16c4 = DisplayInputs.set_down
+	         $16d4 = DisplayInputs.set_x
+	         $16dd = DisplayInputs.set_y
+	         $16e6 = DisplayInputs.set_l
+	         $16ef = DisplayInputs.set_r
+	         $16f8 = DisplayInputs.set_l2
+	         $1701 = DisplayInputs.set_r2
+	SECTION: $1703-$1773 ($0071 bytes) ["Entry Point"]
+	         $1703 = EntryPoint
+	         $1769 = Loop
+	SECTION: $1774-$17cf ($005c bytes) ["Input      - Main"]
+	         $1774 = Input
+	         $17b3 = Input.onenibble
+	         $17c1 = Input.onenibble_extra
+	         $17cf = Input.knownret
+	SECTION: $17d0-$17f6 ($0027 bytes) ["InputUtils"]
+	         $17d0 = WaitForKeyFunction
+	         $17d1 = WaitForKeyFunction_Loop
+	         $17f1 = WaitForKeyFunction_NotPressed
+	EMPTY: $17f7-$3fff ($2809 bytes)
+	TOTAL EMPTY: $2814 bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
@@ -769,8 +777,11 @@ WRAM0 bank #0:
 	SECTION: $c0c8-$c0c9 ($0002 bytes) ["Audio      - Variables"]
 	         $c0c8 = hUGE_Bank
 	         $c0c9 = sMOL_Bank
-	EMPTY: $c0ca-$cfff ($0f36 bytes)
-	TOTAL EMPTY: $0f36 bytes
+	SECTION: $c0ca-$c0cb ($0002 bytes) ["UI         - Rendering Variables"]
+	         $c0ca = UI_BoxWidth
+	         $c0cb = UI_BoxHeight
+	EMPTY: $c0cc-$cfff ($0f34 bytes)
+	TOTAL EMPTY: $0f34 bytes
 
 HRAM bank #0:
 	SECTION: $ff80-$ff87 ($0008 bytes) ["Input      - Input Variables"]

@@ -29,7 +29,7 @@ EntryPoint:
     ld a, LCDCF_OFF
     ld [rLCDC], a
 
-    ld a, %00_01_10_11
+    ld a, %11_10_01_00
     ld [rBGP], a
 
     call UI_Load
@@ -37,7 +37,7 @@ EntryPoint:
     ; Clear screen (tile map at $9800)
     ld hl, _SCRN0
     ld bc, SCRN_VX_B * SCRN_VY_B  ; 32x32 tiles = 1024 bytes
-    ld a, $00                     ; Blank tile
+    ld d, $00                     ; Blank tile
     call Memory_Fill
 
     ld a, 1
@@ -55,10 +55,25 @@ EntryPoint:
 
     call Int_InitInterrupts
 
+    ld a, 8
+    ld [UI_BoxWidth], a
+    ld a, 2
+    ld [UI_BoxHeight], a
+    ld hl, $9821
+    call UI_PlaceBox
+
+    ld a, 12
+    ld [UI_BoxWidth], a
+    ld a, 1
+    ld [UI_BoxHeight], a
+    ld hl, $99C1
+    call UI_PlaceBox
+
+    ld hl, TestText
+    call UI_PrintText
+
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
     ld [rLCDC], a
-
-    ; call Text_PrintText
 
     ld hl, SFX
     call sMOL_init
@@ -76,13 +91,13 @@ Loop:
 
 SECTION "Test       - Text", ROM0
 TestText:
-    db "sigma"
+    db "sigma gaming", 255
 
 
 SECTION "Display - Functions", ROM0
 DisplayInputs::
     ; --- Standard Inputs (Row 1 at $9800) ---
-    ld hl, _SCRN0          ; $9800
+    ld hl, _SCRN0 + $42          ; $9800
     ld a, [wCurKeys]       ; Load standard inputs
     ld b, a                ; B holds inverted wCurKeys
 
@@ -151,7 +166,7 @@ DisplayInputs::
     ld [hli], a
 
     ; --- Extra Inputs (Row 2 at $9820) ---
-    ld hl, _SCRN0 + SCRN_VX_B  ; $9820
+    ld hl, _SCRN0 + SCRN_VX_B + $42  ; $9820
     ld a, [nCurKeys]           ; Load extra inputs
     ld b, a                    ; B holds nCurKeys (active-high)
 

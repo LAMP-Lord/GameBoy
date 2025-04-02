@@ -15,6 +15,7 @@ Memory_Copy::
     ret
 
 Memory_Fill::
+    ld a, d
     ld [hli], a
     dec bc
     ld a, b

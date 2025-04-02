@@ -13,11 +13,6 @@ Music_MainTheme::
     ld hl, MitA
     call hUGE_init
 
-    call Audio_hUGEDriverCh1
-    call Audio_hUGEDriverCh2
-    call Audio_hUGEDriverCh3
-    call Audio_hUGEDriverCh4
-
     ret
 
 SECTION "Audio      - SFX Functions", ROM0
@@ -35,10 +30,10 @@ SFX_Lazer::
 SECTION "Audio      - Channel Overrides", ROM0
 
 Audio_ResetChannels::
-    ; call Audio_hUGEDriverCh1
+    call Audio_hUGEDriverCh1
     call Audio_hUGEDriverCh2
-    ; call Audio_hUGEDriverCh3
-    ; call Audio_hUGEDriverCh4
+    call Audio_hUGEDriverCh3
+    call Audio_hUGEDriverCh4
     ret
 
 Audio_sMOLDriverCh1::
