@@ -1,0 +1,105 @@
+itWaveinst1:
+db 128
+db 32
+db 1
+dw 0
+db 192
+
+itWaveinst2:
+db 128
+db 32
+db 2
+dw 0
+db 192
+
+itWaveinst3:
+db 128
+db 32
+db 3
+dw 0
+db 192
+
+itWaveinst4:
+db 128
+db 32
+db 4
+dw 0
+db 192
+
+itWaveinst5:
+db 128
+db 32
+db 5
+dw 0
+db 192
+
+itWaveinst6:
+db 128
+db 32
+db 6
+dw 0
+db 192
+
+itWaveinst7:
+db 241
+db 32
+db 7
+dw 0
+db 192
+
+itWaveinst8:
+db 0
+db 32
+db 8
+dw 0
+db 128
+
+itWaveinst9:
+db 0
+db 32
+db 9
+dw 0
+db 128
+
+itWaveinst10:
+db 0
+db 32
+db 10
+dw 0
+db 128
+
+itWaveinst11:
+db 0
+db 32
+db 11
+dw 0
+db 128
+
+itWaveinst12:
+db 0
+db 32
+db 12
+dw 0
+db 128
+
+itWaveinst13:
+db 0
+db 32
+db 13
+dw 0
+db 128
+
+itWaveinst14:
+db 0
+db 32
+db 14
+dw 0
+db 128
+
+itWaveinst15:
+db 0
+db 32
+db 15
+dw 0
+db 128
+

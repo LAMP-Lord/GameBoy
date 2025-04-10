@@ -109,7 +109,7 @@ UI_PlaceBox::
     ret
 
 UI_PrintText::
-    ld de, $99E2
+    ld de, $9A01
 
 UI_PrintTextLoop:
     ld a, [hl+]

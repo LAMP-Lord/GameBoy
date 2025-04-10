@@ -59,14 +59,14 @@ EntryPoint:
     ld [UI_BoxWidth], a
     ld a, 2
     ld [UI_BoxHeight], a
-    ld hl, $9821
+    ld hl, $9800
     call UI_PlaceBox
 
     ld a, 12
     ld [UI_BoxWidth], a
     ld a, 1
     ld [UI_BoxHeight], a
-    ld hl, $99C1
+    ld hl, $99E0
     call UI_PlaceBox
 
     ld hl, TestText
@@ -97,7 +97,7 @@ TestText:
 SECTION "Display - Functions", ROM0
 DisplayInputs::
     ; --- Standard Inputs (Row 1 at $9800) ---
-    ld hl, _SCRN0 + $42          ; $9800
+    ld hl, _SCRN0 + $21          ; $9800
     ld a, [wCurKeys]       ; Load standard inputs
     ld b, a                ; B holds inverted wCurKeys
 
@@ -166,7 +166,7 @@ DisplayInputs::
     ld [hli], a
 
     ; --- Extra Inputs (Row 2 at $9820) ---
-    ld hl, _SCRN0 + SCRN_VX_B + $42  ; $9820
+    ld hl, _SCRN0 + SCRN_VX_B + $21  ; $9820
     ld a, [nCurKeys]           ; Load extra inputs
     ld b, a                    ; B holds nCurKeys (active-high)
 
