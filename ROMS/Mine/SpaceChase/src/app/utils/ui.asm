@@ -9,20 +9,39 @@ UI_BoxHeight:: db
 
 SECTION "UI         - Functions", ROM0
 
-FontTileData: INCBIN "generated/ui/text-font.2bpp"
-FontTileDataEnd:
+Font: INCBIN "generated/ui/text-font.2bpp"
+FontEnd:
 
-DisplayBoxTileData: INCBIN "generated/ui/display-box.2bpp"
-DisplayBoxTileDataEnd:
+DisplayBox: INCBIN "generated/ui/display-box.2bpp"
+DisplayBoxEnd:
+
+ButtonNormal: INCBIN "generated/ui/button-normal.2bpp"
+ButtonNormalEnd:
+ButtonSelected: INCBIN "generated/ui/button-selected.2bpp"
+ButtonSelectedEnd:
+ButtonPressed: INCBIN "generated/ui/button-pressed.2bpp"
+ButtonPressedEnd:
 
 UI_Load::
-    ld de, FontTileData
+    ld de, Font
     ld hl, _VRAM9000
-    ld bc, FontTileDataEnd - FontTileData 
+    ld bc, FontEnd - Font 
     call Memory_Copy
 
-    ld de, DisplayBoxTileData
-    ld bc, DisplayBoxTileDataEnd - DisplayBoxTileData 
+    ld de, DisplayBox
+    ld bc, DisplayBoxEnd - DisplayBox 
+    call Memory_Copy
+
+    ld de, ButtonNormal
+    ld bc, ButtonNormalEnd - ButtonNormal 
+    call Memory_Copy
+
+    ld de, ButtonSelected
+    ld bc, ButtonSelectedEnd - ButtonSelected 
+    call Memory_Copy
+
+    ld de, ButtonPressed
+    ld bc, ButtonPressedEnd - ButtonPressed 
     call Memory_Copy
 
     ret

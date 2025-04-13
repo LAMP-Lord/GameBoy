@@ -65,9 +65,14 @@ default: rom
 NEEDED_GRAPHICS = \
 	$(GEN_BACKGROUNDS)/star-field.tilemap \
 	$(GEN_BACKGROUNDS)/title-screen.tilemap \
+	\
 	$(GEN_UI)/text-font.2bpp \
 	$(GEN_UI)/display-box.2bpp \
-	$(GEN_UI)/module-base.2bpp
+	$(GEN_UI)/module-base.2bpp \
+	\
+	$(GEN_UI)/button-normal.2bpp \
+	$(GEN_UI)/button-selected.2bpp \
+	$(GEN_UI)/button-pressed.2bpp 
 	
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)

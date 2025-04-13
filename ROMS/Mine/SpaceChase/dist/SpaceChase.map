@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 6124 bytes used / 10260 free
+	ROM0: 6551 bytes used / 9833 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
 	WRAM0: 204 bytes used / 3892 free
 	HRAM: 8 bytes used / 119 free
@@ -292,53 +292,59 @@ ROM0 bank #0:
 	         $0ffc = tick_time.update_current_order
 	         $1004 = tick_time.noreset
 	         $1008 = note_table
-	SECTION: $1098-$1675 ($05de bytes) ["UI         - Functions"]
-	         $1098 = FontTileData
-	         $1598 = DisplayBoxTileData
-	         $1598 = FontTileDataEnd
-	         $1608 = UI_Load
-	         $1608 = DisplayBoxTileDataEnd
-	         $161e = UI_PlaceBox.uipb_init_toprow
-	         $161e = UI_PlaceBox
-	         $1625 = UI_PlaceBox.uipb_placetoprow
-	         $162b = UI_PlaceBox.uipb_topright
-	         $162e = UI_PlaceBox.uipb_init_walls
-	         $163d = UI_PlaceBox.uipb_placewalls
-	         $165e = UI_PlaceBox.uipb_init_bottomrow
-	         $1661 = UI_PlaceBox.uipb_placebottomrow
-	         $1667 = UI_PlaceBox.uipb_bottomright
-	         $166b = UI_PrintText
-	         $166e = UI_PrintTextLoop
-	SECTION: $1676-$1702 ($008d bytes) ["Display - Functions"]
-	         $1676 = DisplayInputs
-	         $1685 = DisplayInputs.set_a
-	         $168e = DisplayInputs.set_b
-	         $1697 = DisplayInputs.set_select
-	         $16a0 = DisplayInputs.set_start
-	         $16a9 = DisplayInputs.set_right
-	         $16b2 = DisplayInputs.set_left
-	         $16bb = DisplayInputs.set_up
-	         $16c4 = DisplayInputs.set_down
-	         $16d4 = DisplayInputs.set_x
-	         $16dd = DisplayInputs.set_y
-	         $16e6 = DisplayInputs.set_l
-	         $16ef = DisplayInputs.set_r
-	         $16f8 = DisplayInputs.set_l2
-	         $1701 = DisplayInputs.set_r2
-	SECTION: $1703-$1773 ($0071 bytes) ["Entry Point"]
-	         $1703 = EntryPoint
-	         $1769 = Loop
-	SECTION: $1774-$17cf ($005c bytes) ["Input      - Main"]
-	         $1774 = Input
-	         $17b3 = Input.onenibble
-	         $17c1 = Input.onenibble_extra
-	         $17cf = Input.knownret
-	SECTION: $17d0-$17f6 ($0027 bytes) ["InputUtils"]
-	         $17d0 = WaitForKeyFunction
-	         $17d1 = WaitForKeyFunction_Loop
-	         $17f1 = WaitForKeyFunction_NotPressed
-	EMPTY: $17f7-$3fff ($2809 bytes)
-	TOTAL EMPTY: $2814 bytes
+	SECTION: $1098-$1820 ($0789 bytes) ["UI         - Functions"]
+	         $1098 = Font
+	         $1598 = DisplayBox
+	         $1598 = FontEnd
+	         $1608 = ButtonNormal
+	         $1608 = DisplayBoxEnd
+	         $1688 = ButtonSelected
+	         $1688 = ButtonNormalEnd
+	         $1708 = ButtonPressed
+	         $1708 = ButtonSelectedEnd
+	         $1798 = ButtonPressedEnd
+	         $1798 = UI_Load
+	         $17c9 = UI_PlaceBox.uipb_init_toprow
+	         $17c9 = UI_PlaceBox
+	         $17d0 = UI_PlaceBox.uipb_placetoprow
+	         $17d6 = UI_PlaceBox.uipb_topright
+	         $17d9 = UI_PlaceBox.uipb_init_walls
+	         $17e8 = UI_PlaceBox.uipb_placewalls
+	         $1809 = UI_PlaceBox.uipb_init_bottomrow
+	         $180c = UI_PlaceBox.uipb_placebottomrow
+	         $1812 = UI_PlaceBox.uipb_bottomright
+	         $1816 = UI_PrintText
+	         $1819 = UI_PrintTextLoop
+	SECTION: $1821-$18ad ($008d bytes) ["Display - Functions"]
+	         $1821 = DisplayInputs
+	         $1830 = DisplayInputs.set_a
+	         $1839 = DisplayInputs.set_b
+	         $1842 = DisplayInputs.set_select
+	         $184b = DisplayInputs.set_start
+	         $1854 = DisplayInputs.set_right
+	         $185d = DisplayInputs.set_left
+	         $1866 = DisplayInputs.set_up
+	         $186f = DisplayInputs.set_down
+	         $187f = DisplayInputs.set_x
+	         $1888 = DisplayInputs.set_y
+	         $1891 = DisplayInputs.set_l
+	         $189a = DisplayInputs.set_r
+	         $18a3 = DisplayInputs.set_l2
+	         $18ac = DisplayInputs.set_r2
+	SECTION: $18ae-$191e ($0071 bytes) ["Entry Point"]
+	         $18ae = EntryPoint
+	         $1914 = Loop
+	SECTION: $191f-$197a ($005c bytes) ["Input      - Main"]
+	         $191f = Input
+	         $195e = Input.onenibble
+	         $196c = Input.onenibble_extra
+	         $197a = Input.knownret
+	SECTION: $197b-$19a1 ($0027 bytes) ["InputUtils"]
+	         $197b = WaitForKeyFunction
+	         $197c = WaitForKeyFunction_Loop
+	         $199c = WaitForKeyFunction_NotPressed
+	EMPTY: $19a2-$3fff ($265e bytes)
+	TOTAL EMPTY: $2669 bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
