@@ -15,12 +15,11 @@ FontEnd:
 DisplayBox: INCBIN "generated/ui/display-box.2bpp"
 DisplayBoxEnd:
 
-ButtonNormal: INCBIN "generated/ui/button-normal.2bpp"
-ButtonNormalEnd:
-ButtonSelected: INCBIN "generated/ui/button-selected.2bpp"
-ButtonSelectedEnd:
-ButtonPressed: INCBIN "generated/ui/button-pressed.2bpp"
-ButtonPressedEnd:
+Buttons: INCBIN "generated/ui/buttons.2bpp"
+ButtonsEnd:
+
+MainMenu: INCBIN "generated/backgrounds/title-screen.2bpp"
+MainMenuEnd:
 
 UI_Load::
     ld de, Font
@@ -32,40 +31,40 @@ UI_Load::
     ld bc, DisplayBoxEnd - DisplayBox 
     call Memory_Copy
 
-    ld de, ButtonNormal
-    ld bc, ButtonNormalEnd - ButtonNormal 
-    call Memory_Copy
-
-    ld de, ButtonSelected
-    ld bc, ButtonSelectedEnd - ButtonSelected 
-    call Memory_Copy
-
-    ld de, ButtonPressed
-    ld bc, ButtonPressedEnd - ButtonPressed 
+    ld de, Buttons
+    ld bc, ButtonsEnd - Buttons 
     call Memory_Copy
 
     ret
 
+UI_LoadMainMenu::
+    ld de, MainMenu
+    ld hl, _VRAM8800
+    ld bc, MainMenuEnd - MainMenu
+    call Memory_copy
+
+    ret
+
 UI_PlaceBox::
-.uipb_init_toprow
+.init_toprow
     ld a, [UI_BoxWidth]
     ld b, a
 
     ld a, DISPLAYBOX_TOPLEFT
     ld [hl+], a
 
-.uipb_placetoprow
+.placetoprow
     ld a, DISPLAYBOX_TOP
     ld [hl+], a
 
     dec b
-    jr nz, .uipb_placetoprow
+    jr nz, .placetoprow
 
-.uipb_topright
+.topright
     ld a, DISPLAYBOX_TOPRIGHT
     ld [hl], a
 
-.uipb_init_walls
+.init_walls
     ld a, [UI_BoxWidth]
     ld b, a
 
@@ -79,7 +78,7 @@ UI_PlaceBox::
     ld a, [UI_BoxHeight]
     ld c, a
 
-.uipb_placewalls:
+.placewalls:
     ld a, DISPLAYBOX_WALL
     ld [hl], a
 
@@ -107,21 +106,21 @@ UI_PlaceBox::
     add hl, de
 
     dec c
-    jr nz, .uipb_placewalls
+    jr nz, .placewalls
 
-.uipb_init_bottomrow
+.init_bottomrow
 
     ld a, DISPLAYBOX_BOTTOMLEFT
     ld [hl+], a
 
-.uipb_placebottomrow
+.placebottomrow
     ld a, DISPLAYBOX_BOTTOM
     ld [hl+], a
 
     dec b
-    jr nz, .uipb_placebottomrow
+    jr nz, .placebottomrow
 
-.uipb_bottomright
+.bottomright
     ld a, DISPLAYBOX_BOTTOMRIGHT
     ld [hl], a
     
@@ -130,7 +129,7 @@ UI_PlaceBox::
 UI_PrintText::
     ld de, $9A01
 
-UI_PrintTextLoop:
+PrintTextLoop:
     ld a, [hl+]
     cp 255
     ret z
@@ -138,4 +137,44 @@ UI_PrintTextLoop:
     ld [de], a
     inc de
 
-    jr UI_PrintTextLoop
+    jr PrintTextLoop
+
+
+UI_PlaceButton::
+    ld d, $57
+    ld hl, $98A1
+    
+    call .placetile
+    call .placetile
+    call .placetile
+    call .nextrow
+
+    call .placetile
+    ld d, $58
+    ld [hl], d
+    inc hl
+    ld d, $5B
+    call .placetile
+    call .nextrow
+    
+    call .placetile
+    call .placetile
+    call .placetile
+
+    ret
+
+.placetile
+    ld [hl], d
+    inc hl
+    inc d
+    ret
+
+.nextrow
+    push de
+    ld de, SCRN_VX_B
+    add hl, de
+    ld a, l
+    sub a, $3
+    ld l, a
+    pop de
+    ret

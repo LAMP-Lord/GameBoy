@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 6551 bytes used / 9833 free
+	ROM0: 6655 bytes used / 9729 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
 	WRAM0: 204 bytes used / 3892 free
 	HRAM: 8 bytes used / 119 free
@@ -27,13 +27,11 @@ ROM0 bank #0:
 	         $00a8 = Audio_hUGEDriverCh2
 	         $00b7 = Audio_hUGEDriverCh3
 	         $00cb = Audio_hUGEDriverCh4
-	SECTION: $00da-$00e6 ($000d bytes) ["Test       - Text"]
-	         $00da = TestText
-	SECTION: $00e7-$00f2 ($000c bytes) ["Audio      - Music Functions"]
-	         $00e7 = Music_MainTheme
-	SECTION: $00f3-$00fc ($000a bytes) ["Audio      - SFX Functions"]
-	         $00f3 = SFX_Lazer
-	EMPTY: $00fd-$00ff ($0003 bytes)
+	SECTION: $00da-$00fd ($0024 bytes) ["InputUtils"]
+	         $00da = WaitForKeyFunction
+	         $00db = WaitForKeyFunction_Loop
+	         $00f8 = WaitForKeyFunction_NotPressed
+	EMPTY: $00fe-$00ff ($0002 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -292,59 +290,62 @@ ROM0 bank #0:
 	         $0ffc = tick_time.update_current_order
 	         $1004 = tick_time.noreset
 	         $1008 = note_table
-	SECTION: $1098-$1820 ($0789 bytes) ["UI         - Functions"]
+	SECTION: $1098-$1817 ($0780 bytes) ["UI         - Functions"]
 	         $1098 = Font
 	         $1598 = DisplayBox
 	         $1598 = FontEnd
-	         $1608 = ButtonNormal
+	         $1608 = Buttons
 	         $1608 = DisplayBoxEnd
-	         $1688 = ButtonSelected
-	         $1688 = ButtonNormalEnd
-	         $1708 = ButtonPressed
-	         $1708 = ButtonSelectedEnd
-	         $1798 = ButtonPressedEnd
-	         $1798 = UI_Load
-	         $17c9 = UI_PlaceBox.uipb_init_toprow
-	         $17c9 = UI_PlaceBox
-	         $17d0 = UI_PlaceBox.uipb_placetoprow
-	         $17d6 = UI_PlaceBox.uipb_topright
-	         $17d9 = UI_PlaceBox.uipb_init_walls
-	         $17e8 = UI_PlaceBox.uipb_placewalls
-	         $1809 = UI_PlaceBox.uipb_init_bottomrow
-	         $180c = UI_PlaceBox.uipb_placebottomrow
-	         $1812 = UI_PlaceBox.uipb_bottomright
-	         $1816 = UI_PrintText
-	         $1819 = UI_PrintTextLoop
-	SECTION: $1821-$18ad ($008d bytes) ["Display - Functions"]
-	         $1821 = DisplayInputs
-	         $1830 = DisplayInputs.set_a
-	         $1839 = DisplayInputs.set_b
-	         $1842 = DisplayInputs.set_select
-	         $184b = DisplayInputs.set_start
-	         $1854 = DisplayInputs.set_right
-	         $185d = DisplayInputs.set_left
-	         $1866 = DisplayInputs.set_up
-	         $186f = DisplayInputs.set_down
-	         $187f = DisplayInputs.set_x
-	         $1888 = DisplayInputs.set_y
-	         $1891 = DisplayInputs.set_l
-	         $189a = DisplayInputs.set_r
-	         $18a3 = DisplayInputs.set_l2
-	         $18ac = DisplayInputs.set_r2
-	SECTION: $18ae-$191e ($0071 bytes) ["Entry Point"]
-	         $18ae = EntryPoint
-	         $1914 = Loop
-	SECTION: $191f-$197a ($005c bytes) ["Input      - Main"]
-	         $191f = Input
-	         $195e = Input.onenibble
-	         $196c = Input.onenibble_extra
-	         $197a = Input.knownret
-	SECTION: $197b-$19a1 ($0027 bytes) ["InputUtils"]
-	         $197b = WaitForKeyFunction
-	         $197c = WaitForKeyFunction_Loop
-	         $199c = WaitForKeyFunction_NotPressed
-	EMPTY: $19a2-$3fff ($265e bytes)
-	TOTAL EMPTY: $2669 bytes
+	         $1768 = UI_Load
+	         $1768 = ButtonsEnd
+	         $1787 = UI_PlaceBox.init_toprow
+	         $1787 = UI_PlaceBox
+	         $178e = UI_PlaceBox.placetoprow
+	         $1794 = UI_PlaceBox.topright
+	         $1797 = UI_PlaceBox.init_walls
+	         $17a6 = UI_PlaceBox.placewalls
+	         $17c7 = UI_PlaceBox.init_bottomrow
+	         $17ca = UI_PlaceBox.placebottomrow
+	         $17d0 = UI_PlaceBox.bottomright
+	         $17d4 = UI_PrintText
+	         $17d7 = PrintTextLoop
+	         $17df = UI_PlaceButton
+	         $1809 = UI_PlaceButton.placetile
+	         $180d = UI_PlaceButton.nextrow
+	SECTION: $1818-$18fc ($00e5 bytes) ["Entry Point"]
+	         $1818 = EntryPoint
+	         $1881 = Loop
+	         $18ee = Loop.placetile
+	         $18f2 = Loop.nextrow
+	SECTION: $18fd-$1989 ($008d bytes) ["Display - Functions"]
+	         $18fd = DisplayInputs
+	         $190c = DisplayInputs.set_a
+	         $1915 = DisplayInputs.set_b
+	         $191e = DisplayInputs.set_select
+	         $1927 = DisplayInputs.set_start
+	         $1930 = DisplayInputs.set_right
+	         $1939 = DisplayInputs.set_left
+	         $1942 = DisplayInputs.set_up
+	         $194b = DisplayInputs.set_down
+	         $195b = DisplayInputs.set_x
+	         $1964 = DisplayInputs.set_y
+	         $196d = DisplayInputs.set_l
+	         $1976 = DisplayInputs.set_r
+	         $197f = DisplayInputs.set_l2
+	         $1988 = DisplayInputs.set_r2
+	SECTION: $198a-$19e5 ($005c bytes) ["Input      - Main"]
+	         $198a = Input
+	         $19c9 = Input.onenibble
+	         $19d7 = Input.onenibble_extra
+	         $19e5 = Input.knownret
+	SECTION: $19e6-$19f2 ($000d bytes) ["Test       - Text"]
+	         $19e6 = TestText
+	SECTION: $19f3-$19fe ($000c bytes) ["Audio      - Music Functions"]
+	         $19f3 = Music_MainTheme
+	SECTION: $19ff-$1a08 ($000a bytes) ["Audio      - SFX Functions"]
+	         $19ff = SFX_Lazer
+	EMPTY: $1a09-$3fff ($25f7 bytes)
+	TOTAL EMPTY: $2601 bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]

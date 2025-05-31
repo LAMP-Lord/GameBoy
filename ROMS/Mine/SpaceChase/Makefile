@@ -70,9 +70,7 @@ NEEDED_GRAPHICS = \
 	$(GEN_UI)/display-box.2bpp \
 	$(GEN_UI)/module-base.2bpp \
 	\
-	$(GEN_UI)/button-normal.2bpp \
-	$(GEN_UI)/button-selected.2bpp \
-	$(GEN_UI)/button-pressed.2bpp 
+	$(GEN_UI)/buttons.2bpp
 	
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)

@@ -46,9 +46,6 @@ WaitForKeyFunction_Loop:
 
     ; restore our original value
     pop bc
-
-    call SFX_Lazer
-
     ret
 
 

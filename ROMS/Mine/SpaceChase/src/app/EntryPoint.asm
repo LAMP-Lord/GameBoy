@@ -72,6 +72,8 @@ EntryPoint:
     ld hl, TestText
     call UI_PrintText
 
+    call UI_PlaceButton
+
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
     ld [rLCDC], a
 
@@ -80,12 +82,83 @@ EntryPoint:
 
     call Music_MainTheme
 
+    call UI_LoadMainMenu
+
 Loop:
     ld a, PADF_A
     ld [mWaitKey], a
     call WaitForKeyFunction
 
+    call SFX_Lazer
+
+    ld d, $67
+    ld hl, $98A1
+    
+    call .placetile
+    call .placetile
+    call .placetile
+    call .nextrow
+
+    ld d, $62
+    ld [hl], d
+    inc hl
+
+    ld d, $60
+    ld [hl], d
+    inc hl
+
+    ld d, $63
+    ld [hl], d
+    inc hl
+
+    ld d, $6A
+    call .nextrow
+    
+    call .placetile
+    call .placetile
+    call .placetile
+
+    ld a, PADF_A
+    ld [mWaitKey], a
+    call WaitForKeyFunction
+
+    ld d, $57
+    ld hl, $98A1
+    
+    call .placetile
+    call .placetile
+    call .placetile
+    call .nextrow
+
+    call .placetile
+    ld d, $58
+    ld [hl], d
+    inc hl
+    ld d, $5B
+    call .placetile
+    call .nextrow
+    
+    call .placetile
+    call .placetile
+    call .placetile
+
     jp Loop
+
+.placetile
+    ld [hl], d
+    inc hl
+    inc d
+    ret
+
+.nextrow
+    push de
+    ld de, SCRN_VX_B
+    add hl, de
+    ld a, l
+    sub a, $3
+    ld l, a
+    pop de
+    ret
 
 
 
