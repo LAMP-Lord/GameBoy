@@ -7,7 +7,7 @@ SECTION "UI         - Rendering Variables", WRAM0
 UI_BoxWidth:: db
 UI_BoxHeight:: db
 
-SECTION "UI         - Functions", ROM0
+SECTION "UI         - Data", ROM0
 
 Font: INCBIN "generated/ui/text-font.2bpp"
 FontEnd:
@@ -20,6 +20,8 @@ ButtonsEnd:
 
 MainMenu: INCBIN "generated/backgrounds/title-screen.2bpp"
 MainMenuEnd:
+
+SECTION "UI         - Functions", ROM0
 
 UI_Load::
     ld de, Font
@@ -35,13 +37,10 @@ UI_Load::
     ld bc, ButtonsEnd - Buttons 
     call Memory_Copy
 
-    ret
-
-UI_LoadMainMenu::
     ld de, MainMenu
     ld hl, _VRAM8800
     ld bc, MainMenuEnd - MainMenu
-    call Memory_copy
+    call Memory_Copy
 
     ret
 
@@ -127,9 +126,6 @@ UI_PlaceBox::
     ret
 
 UI_PrintText::
-    ld de, $9A01
-
-PrintTextLoop:
     ld a, [hl+]
     cp 255
     ret z
@@ -137,44 +133,117 @@ PrintTextLoop:
     ld [de], a
     inc de
 
-    jr PrintTextLoop
+    jr UI_PrintText
 
+; -- OLD BUTTONS --
 
-UI_PlaceButton::
-    ld d, $57
-    ld hl, $98A1
+; UI_PlaceActiveButton::
+;     push hl
+;     call Int_WaitForVBlank
+;     pop hl
+
+;     ld d, $57
+;     call placetile
+;     call placetile
+;     call placetile
+
+;     ld bc, SCRN_VX_B - $3
+;     add hl, bc
+
+;     ld d, $5A
+;     call placetile
+;     ld d, $58
+;     call placetile
+;     ld d, $5B
+;     call placetile
+
+;     ld bc, SCRN_VX_B - $3
+;     add hl, bc
+
+;     call placetile
+;     call placetile
+;     call placetile
+
+;     ret
+
+; UI_PlacePassiveButton::
+;     push hl
+;     call Int_WaitForVBlank
+;     pop hl
+
+;     ld d, $5F
+;     call placetile
+;     call placetile
+;     call placetile
+
+;     ld bc, SCRN_VX_B - $3
+;     add hl, bc
+
+;     call placetile
+;     ld d, $60
+;     call placetile
+;     ld d, $63
+;     call placetile
+
+;     ld bc, SCRN_VX_B - $3
+;     add hl, bc
+
+;     call placetile
+;     call placetile
+;     call placetile
+
+;     ret
+
+; UI_PlacePressedButton::
+;     push hl
+;     call Int_WaitForVBlank
+;     pop hl
+
+;     ld d, $67
+;     call placetile
+;     call placetile
+;     call placetile
+
+;     ld bc, SCRN_VX_B - $3
+;     add hl, bc
+
+;     ld d, $62
+;     call placetile
+;     ld d, $60
+;     call placetile
+;     ld d, $63
+;     call placetile
+
+;     ld bc, SCRN_VX_B - $3
+;     add hl, bc
+
+;     ld d, $6A
+;     call placetile
+;     call placetile
+;     call placetile
     
-    call .placetile
-    call .placetile
-    call .placetile
-    call .nextrow
+;     ret
 
-    call .placetile
+; placetile:
+;     ld [hl], d
+;     inc hl
+;     inc d
+
+;     ret
+
+; -- NEW BUTTONS --
+
+UI_PlaceActiveButton::
+    ld d, $57
+    ld [hl], d
+    ret
+
+UI_PlacePassiveButton::
     ld d, $58
     ld [hl], d
-    inc hl
-    ld d, $5B
-    call .placetile
-    call .nextrow
-    
-    call .placetile
-    call .placetile
-    call .placetile
-
     ret
 
-.placetile
+UI_PlacePressedButton::
+    ld d, $59
     ld [hl], d
-    inc hl
-    inc d
-    ret
-
-.nextrow
-    push de
-    ld de, SCRN_VX_B
-    add hl, de
-    ld a, l
-    sub a, $3
-    ld l, a
-    pop de
     ret

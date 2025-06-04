@@ -44,8 +44,9 @@ Int_WaitForVBlank::
     call hUGE_dosound
     call sMOL_dosound
 
-    call Input
+    call Input_Query
     call DisplayInputs
+    call Input_ProcessActions
 
     halt
     ret

@@ -1,31 +1,9 @@
 INCLUDE "include/hardware.inc"
 INCLUDE "include/charmap.inc"
 
-SECTION "ROM Header", ROM0[$100]
-    nop
-    jp EntryPoint
-
-    NintendoLogo:	; DO NOT MODIFY!!!
-        db	$ce,$ed,$66,$66,$cc,$0d,$00,$0b,$03,$73,$00,$83,$00,$0c,$00,$0d
-        db	$00,$08,$11,$1f,$88,$89,$00,$0e,$dc,$cc,$6e,$e6,$dd,$dd,$d9,$99
-        db	$bb,$bb,$67,$63,$6e,$0e,$ec,$cc,$dd,$dc,$99,$9f,$bb,$b9,$33,$3e
-
-    ROMTitle:		db	"SPACECHASE",0,0,0,0,0			; ROM title (15 bytes)
-    GBCSupport:		db	0								; GBC support (0 = DMG only, $80 = DMG/GBC, $C0 = GBC only)
-    NewLicenseCode:	db	"  "							; new license code (2 bytes)
-    SGBSupport:		db	0								; SGB support
-    CartType:		db	$03								; Cart type (MBC1 + RAM + Battery)
-    ROMSize:		ds	1								; ROM size (handled by post-linking tool)
-    RAMSize:		ds	1								; RAM size
-    DestCode:		db	1								; Destination code (0 = Japan, 1 = All others)
-    OldLicenseCode:	db	$33								; Old license code (if $33, check new license code)
-    ROMVersion:		db	0								; ROM version
-    HeaderChecksum:	ds	1								; Header checksum (handled by post-linking tool)
-    ROMChecksum:	ds	2								; ROM checksum (2 bytes) (handled by post-linking tool)
-
 SECTION "Entry Point", ROM0
 
-EntryPoint:
+EntryPoint::
     ld a, LCDCF_OFF
     ld [rLCDC], a
 
@@ -40,15 +18,17 @@ EntryPoint:
     ld d, $00                     ; Blank tile
     call Memory_Fill
 
-    ld a, 1
+    ld a, 0
     ld [OnCart], a
 
     ; Initialize input variables
     xor a
-    ld [wCurKeys], a
-    ld [wNewKeys], a
-    ld [nCurKeys], a
-    ld [nNewKeys], a
+    ld [sCurKeys], a
+    ld [sNewKeys], a
+    ld [eCurKeys], a
+    ld [eNewKeys], a
+
+    call Input_ResetActionTable
 
     ld a, $1
     ld [sMOL_Bank], a
@@ -69,109 +49,101 @@ EntryPoint:
     ld hl, $99E0
     call UI_PlaceBox
 
-    ld hl, TestText
-    call UI_PrintText
-
-    call UI_PlaceButton
-
-    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
-    ld [rLCDC], a
-
     ld hl, SFX
     call sMOL_init
 
     call Music_MainTheme
 
-    call UI_LoadMainMenu
+    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
+    ld [rLCDC], a
+
+    call Int_WaitForVBlank
+
+    ld de, $9A01
+    ld hl, TestText
+    call UI_PrintText
+
+    ld de, $98A3
+    ld hl, Item1
+    call UI_PrintText
+    ld de, $98E3
+    ld hl, Item2
+    call UI_PrintText
+    ld de, $9923
+    ld hl, Item3
+    call UI_PrintText
+    ld de, $9963
+    ld hl, Item4
+    call UI_PrintText
+
+    ld hl, $98A1
+    call UI_PlaceActiveButton
+
+    ld hl, $98E1
+    call UI_PlacePassiveButton
+
+    ld hl, $9921
+    call UI_PlacePassiveButton
+
+    ld hl, $9961
+    call UI_PlacePassiveButton
+
+    ld a, LOW(ActionTest)
+    ld [ActionA], a
+    ld a, HIGH(ActionTest)
+    ld [ActionA + 1], a
 
 Loop:
-    ld a, PADF_A
-    ld [mWaitKey], a
-    call WaitForKeyFunction
+    ; ld a, PADF_A
+    ; ld [WaitKeys], a
+    ; call Input_WaitForKeyPress
 
-    call SFX_Lazer
+    ; call SFX_Lazer
 
-    ld d, $67
-    ld hl, $98A1
-    
-    call .placetile
-    call .placetile
-    call .placetile
-    call .nextrow
+    ; call Int_WaitForVBlank
+    ; ld hl, $98A1
+    ; call UI_PlacePressedButton
 
-    ld d, $62
-    ld [hl], d
-    inc hl
+    ; ld a, PADF_A
+    ; ld [WaitKeys], a
+    ; call Input_WaitForKeyPress
 
-    ld d, $60
-    ld [hl], d
-    inc hl
+    ; call Int_WaitForVBlank
+    ; ld hl, $98A1
+    ; call UI_PlaceActiveButton
 
-    ld d, $63
-    ld [hl], d
-    inc hl
-
-    ld d, $6A
-    call .nextrow
-    
-    call .placetile
-    call .placetile
-    call .placetile
-
-    ld a, PADF_A
-    ld [mWaitKey], a
-    call WaitForKeyFunction
-
-    ld d, $57
-    ld hl, $98A1
-    
-    call .placetile
-    call .placetile
-    call .placetile
-    call .nextrow
-
-    call .placetile
-    ld d, $58
-    ld [hl], d
-    inc hl
-    ld d, $5B
-    call .placetile
-    call .nextrow
-    
-    call .placetile
-    call .placetile
-    call .placetile
+    call Int_WaitForVBlank
 
     jp Loop
 
-.placetile
-    ld [hl], d
-    inc hl
-    inc d
+ActionTest:
+    ld hl, $98A1
+    call UI_PlacePressedButton
     ret
-
-.nextrow
-    push de
-    ld de, SCRN_VX_B
-    add hl, de
-    ld a, l
-    sub a, $3
-    ld l, a
-    pop de
-    ret
-
 
 
 SECTION "Test       - Text", ROM0
 TestText:
     db "sigma gaming", 255
 
+Item1:
+    db "Selected Item", 255
+
+Item2:
+    db "Happy", 255
+
+Item3:
+    db "Sad", 255
+
+Item4:
+    db "Angry", 255
+
 
 SECTION "Display - Functions", ROM0
 DisplayInputs::
     ; --- Standard Inputs (Row 1 at $9800) ---
     ld hl, _SCRN0 + $21          ; $9800
-    ld a, [wCurKeys]       ; Load standard inputs
+    ld a, [sCurKeys]       ; Load standard inputs
     ld b, a                ; B holds inverted wCurKeys
 
     ; A (bit 0)
@@ -240,7 +212,7 @@ DisplayInputs::
 
     ; --- Extra Inputs (Row 2 at $9820) ---
     ld hl, _SCRN0 + SCRN_VX_B + $21  ; $9820
-    ld a, [nCurKeys]           ; Load extra inputs
+    ld a, [eCurKeys]           ; Load extra inputs
     ld b, a                    ; B holds nCurKeys (active-high)
 
     ; X (bit 0)
