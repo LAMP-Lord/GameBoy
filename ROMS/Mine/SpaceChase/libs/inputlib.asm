@@ -9,6 +9,12 @@ include "include/hardware.inc"
 SECTION "Input      - Main", ROM0
 
 Input_Query::
+  ; Update old values
+  ld a, [sCurKeys]
+  ld [sOldKeys], a
+  ld a, [eCurKeys]
+  ld [eOldKeys], a
+
   ; Poll standard inputs (A, B, Select, Start, D-pad)
   ld a, P1F_GET_BTN
   call .onenibble

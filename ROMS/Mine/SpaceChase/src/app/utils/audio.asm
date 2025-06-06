@@ -8,9 +8,9 @@ sMOL_Bank:: db
 SECTION "Audio      - Music Functions", ROM0
 
 Music_MainTheme::
-    ld a, $2
+    ld a, $3
     ld [hUGE_Bank], a
-    ld hl, MitA
+    ld hl, Softworld
     call hUGE_init
 
     ret
@@ -41,7 +41,6 @@ Audio_sMOLDriverCh1::
     ld c, $1
     call hUGE_mute_channel
 
-    ld b, $0
     ld c, $0
     call sMOL_mute_channel
 
@@ -52,7 +51,6 @@ Audio_sMOLDriverCh2::
     ld c, $1
     call hUGE_mute_channel
 
-    ld b, $1
     ld c, $0
     call sMOL_mute_channel
 
@@ -66,7 +64,6 @@ Audio_sMOLDriverCh3::
     ld c, $1
     call hUGE_mute_channel
 
-    ld b, $2
     ld c, $0
     call sMOL_mute_channel
 
@@ -77,7 +74,6 @@ Audio_sMOLDriverCh4::
     ld c, $1
     call hUGE_mute_channel
 
-    ld b, $3
     ld c, $0
     call sMOL_mute_channel
 
@@ -88,7 +84,6 @@ Audio_hUGEDriverCh1::
     ld c, $0
     call hUGE_mute_channel
 
-    ld b, $0
     ld c, $1
     call sMOL_mute_channel
 
@@ -99,7 +94,6 @@ Audio_hUGEDriverCh2::
     ld c, $0
     call hUGE_mute_channel
 
-    ld b, $1
     ld c, $1
     call sMOL_mute_channel
 
@@ -113,7 +107,6 @@ Audio_hUGEDriverCh3::
     ld c, $0
     call hUGE_mute_channel
 
-    ld b, $2
     ld c, $1
     call sMOL_mute_channel
 
@@ -124,7 +117,6 @@ Audio_hUGEDriverCh4::
     ld c, $0
     call hUGE_mute_channel
 
-    ld b, $3
     ld c, $1
     call sMOL_mute_channel
 

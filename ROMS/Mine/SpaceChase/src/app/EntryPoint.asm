@@ -10,16 +10,11 @@ EntryPoint::
     ld a, %11_10_01_00
     ld [rBGP], a
 
-    call UI_Load
-
-    ; Clear screen (tile map at $9800)
+    ; Clear screen
     ld hl, _SCRN0
-    ld bc, SCRN_VX_B * SCRN_VY_B  ; 32x32 tiles = 1024 bytes
-    ld d, $00                     ; Blank tile
+    ld bc, SCRN_VX_B * SCRN_VY_B
+    ld d, $00
     call Memory_Fill
-
-    ld a, 0
-    ld [OnCart], a
 
     ; Initialize input variables
     xor a
@@ -27,14 +22,23 @@ EntryPoint::
     ld [sNewKeys], a
     ld [eCurKeys], a
     ld [eNewKeys], a
-
     call Input_ResetActionTable
 
-    ld a, $1
-    ld [sMOL_Bank], a
+    ; Load stuff into memory
+    call UI_Load
 
+    ; Set interrupts
     call Int_InitInterrupts
 
+    ; Set up audio
+    ld a, $1
+    ld [sMOL_Bank], a
+    ld hl, SFX
+    call sMOL_init
+    call Music_MainTheme
+    call Audio_ResetChannels
+
+    ; Place testing boxes
     ld a, 8
     ld [UI_BoxWidth], a
     ld a, 2
@@ -48,16 +52,6 @@ EntryPoint::
     ld [UI_BoxHeight], a
     ld hl, $99E0
     call UI_PlaceBox
-
-    ld hl, SFX
-    call sMOL_init
-
-    call Music_MainTheme
-
-    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
-    ld [rLCDC], a
-
-    call Int_WaitForVBlank
 
     ld de, $9A01
     ld hl, TestText
@@ -88,37 +82,362 @@ EntryPoint::
     ld hl, $9961
     call UI_PlacePassiveButton
 
-    ld a, LOW(ActionTest)
-    ld [ActionA], a
-    ld a, HIGH(ActionTest)
-    ld [ActionA + 1], a
+    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
+    ld [rLCDC], a
+
+    call InitInputs
 
 Loop:
-    ; ld a, PADF_A
-    ; ld [WaitKeys], a
-    ; call Input_WaitForKeyPress
-
-    ; call SFX_Lazer
-
-    ; call Int_WaitForVBlank
-    ; ld hl, $98A1
-    ; call UI_PlacePressedButton
-
-    ; ld a, PADF_A
-    ; ld [WaitKeys], a
-    ; call Input_WaitForKeyPress
-
-    ; call Int_WaitForVBlank
-    ; ld hl, $98A1
-    ; call UI_PlaceActiveButton
-
     call Int_WaitForVBlank
-
     jp Loop
 
-ActionTest:
-    ld hl, $98A1
-    call UI_PlacePressedButton
+; SetButton:
+;     ld hl, $98A1
+;     call UI_PlacePressedButton
+
+;     call Input_ResetPressActionTable
+
+;     ld a, LOW(UnsetButton)
+;     ld [ReleaseAction_A], a
+;     ld a, HIGH(UnsetButton)
+;     ld [ReleaseAction_A + 1], a
+
+;     ret
+
+; UnsetButton:
+;     ld hl, $98A1
+;     call UI_PlaceActiveButton
+
+;     call Input_ResetReleaseActionTable
+
+;     ld a, LOW(SetButton)
+;     ld [PressAction_A], a
+;     ld a, HIGH(SetButton)
+;     ld [PressAction_A + 1], a
+
+;     ret
+
+InitInputs:
+    ld a, LOW(AOn)
+    ld [PressAction_A], a
+    ld a, HIGH(AOn)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_B], a
+    ld a, HIGH(AOn)
+    ld [PressAction_B + 1], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_Select], a
+    ld a, HIGH(AOn)
+    ld [PressAction_Select + 1], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_Start], a
+    ld a, HIGH(AOn)
+    ld [PressAction_Start + 1], a
+
+
+
+    ld a, LOW(AOn)
+    ld [PressAction_Up], a
+    ld a, HIGH(AOn)
+    ld [PressAction_Up + 1], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_Down], a
+    ld a, HIGH(AOn)
+    ld [PressAction_Down + 1], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_Left], a
+    ld a, HIGH(AOn)
+    ld [PressAction_Left + 1], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_Right], a
+    ld a, HIGH(AOn)
+    ld [PressAction_Right + 1], a
+
+    ret
+
+AOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+AOff:
+    ld hl, $9821
+    ld a, $0
+    ld [hl], a
+
+    ld a, LOW(AOn)
+    ld [PressAction_A], a
+    ld a, HIGH(AOn)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(NopFunction)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+BOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+BOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+
+SelectOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+SelectOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+
+StartOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+StartOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+
+UpOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+UpOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+
+DownOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+DownOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+
+LeftOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+LeftOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+
+RightOn:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
+    ret
+
+RightOff:
+    ld hl, $9821
+    ld a, $1C
+    ld [hl], a
+
+    ld a, LOW(NopFunction)
+    ld [PressAction_A], a
+    ld a, HIGH(NopFunction)
+    ld [PressAction_A + 1], a
+
+    ld a, LOW(AOff)
+    ld [ReleaseAction_A], a
+    ld a, HIGH(AOff)
+    ld [ReleaseAction_A + 1], a
+
     ret
 
 
@@ -137,130 +456,3 @@ Item3:
 
 Item4:
     db "Angry", 255
-
-
-SECTION "Display - Functions", ROM0
-DisplayInputs::
-    ; --- Standard Inputs (Row 1 at $9800) ---
-    ld hl, _SCRN0 + $21          ; $9800
-    ld a, [sCurKeys]       ; Load standard inputs
-    ld b, a                ; B holds inverted wCurKeys
-
-    ; A (bit 0)
-    bit PADB_A, b          ; Test bit 0
-    ld a, "A" & $FF
-    jr nz, .set_a          ; Bit = 1 -> pressed
-    ld a, " " & $FF
-.set_a:
-    ld [hli], a
-
-    ; B (bit 1)
-    bit PADB_B, b
-    ld a, "B" & $FF
-    jr nz, .set_b
-    ld a, " "
-.set_b:
-    ld [hli], a
-
-    ; Select (bit 2)
-    bit PADB_SELECT, b
-    ld a, "S" & $FF
-    jr nz, .set_select
-    ld a, " "
-.set_select:
-    ld [hli], a
-
-    ; Start (bit 3)
-    bit PADB_START, b
-    ld a, "T" & $FF
-    jr nz, .set_start
-    ld a, " "
-.set_start:
-    ld [hli], a
-
-    ; Right (bit 4)
-    bit PADB_RIGHT, b
-    ld a, "R" & $FF
-    jr nz, .set_right
-    ld a, " "
-.set_right:
-    ld [hli], a
-
-    ; Left (bit 5)
-    bit PADB_LEFT, b
-    ld a, "L" & $FF
-    jr nz, .set_left
-    ld a, " "
-.set_left:
-    ld [hli], a
-
-    ; Up (bit 6)
-    bit PADB_UP, b
-    ld a, "U" & $FF
-    jr nz, .set_up
-    ld a, " "
-.set_up:
-    ld [hli], a
-
-    ; Down (bit 7)
-    bit PADB_DOWN, b
-    ld a, "D" & $FF
-    jr nz, .set_down
-    ld a, " "
-.set_down:
-    ld [hli], a
-
-    ; --- Extra Inputs (Row 2 at $9820) ---
-    ld hl, _SCRN0 + SCRN_VX_B + $21  ; $9820
-    ld a, [eCurKeys]           ; Load extra inputs
-    ld b, a                    ; B holds nCurKeys (active-high)
-
-    ; X (bit 0)
-    bit 0, b
-    ld a, "X" & $FF
-    jr nz, .set_x          ; Bit = 1 -> pressed
-    ld a, " "
-.set_x:
-    ld [hli], a
-
-    ; Y (bit 1)
-    bit 1, b
-    ld a, "Y" & $FF
-    jr nz, .set_y
-    ld a, " "
-.set_y:
-    ld [hli], a
-
-    ; L (bit 4)
-    bit 4, b
-    ld a, "L" & $FF
-    jr nz, .set_l
-    ld a, " "
-.set_l:
-    ld [hli], a
-
-    ; R (bit 5)
-    bit 5, b
-    ld a, "R" & $FF
-    jr nz, .set_r
-    ld a, " "
-.set_r:
-    ld [hli], a
-
-    ; L2 (bit 6)
-    bit 6, b
-    ld a, "2" & $FF
-    jr nz, .set_l2
-    ld a, " "
-.set_l2:
-    ld [hli], a
-
-    ; R2 (bit 7)
-    bit 7, b
-    ld a, "3" & $FF
-    jr nz, .set_r2
-    ld a, " "
-.set_r2:
-    ld [hli], a
-
-    ret

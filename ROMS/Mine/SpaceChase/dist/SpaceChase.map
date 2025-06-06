@@ -1,36 +1,45 @@
 SUMMARY:
-	ROM0: 8245 bytes used / 8139 free
+	ROM0: 8217 bytes used / 8167 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
-	WRAM0: 232 bytes used / 3864 free
-	HRAM: 6 bytes used / 121 free
+	WRAM0: 260 bytes used / 3836 free
+	HRAM: 7 bytes used / 120 free
 
 ROM0 bank #0:
-	SECTION: $0000-$002e ($002f bytes) ["Interrupts - Interrupt Functions"]
+	SECTION: $0000-$002b ($002c bytes) ["Interrupts - Interrupt Functions"]
 	         $0000 = Int_InitInterrupts
 	         $0010 = Int_VBlankInterrupt
 	         $0014 = Int_StatInterrupt
 	         $0018 = Int_WaitForVBlank
-	SECTION: $002f-$003f ($0011 bytes) ["Memory     - Memory Functions"]
-	         $002f = Memory_Copy
-	         $0038 = Memory_Fill
+	SECTION: $002c-$003c ($0011 bytes) ["Memory     - Memory Functions"]
+	         $002c = Memory_Copy
+	         $0035 = Memory_Fill
+	EMPTY: $003d-$003f ($0003 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
 	EMPTY: $0043-$0047 ($0005 bytes)
 	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$00d9 ($008f bytes) ["Audio      - Channel Overrides"]
-	         $004b = Audio_ResetChannels
-	         $0058 = Audio_sMOLDriverCh1
-	         $0067 = Audio_sMOLDriverCh2
-	         $0076 = Audio_sMOLDriverCh3
-	         $008a = Audio_sMOLDriverCh4
-	         $0099 = Audio_hUGEDriverCh1
-	         $00a8 = Audio_hUGEDriverCh2
-	         $00b7 = Audio_hUGEDriverCh3
-	         $00cb = Audio_hUGEDriverCh4
-	SECTION: $00da-$00e5 ($000c bytes) ["Audio      - Music Functions"]
-	         $00da = Music_MainTheme
-	SECTION: $00e6-$00ef ($000a bytes) ["Audio      - SFX Functions"]
-	         $00e6 = SFX_Lazer
-	EMPTY: $00f0-$00ff ($0010 bytes)
+	SECTION: $004b-$00e4 ($009a bytes) ["Input - Utils"]
+	         $004b = Input_ProcessActions
+	         $0052 = Input_ProcessPresses
+	         $005f = Input_ProcessPresses.loop
+	         $0071 = Input_ProcessPresses.noCall
+	         $0078 = Input_ProcessReleases
+	         $0091 = Input_ProcessReleases.loop
+	         $00a3 = Input_ProcessReleases.noCall
+	         $00aa = CallHL
+	         $00ab = Input_ResetActionTable
+	         $00b2 = Input_ResetPressActionTable
+	         $00b7 = Input_ResetPressActionTable.loop
+	         $00c2 = Input_ResetReleaseActionTable
+	         $00c7 = Input_ResetReleaseActionTable.loop
+	         $00d2 = NopFunction
+	         $00d3 = Input_WaitForKeyPress
+	         $00d4 = Input_WaitForKeyPress.loop
+	         $00e3 = Input_WaitForKeyPress.pressed
+	SECTION: $00e5-$00f0 ($000c bytes) ["Audio      - Music Functions"]
+	         $00e5 = Music_MainTheme
+	SECTION: $00f1-$00fa ($000a bytes) ["Audio      - SFX Functions"]
+	         $00f1 = SFX_Lazer
+	EMPTY: $00fb-$00ff ($0005 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -298,65 +307,50 @@ ROM0 bank #0:
 	         $1cfc = tick_time.update_current_order
 	         $1d04 = tick_time.noreset
 	         $1d08 = note_table
-	SECTION: $1d98-$1e5f ($00c8 bytes) ["Entry Point"]
+	SECTION: $1d98-$1e87 ($00f0 bytes) ["Entry Point"]
 	         $1d98 = EntryPoint
-	         $1e4d = Loop
-	         $1e59 = ActionTest
-	SECTION: $1e60-$1eec ($008d bytes) ["Display - Functions"]
-	         $1e60 = DisplayInputs
-	         $1e6f = DisplayInputs.set_a
-	         $1e78 = DisplayInputs.set_b
-	         $1e81 = DisplayInputs.set_select
-	         $1e8a = DisplayInputs.set_start
-	         $1e93 = DisplayInputs.set_right
-	         $1e9c = DisplayInputs.set_left
-	         $1ea5 = DisplayInputs.set_up
-	         $1eae = DisplayInputs.set_down
-	         $1ebe = DisplayInputs.set_x
-	         $1ec7 = DisplayInputs.set_y
-	         $1ed0 = DisplayInputs.set_l
-	         $1ed9 = DisplayInputs.set_r
-	         $1ee2 = DisplayInputs.set_l2
-	         $1eeb = DisplayInputs.set_r2
-	SECTION: $1eed-$1f78 ($008c bytes) ["UI         - Functions"]
-	         $1eed = UI_Load
-	         $1f18 = UI_PlaceBox.init_toprow
-	         $1f18 = UI_PlaceBox
-	         $1f1f = UI_PlaceBox.placetoprow
-	         $1f25 = UI_PlaceBox.topright
-	         $1f28 = UI_PlaceBox.init_walls
-	         $1f37 = UI_PlaceBox.placewalls
-	         $1f58 = UI_PlaceBox.init_bottomrow
-	         $1f5b = UI_PlaceBox.placebottomrow
-	         $1f61 = UI_PlaceBox.bottomright
-	         $1f65 = UI_PrintText
-	         $1f6d = UI_PlaceActiveButton
-	         $1f71 = UI_PlacePassiveButton
-	         $1f75 = UI_PlacePressedButton
-	SECTION: $1f79-$1fd4 ($005c bytes) ["Input      - Main"]
-	         $1f79 = Input_Query
-	         $1fb8 = Input_Query.onenibble
-	         $1fc6 = Input_Query.onenibble_extra
-	         $1fd4 = Input_Query.knownret
-	SECTION: $1fd5-$201e ($004a bytes) ["Input - Utils"]
-	         $1fd5 = Input_ProcessActions
-	         $1fe2 = Input_ProcessActions.loop
-	         $1ff4 = Input_ProcessActions.noCall
-	         $1ffb = CallHL
-	         $1ffc = Input_ResetActionTable
-	         $2001 = Input_ResetActionTable.loop
-	         $200c = Input_NopFunction
-	         $200d = Input_WaitForKeyPress
-	         $200e = Input_WaitForKeyPress.loop
-	         $201d = Input_WaitForKeyPress.pressed
-	SECTION: $201f-$2049 ($002b bytes) ["Test       - Text"]
-	         $201f = TestText
-	         $202c = Item1
-	         $203a = Item2
-	         $2040 = Item3
-	         $2044 = Item4
-	EMPTY: $204a-$3fff ($1fb6 bytes)
-	TOTAL EMPTY: $1fcb bytes
+	         $1e41 = Loop
+	         $1e47 = InitInputs
+	         $1e52 = AOn
+	         $1e6d = AOff
+	SECTION: $1e88-$1f13 ($008c bytes) ["UI         - Functions"]
+	         $1e88 = UI_Load
+	         $1eb3 = UI_PlaceBox.init_toprow
+	         $1eb3 = UI_PlaceBox
+	         $1eba = UI_PlaceBox.placetoprow
+	         $1ec0 = UI_PlaceBox.topright
+	         $1ec3 = UI_PlaceBox.init_walls
+	         $1ed2 = UI_PlaceBox.placewalls
+	         $1ef3 = UI_PlaceBox.init_bottomrow
+	         $1ef6 = UI_PlaceBox.placebottomrow
+	         $1efc = UI_PlaceBox.bottomright
+	         $1f00 = UI_PrintText
+	         $1f08 = UI_PlaceActiveButton
+	         $1f0c = UI_PlacePassiveButton
+	         $1f10 = UI_PlacePressedButton
+	SECTION: $1f14-$1f92 ($007f bytes) ["Audio      - Channel Overrides"]
+	         $1f14 = Audio_ResetChannels
+	         $1f21 = Audio_sMOLDriverCh1
+	         $1f2e = Audio_sMOLDriverCh2
+	         $1f3b = Audio_sMOLDriverCh3
+	         $1f4d = Audio_sMOLDriverCh4
+	         $1f5a = Audio_hUGEDriverCh1
+	         $1f67 = Audio_hUGEDriverCh2
+	         $1f74 = Audio_hUGEDriverCh3
+	         $1f86 = Audio_hUGEDriverCh4
+	SECTION: $1f93-$1ffa ($0068 bytes) ["Input      - Main"]
+	         $1f93 = Input_Query
+	         $1fde = Input_Query.onenibble
+	         $1fec = Input_Query.onenibble_extra
+	         $1ffa = Input_Query.knownret
+	SECTION: $1ffb-$2025 ($002b bytes) ["Test       - Text"]
+	         $1ffb = TestText
+	         $2008 = Item1
+	         $2016 = Item2
+	         $201c = Item3
+	         $2020 = Item4
+	EMPTY: $2026-$3fff ($1fda bytes)
+	TOTAL EMPTY: $1fe7 bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]
@@ -792,39 +786,57 @@ WRAM0 bank #0:
 	         $c0c1 = table4
 	         $c0c3 = table_row4
 	         $c0c8 = end_zero
-	SECTION: $c0c8-$c0e3 ($001c bytes) ["Input - Action Table"]
-	         $c0c8 = ActionTable
-	         $c0c8 = ActionA
-	         $c0ca = ActionB
-	         $c0cc = ActionSelect
-	         $c0ce = ActionStart
-	         $c0d0 = ActionRight
-	         $c0d2 = ActionLeft
-	         $c0d4 = ActionUp
-	         $c0d6 = ActionDown
-	         $c0d8 = ActionX
-	         $c0da = ActionY
-	         $c0dc = ActionL1
-	         $c0de = ActionR1
-	         $c0e0 = ActionL2
-	         $c0e2 = ActionR2
-	         $c0e4 = ActionTableEnd
-	SECTION: $c0e4-$c0e5 ($0002 bytes) ["Audio      - Variables"]
-	         $c0e4 = hUGE_Bank
-	         $c0e5 = sMOL_Bank
-	SECTION: $c0e6-$c0e7 ($0002 bytes) ["UI         - Rendering Variables"]
-	         $c0e6 = UI_BoxWidth
-	         $c0e7 = UI_BoxHeight
-	EMPTY: $c0e8-$cfff ($0f18 bytes)
-	TOTAL EMPTY: $0f18 bytes
+	SECTION: $c0c8-$c0e3 ($001c bytes) ["Input - Release Action Table"]
+	         $c0c8 = ReleaseActionTable
+	         $c0c8 = ReleaseAction_A
+	         $c0ca = ReleaseAction_B
+	         $c0cc = ReleaseAction_Select
+	         $c0ce = ReleaseAction_Start
+	         $c0d0 = ReleaseAction_Right
+	         $c0d2 = ReleaseAction_Left
+	         $c0d4 = ReleaseAction_Up
+	         $c0d6 = ReleaseAction_Down
+	         $c0d8 = ReleaseAction_X
+	         $c0da = ReleaseAction_Y
+	         $c0dc = ReleaseAction_L1
+	         $c0de = ReleaseAction_R1
+	         $c0e0 = ReleaseAction_L2
+	         $c0e2 = ReleaseAction_R2
+	         $c0e4 = ReleaseActionTableEnd
+	SECTION: $c0e4-$c0ff ($001c bytes) ["Input - Press Action Table"]
+	         $c0e4 = PressActionTable
+	         $c0e4 = PressAction_A
+	         $c0e6 = PressAction_B
+	         $c0e8 = PressAction_Select
+	         $c0ea = PressAction_Start
+	         $c0ec = PressAction_Right
+	         $c0ee = PressAction_Left
+	         $c0f0 = PressAction_Up
+	         $c0f2 = PressAction_Down
+	         $c0f4 = PressAction_X
+	         $c0f6 = PressAction_Y
+	         $c0f8 = PressAction_L1
+	         $c0fa = PressAction_R1
+	         $c0fc = PressAction_L2
+	         $c0fe = PressAction_R2
+	         $c100 = PressActionTableEnd
+	SECTION: $c100-$c101 ($0002 bytes) ["Audio      - Variables"]
+	         $c100 = hUGE_Bank
+	         $c101 = sMOL_Bank
+	SECTION: $c102-$c103 ($0002 bytes) ["UI         - Rendering Variables"]
+	         $c102 = UI_BoxWidth
+	         $c103 = UI_BoxHeight
+	EMPTY: $c104-$cfff ($0efc bytes)
+	TOTAL EMPTY: $0efc bytes
 
 HRAM bank #0:
-	SECTION: $ff80-$ff85 ($0006 bytes) ["Input      - Input Variables"]
+	SECTION: $ff80-$ff86 ($0007 bytes) ["Input      - Input Variables"]
 	         $ff80 = sNewKeys
 	         $ff81 = sCurKeys
-	         $ff82 = eNewKeys
-	         $ff83 = eCurKeys
-	         $ff84 = WaitKeys
-	         $ff85 = OnCart
-	EMPTY: $ff86-$fffe ($0079 bytes)
-	TOTAL EMPTY: $0079 bytes
+	         $ff82 = sOldKeys
+	         $ff83 = eNewKeys
+	         $ff84 = eCurKeys
+	         $ff85 = eOldKeys
+	         $ff86 = WaitKeys
+	EMPTY: $ff87-$fffe ($0078 bytes)
+	TOTAL EMPTY: $0078 bytes
