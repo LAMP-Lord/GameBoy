@@ -861,12 +861,12 @@ DEF PADF_R      EQU $20
 DEF PADF_L2     EQU $40
 DEF PADF_R2     EQU $80
 
-DEF PADB_X      EQU $8
-DEF PADB_Y      EQU $9
-DEF PADB_L      EQU $A
-DEF PADB_R      EQU $B
-DEF PADB_L2     EQU $C
-DEF PADB_R2     EQU $D
+DEF PADB_X      EQU $0
+DEF PADB_Y      EQU $1
+DEF PADB_L      EQU $4
+DEF PADB_R      EQU $5
+DEF PADB_L2     EQU $6
+DEF PADB_R2     EQU $7
 
 ;***************************************************************************
 ;*

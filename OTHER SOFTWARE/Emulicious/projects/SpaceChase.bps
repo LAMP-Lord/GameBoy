@@ -1,0 +1,2 @@
+type=watchpoint address=1 end=1 enabled=false suspend=true read=true write=true condition= message= location=hram
+type=instruction address=ButtonB end=ButtonB%20+%202 enabled=true suspend=true condition= message=

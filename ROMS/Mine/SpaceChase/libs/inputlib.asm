@@ -24,17 +24,24 @@ Input_Query::
   call .onenibble
   swap a   ; A3-0 = unpressed directions, A7-4 = 1
   xor a, b ; A = pressed buttons + directions
-  ld b, a
+  ld [sCurKeys], a
 
   ld a, P1F_GET_NONE
   ldh [rP1], a
 
   ld a, [sCurKeys]
-  xor a, b
-  and a, b
+  ld b, a
+  ld a, [sOldKeys]
+  cpl
+  and b
   ld [sNewKeys], a
-  ld a, b
-  ld [sCurKeys], a
+
+  ld a, [sOldKeys]
+  ld b, a
+  ld a, [sCurKeys]
+  cpl 
+  and b
+  ld [sDrpKeys], a
 
   ; Poll extra inputs (X, Y, Triggers)
   ld a, P1F_GET_BTN
@@ -45,17 +52,24 @@ Input_Query::
   call .onenibble_extra
   swap a
   xor a, b
-  ld b, a
+  ld [eCurKeys], a
 
   ld a, P1F_GET_NONE
   ldh [rPE], a
 
   ld a, [eCurKeys]
-  xor a, b
-  and a, b
+  ld b, a
+  ld a, [eOldKeys]
+  cpl
+  and b
   ld [eNewKeys], a
-  ld a, b
-  ld [eCurKeys], a
+
+  ld a, [eOldKeys]
+  ld b, a
+  ld a, [eCurKeys]
+  cpl 
+  and b
+  ld [eDrpKeys], a
 
   ret
 

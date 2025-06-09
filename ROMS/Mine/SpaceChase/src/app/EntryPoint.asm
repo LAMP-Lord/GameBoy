@@ -1,5 +1,6 @@
 INCLUDE "include/hardware.inc"
 INCLUDE "include/charmap.inc"
+INCLUDE "include/inputmacros.inc"
 
 SECTION "Entry Point", ROM0
 
@@ -91,354 +92,246 @@ Loop:
     call Int_WaitForVBlank
     jp Loop
 
-; SetButton:
-;     ld hl, $98A1
-;     call UI_PlacePressedButton
 
-;     call Input_ResetPressActionTable
-
-;     ld a, LOW(UnsetButton)
-;     ld [ReleaseAction_A], a
-;     ld a, HIGH(UnsetButton)
-;     ld [ReleaseAction_A + 1], a
-
-;     ret
-
-; UnsetButton:
-;     ld hl, $98A1
-;     call UI_PlaceActiveButton
-
-;     call Input_ResetReleaseActionTable
-
-;     ld a, LOW(SetButton)
-;     ld [PressAction_A], a
-;     ld a, HIGH(SetButton)
-;     ld [PressAction_A + 1], a
-
-;     ret
 
 InitInputs:
-    ld a, LOW(AOn)
-    ld [PressAction_A], a
-    ld a, HIGH(AOn)
-    ld [PressAction_A + 1], a
+    SET_ACTION Action_A, ButtonA
+    SET_ACTION Action_B, ButtonB
+    SET_ACTION Action_Select, ButtonSelect
+    SET_ACTION Action_Start, ButtonStart
 
-    ld a, LOW(AOn)
-    ld [PressAction_B], a
-    ld a, HIGH(AOn)
-    ld [PressAction_B + 1], a
+    SET_ACTION Action_Up, ButtonUp
+    SET_ACTION Action_Down, ButtonDown
+    SET_ACTION Action_Left, ButtonLeft
+    SET_ACTION Action_Right, ButtonRight
 
-    ld a, LOW(AOn)
-    ld [PressAction_Select], a
-    ld a, HIGH(AOn)
-    ld [PressAction_Select + 1], a
+    SET_ACTION Action_X, ButtonX
+    SET_ACTION Action_Y, ButtonY
 
-    ld a, LOW(AOn)
-    ld [PressAction_Start], a
-    ld a, HIGH(AOn)
-    ld [PressAction_Start + 1], a
-
-
-
-    ld a, LOW(AOn)
-    ld [PressAction_Up], a
-    ld a, HIGH(AOn)
-    ld [PressAction_Up + 1], a
-
-    ld a, LOW(AOn)
-    ld [PressAction_Down], a
-    ld a, HIGH(AOn)
-    ld [PressAction_Down + 1], a
-
-    ld a, LOW(AOn)
-    ld [PressAction_Left], a
-    ld a, HIGH(AOn)
-    ld [PressAction_Left + 1], a
-
-    ld a, LOW(AOn)
-    ld [PressAction_Right], a
-    ld a, HIGH(AOn)
-    ld [PressAction_Right + 1], a
+    SET_ACTION Action_L1, ButtonL
+    SET_ACTION Action_L2, ButtonL2
+    SET_ACTION Action_R1, ButtonR
+    SET_ACTION Action_R2, ButtonR2
 
     ret
 
-AOn:
+
+
+ButtonA:
+    CHECK_BUTTON sCurKeys, PADB_A
+    call SFX_Lazer
     ld hl, $9821
     ld a, $1C
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
+    ld hl, $98A1
+    ld a, $59
+    ld [hl], a
     ret
-
-AOff:
+    
+    FALSE
     ld hl, $9821
     ld a, $0
     ld [hl], a
-
-    ld a, LOW(AOn)
-    ld [PressAction_A], a
-    ld a, HIGH(AOn)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(NopFunction)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [ReleaseAction_A + 1], a
-
-    ret
-
-BOn:
-    ld hl, $9821
-    ld a, $1C
+    ld hl, $98A1
+    ld a, $57
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-BOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonB:
+    CHECK_BUTTON sCurKeys, PADB_B
+    ld hl, $9822
+    ld a, $1D
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
-
-
-SelectOn:
-    ld hl, $9821
-    ld a, $1C
+    
+    FALSE
+    ld hl, $9822
+    ld a, $0
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-SelectOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonSelect:
+    CHECK_BUTTON sCurKeys, PADB_SELECT
+    ld hl, $9823
+    ld a, $2E
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
-
-
-StartOn:
-    ld hl, $9821
-    ld a, $1C
+    
+    FALSE
+    ld hl, $9823
+    ld a, $0
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-StartOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonStart:
+    CHECK_BUTTON sCurKeys, PADB_START
+    ld hl, $9824
+    ld a, $2F
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
-
-
-UpOn:
-    ld hl, $9821
-    ld a, $1C
+    
+    FALSE
+    ld hl, $9824
+    ld a, $0
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-UpOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonUp:
+    CHECK_BUTTON sCurKeys, PADB_UP
+    ld hl, $9825
+    ld a, $30
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
-
-
-DownOn:
-    ld hl, $9821
-    ld a, $1C
+    
+    FALSE
+    ld hl, $9825
+    ld a, $0
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-DownOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonDown:
+    CHECK_BUTTON sCurKeys, PADB_DOWN
+    ld hl, $9826
+    ld a, $1F
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
-
-
-LeftOn:
-    ld hl, $9821
-    ld a, $1C
+    
+    FALSE
+    ld hl, $9826
+    ld a, $0
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-LeftOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonLeft:
+    CHECK_BUTTON sCurKeys, PADB_LEFT
+    ld hl, $9827
+    ld a, $27
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
-
-
-RightOn:
-    ld hl, $9821
-    ld a, $1C
+    
+    FALSE
+    ld hl, $9827
+    ld a, $0
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
 
-RightOff:
-    ld hl, $9821
-    ld a, $1C
+
+
+ButtonRight:
+    CHECK_BUTTON sCurKeys, PADB_RIGHT
+    ld hl, $9828
+    ld a, $2D
     ld [hl], a
-
-    ld a, LOW(NopFunction)
-    ld [PressAction_A], a
-    ld a, HIGH(NopFunction)
-    ld [PressAction_A + 1], a
-
-    ld a, LOW(AOff)
-    ld [ReleaseAction_A], a
-    ld a, HIGH(AOff)
-    ld [ReleaseAction_A + 1], a
-
     ret
+    
+    FALSE
+    ld hl, $9828
+    ld a, $0
+    ld [hl], a
+    ret
+
+
+
+ButtonX:
+    CHECK_BUTTON eCurKeys, PADB_X
+    ld hl, $9841
+    ld a, $33
+    ld [hl], a
+    ret
+    
+    FALSE
+    ld hl, $9841
+    ld a, $0
+    ld [hl], a
+    ret
+
+
+
+ButtonY:
+    CHECK_BUTTON eCurKeys, PADB_Y
+    ld hl, $9842
+    ld a, $34
+    ld [hl], a
+    ret
+    
+    FALSE
+    ld hl, $9842
+    ld a, $0
+    ld [hl], a
+    ret
+
+
+
+ButtonL:
+    CHECK_BUTTON eCurKeys, PADB_L
+    ld hl, $9843
+    ld a, $27
+    ld [hl], a
+    ret
+    
+    FALSE
+    ld hl, $9843
+    ld a, $0
+    ld [hl], a
+    ret
+
+
+
+ButtonL2:
+    CHECK_BUTTON eCurKeys, PADB_L2
+    ld hl, $9844
+    ld a, $13
+    ld [hl], a
+    ret
+    
+    FALSE
+    ld hl, $9844
+    ld a, $0
+    ld [hl], a
+    ret
+
+
+
+ButtonR:
+    CHECK_BUTTON eCurKeys, PADB_R
+    ld hl, $9845
+    ld a, $2D
+    ld [hl], a
+    ret
+    
+    FALSE
+    ld hl, $9845
+    ld a, $0
+    ld [hl], a
+    ret
+
+
+
+ButtonR2:
+    CHECK_BUTTON eCurKeys, PADB_R2
+    ld hl, $9846
+    ld a, $14
+    ld [hl], a
+    ret
+    
+    FALSE
+    ld hl, $9846
+    ld a, $0
+    ld [hl], a
+    ret
+
 
 
 SECTION "Test       - Text", ROM0
