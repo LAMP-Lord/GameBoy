@@ -37,12 +37,12 @@ Int_VBlankInterrupt:
 
 
 Int_WaitForVBlank::
-    call hUGE_dosound
     call sMOL_dosound
-
-    halt
-
+    call hUGE_dosound
+    
     call Input_Query
     call Input_ProcessActions
+
+    halt
 
     ret

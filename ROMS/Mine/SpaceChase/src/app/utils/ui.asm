@@ -18,8 +18,11 @@ DisplayBoxEnd:
 Buttons: INCBIN "generated/ui/buttons.2bpp"
 ButtonsEnd:
 
-MainMenu: INCBIN "generated/backgrounds/title-screen.2bpp"
-MainMenuEnd:
+TitleScreen: INCBIN "generated/backgrounds/title-screen.2bpp"
+TitleScreenEnd:
+
+TitleScreenMap: INCBIN "generated/backgrounds/title-screen.tilemap"
+TitleScreenMapEnd:
 
 SECTION "UI         - Functions", ROM0
 
@@ -37,9 +40,9 @@ UI_Load::
     ld bc, ButtonsEnd - Buttons 
     call Memory_Copy
 
-    ld de, MainMenu
+    ld de, TitleScreen
     ld hl, _VRAM8800
-    ld bc, MainMenuEnd - MainMenu
+    ld bc, TitleScreenEnd - TitleScreen
     call Memory_Copy
 
     ret
@@ -135,115 +138,12 @@ UI_PrintText::
 
     jr UI_PrintText
 
-; -- OLD BUTTONS --
 
-; UI_PlaceActiveButton::
-;     push hl
-;     call Int_WaitForVBlank
-;     pop hl
 
-;     ld d, $57
-;     call placetile
-;     call placetile
-;     call placetile
+UI_TitleScreenOpen::
+    ld de, TitleScreenMap
+    ld hl, _SCRN0
+    ld bc, TitleScreenMapEnd - TitleScreenMap
+    call Memory_Copy
 
-;     ld bc, SCRN_VX_B - $3
-;     add hl, bc
-
-;     ld d, $5A
-;     call placetile
-;     ld d, $58
-;     call placetile
-;     ld d, $5B
-;     call placetile
-
-;     ld bc, SCRN_VX_B - $3
-;     add hl, bc
-
-;     call placetile
-;     call placetile
-;     call placetile
-
-;     ret
-
-; UI_PlacePassiveButton::
-;     push hl
-;     call Int_WaitForVBlank
-;     pop hl
-
-;     ld d, $5F
-;     call placetile
-;     call placetile
-;     call placetile
-
-;     ld bc, SCRN_VX_B - $3
-;     add hl, bc
-
-;     call placetile
-;     ld d, $60
-;     call placetile
-;     ld d, $63
-;     call placetile
-
-;     ld bc, SCRN_VX_B - $3
-;     add hl, bc
-
-;     call placetile
-;     call placetile
-;     call placetile
-
-;     ret
-
-; UI_PlacePressedButton::
-;     push hl
-;     call Int_WaitForVBlank
-;     pop hl
-
-;     ld d, $67
-;     call placetile
-;     call placetile
-;     call placetile
-
-;     ld bc, SCRN_VX_B - $3
-;     add hl, bc
-
-;     ld d, $62
-;     call placetile
-;     ld d, $60
-;     call placetile
-;     ld d, $63
-;     call placetile
-
-;     ld bc, SCRN_VX_B - $3
-;     add hl, bc
-
-;     ld d, $6A
-;     call placetile
-;     call placetile
-;     call placetile
-    
-;     ret
-
-; placetile:
-;     ld [hl], d
-;     inc hl
-;     inc d
-
-;     ret
-
-; -- NEW BUTTONS --
-
-UI_PlaceActiveButton::
-    ld d, $57
-    ld [hl], d
-    ret
-
-UI_PlacePassiveButton::
-    ld d, $58
-    ld [hl], d
-    ret
-
-UI_PlacePressedButton::
-    ld d, $59
-    ld [hl], d
     ret

@@ -89,7 +89,7 @@ $(GEN_BACKGROUNDS)/%.tilemap: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
 	$(GFX) \
 		--tilemap $@ \
 		--unique-tiles \
-		-o $(GEN_BACKGROUNDS)/$*.2bpp \
+		-o $(GEN_BACKGROUNDS)/$*.2bpp -b 128 \
 		$<
 # ANCHOR_END: generate-graphics
 
