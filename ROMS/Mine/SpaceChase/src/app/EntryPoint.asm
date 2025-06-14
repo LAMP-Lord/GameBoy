@@ -12,13 +12,10 @@ EntryPoint::
     ld [rBGP], a
 
     ; Clear screen
-    ; ld hl, _SCRN0
-    ; ld bc, SCRN_VX_B * SCRN_VY_B
-    ; ld d, $00
-    ; call Memory_Fill
-
-    ; Load stuff into memory
-    call UI_Load
+    ld hl, _SCRN0
+    ld bc, SCRN_VX_B * SCRN_VY_B
+    ld d, $00
+    call Memory_Fill
 
     ; Initialize input variables
     xor a
@@ -27,6 +24,9 @@ EntryPoint::
     ld [eCurKeys], a
     ld [eNewKeys], a
     call Input_ResetActionTable
+
+    ; Load stuff into memory
+    call UI_Load
 
     ; Set interrupts
     call Int_InitInterrupts
@@ -39,51 +39,49 @@ EntryPoint::
     call Music_MainTheme
     call Audio_ResetChannels
 
-    call UI_TitleScreenOpen
-
     ; Place testing boxes
-    ; ld a, 8
-    ; ld [UI_BoxWidth], a
-    ; ld a, 2
-    ; ld [UI_BoxHeight], a
-    ; ld hl, $9800
-    ; call UI_PlaceBox
+    ld a, 8
+    ld [UI_BoxWidth], a
+    ld a, 2
+    ld [UI_BoxHeight], a
+    ld hl, $9800
+    call UI_PlaceBox
 
-    ; ld a, 12
-    ; ld [UI_BoxWidth], a
-    ; ld a, 1
-    ; ld [UI_BoxHeight], a
-    ; ld hl, $99E0
-    ; call UI_PlaceBox
+    ld a, 12
+    ld [UI_BoxWidth], a
+    ld a, 1
+    ld [UI_BoxHeight], a
+    ld hl, $99E0
+    call UI_PlaceBox
 
-    ; ld de, $9A01
-    ; ld hl, TestText
-    ; call UI_PrintText
+    ld de, $9A01
+    ld hl, TestText
+    call UI_PrintText
 
-    ; ld de, $98A3
-    ; ld hl, Item1
-    ; call UI_PrintText
-    ; ld de, $98E3
-    ; ld hl, Item2
-    ; call UI_PrintText
-    ; ld de, $9923
-    ; ld hl, Item3
-    ; call UI_PrintText
-    ; ld de, $9963
-    ; ld hl, Item4
-    ; call UI_PrintText
+    ld de, $98A3
+    ld hl, Item1
+    call UI_PrintText
+    ld de, $98E3
+    ld hl, Item2
+    call UI_PrintText
+    ld de, $9923
+    ld hl, Item3
+    call UI_PrintText
+    ld de, $9963
+    ld hl, Item4
+    call UI_PrintText
 
-    ; ld hl, $98A1
-    ; call UI_PlaceActiveButton
+    ld hl, $98A1
+    call UI_PlaceActiveButton
 
-    ; ld hl, $98E1
-    ; call UI_PlacePassiveButton
+    ld hl, $98E1
+    call UI_PlacePassiveButton
 
-    ; ld hl, $9921
-    ; call UI_PlacePassiveButton
+    ld hl, $9921
+    call UI_PlacePassiveButton
 
-    ; ld hl, $9961
-    ; call UI_PlacePassiveButton
+    ld hl, $9961
+    call UI_PlacePassiveButton
 
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_WINOFF | LCDCF_BG8800 | LCDCF_BG9800
     ld [rLCDC], a
@@ -120,7 +118,7 @@ InitInputs:
 
 
 ButtonA:
-    CHECK_BUTTON sNewKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADB_A
     call SFX_Lazer
     ld hl, $9821
     ld a, $1C

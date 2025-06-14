@@ -35,7 +35,7 @@ Action_R1:: ds 2
 Action_L2:: ds 2
 Action_R2:: ds 2
 ; Extra Action Slots Here
-ActionTableEnd::
+ActionTableEnd:
 
 SECTION "Input       - Utils", ROM0
 
@@ -69,13 +69,11 @@ CallHL:
 Input_ResetActionTable::
     ld hl, ActionTable
     ld c, ActionTableEnd - ActionTable
-    ld d, LOW(NopFunction)
-    ld e, HIGH(NopFunction)
 .loop
-    ld a, d
+    ld a, LOW(NopFunction)
     ld [hl+], a
     dec c
-    ld a, e
+    ld a, HIGH(NopFunction)
     ld [hl+], a
     dec c
 
