@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 8496 bytes used / 7888 free
+	ROM0: 8498 bytes used / 7886 free
 	ROMX: 18438 bytes used / 30714 free in 3 banks
 	WRAM0: 232 bytes used / 3864 free
 	HRAM: 9 bytes used / 118 free
@@ -31,14 +31,14 @@ ROM0 bank #0:
 	         $00c3 = UI_PlaceActiveButton
 	         $00c7 = UI_PlacePassiveButton
 	         $00cb = UI_PlacePressedButton
-	SECTION: $00cf-$00f6 ($0028 bytes) ["Input       - Utils"]
+	SECTION: $00cf-$00f8 ($002a bytes) ["Input       - Utils"]
 	         $00cf = Input_ProcessActions
 	         $00d4 = Input_ProcessActions.loop
 	         $00e5 = CallHL
 	         $00e6 = Input_ResetActionTable
-	         $00eb = Input_ResetActionTable.loop
-	         $00f6 = NopFunction
-	EMPTY: $00f7-$00ff ($0009 bytes)
+	         $00ef = Input_ResetActionTable.loop
+	         $00f8 = NopFunction
+	EMPTY: $00f9-$00ff ($0007 bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -362,7 +362,7 @@ ROM0 bank #0:
 	SECTION: $2133-$213c ($000a bytes) ["Audio      - SFX Functions"]
 	         $2133 = SFX_Lazer
 	EMPTY: $213d-$3fff ($1ec3 bytes)
-	TOTAL EMPTY: $1ed0 bytes
+	TOTAL EMPTY: $1ece bytes
 
 ROMX bank #1:
 	SECTION: $4000-$4213 ($0214 bytes) ["SFX        - Data"]

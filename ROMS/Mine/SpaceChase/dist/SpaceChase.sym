@@ -24,8 +24,8 @@
 00:00d4 Input_ProcessActions.loop
 00:00e5 CallHL
 00:00e6 Input_ResetActionTable
-00:00eb Input_ResetActionTable.loop
-00:00f6 NopFunction
+00:00ef Input_ResetActionTable.loop
+00:00f8 NopFunction
 00:0104 NintendoLogo
 00:0134 ROMTitle
 00:0143 GBCSupport
