@@ -12,7 +12,7 @@
 00:00ce Input_Query.knownret
 00:00cf Input_ProcessActions
 00:00d4 Input_ProcessActions.loop
-00:00e5 Input_ProcessActions.CallHL
+00:00e5 CallHL
 00:00e6 Input_ResetActions
 00:00ef Input_ResetActions.loop
 00:00f8 NopFunction
@@ -757,8 +757,7 @@
 00:ff85 eCurKeys
 00:ff86 eOldKeys
 00:ff87 eDrpKeys
-00:ff88 WaitKeys
-00:ff89 ActiveBank
-00:ff8a FrameCounter
+00:ff88 ActiveBank
+00:ff89 FrameCounter
 64 hUGE_NO_WAVE
 64 sMOL_NO_WAVE

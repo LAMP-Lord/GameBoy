@@ -54,7 +54,7 @@ Input_ProcessActions::
     push hl
     ld   h, d
     ld   l, e
-    call .CallHL
+    call CallHL
     pop  hl
     pop  bc
 
@@ -63,7 +63,7 @@ Input_ProcessActions::
 
     ret
 
-.CallHL
+CallHL:
     jp   hl
 
 
