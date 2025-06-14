@@ -8,9 +8,9 @@ sMOL_Bank:: db
 SECTION "Audio      - Music Functions", ROM0
 
 Music_MainTheme::
-    ld a, $3
+    ld a, $2
     ld [hUGE_Bank], a
-    ld hl, Softworld
+    ld hl, MitA
     call hUGE_init
 
     ret
