@@ -14,34 +14,35 @@ eCurKeys:: db
 eOldKeys:: db
 eDrpKeys:: db
 
-; Function Variable
-WaitKeys:: db
+SECTION "Input       - Actions", WRAM0
 
-SECTION "Input       - Action Table", WRAM0
-
-ActionTable::
-Action_A:: ds 2
-Action_B:: ds 2
-Action_Select:: ds 2
-Action_Start:: ds 2
-Action_Right:: ds 2
-Action_Left:: ds 2
-Action_Up:: ds 2
-Action_Down:: ds 2
-Action_X:: ds 2
-Action_Y:: ds 2
-Action_L1:: ds 2
-Action_R1:: ds 2
-Action_L2:: ds 2
-Action_R2:: ds 2
-; Extra Action Slots Here
-ActionTableEnd::
+; This cool utility stores 2 byte addresses per input.
+; The function "ProcessActions" will call all addresses
+; every frame with no exceptions. It's pretty nifty.
+Actions::
+    .A ds 2
+    .B ds 2
+    .Select ds 2
+    .Start ds 2
+    .Right ds 2
+    .Left ds 2
+    .Up ds 2
+    .Down ds 2
+    .X ds 2
+    .Y ds 2
+    .L1 ds 2
+    .R1 ds 2
+    .L2 ds 2
+    .R2 ds 2
+    ; Extra Action Slots Here
+    ; As if i'll ever need them smh
+ActionsEnd::
 
 SECTION "Input       - Utils", ROM0
 
 Input_ProcessActions::
-    ld   hl, ActionTable
-    ld   b, (ActionTableEnd - ActionTable) / 2
+    ld   hl, Actions
+    ld   b, (ActionsEnd - Actions) / 2
 
 .loop
     ld   e, [hl]
@@ -53,7 +54,7 @@ Input_ProcessActions::
     push hl
     ld   h, d
     ld   l, e
-    call CallHL
+    call .CallHL
     pop  hl
     pop  bc
 
@@ -62,13 +63,13 @@ Input_ProcessActions::
 
     ret
 
-CallHL:
+.CallHL
     jp   hl
 
 
-Input_ResetActionTable::
-    ld hl, ActionTable
-    ld c, ActionTableEnd - ActionTable
+Input_ResetActions::
+    ld hl, Actions
+    ld c, ActionsEnd - Actions
     ld d, LOW(NopFunction)
     ld e, HIGH(NopFunction)
 .loop
@@ -82,23 +83,6 @@ Input_ResetActionTable::
     jr nz, .loop
     ret
 
+
 NopFunction::
     ret
-
-; Input_WaitForKeyPress::
-;     push bc
-
-; .loop
-;     ld a, [WaitKeys]
-;     ld b, a
-
-;     ld a, [sNewKeys]
-;     and b
-;     jr nz, .pressed
-
-;     call Int_WaitForVBlank
-;     jr .loop
-
-; .pressed
-;     pop bc
-;     ret

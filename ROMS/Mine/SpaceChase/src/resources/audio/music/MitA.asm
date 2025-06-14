@@ -1,6 +1,6 @@
 include "include/hUGE.inc"
 
-SECTION "Music      - Microplastics in the Air", ROMX, BANK[$2]
+SECTION "Music      - Microplastics in the Air", ROMX
 
 MitA::
 db 4

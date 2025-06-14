@@ -32,7 +32,7 @@ LINK := $(RGBDS)rgblink
 FIX := $(RGBDS)rgbfix
 
 # Tool flags
-FIXFLAGS := -v -p 0xFF
+FIXFLAGS := -v -p 0xFF -r 5 -k 2
 
 .DEFAULT_GOAL := default
 
@@ -57,21 +57,23 @@ ASMSOURCES_COLLECTED = \
 
 OBJS = $(patsubst %.asm,$(OBJ)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
 
+SPRITE_PNGS      := $(wildcard $(IMAGES_SPRITES)/*.png)
+BACKGROUND_PNGS  := $(wildcard $(IMAGES_BACKGROUNDS)/*.png)
+UI_PNGS          := $(wildcard $(IMAGES_UI)/*.png)
+
+SPRITE_OUTPUTS      := $(patsubst $(IMAGES_SPRITES)/%.png, $(GEN_SPRITES)/%.2bpp, $(SPRITE_PNGS))
+UI_OUTPUTS          := $(patsubst $(IMAGES_UI)/%.png, $(GEN_UI)/%.2bpp, $(UI_PNGS))
+
+BACKGROUND_2BPP     := $(patsubst $(IMAGES_BACKGROUNDS)/%.png, $(GEN_BACKGROUNDS)/%.2bpp, $(BACKGROUND_PNGS))
+BACKGROUND_TILEMAPS := $(patsubst $(IMAGES_BACKGROUNDS)/%.png, $(GEN_BACKGROUNDS)/%.tilemap, $(BACKGROUND_PNGS))
+
+ALL_GRAPHICS := $(SPRITE_OUTPUTS) $(UI_OUTPUTS) $(BACKGROUND_2BPP) $(BACKGROUND_TILEMAPS)
+
 rom: $(BINS)
 
-default: rom
+default: graphics rom
 
 # ANCHOR: generate-graphics
-NEEDED_GRAPHICS = \
-	$(GEN_BACKGROUNDS)/star-field.tilemap \
-	$(GEN_BACKGROUNDS)/title-screen.tilemap \
-	\
-	$(GEN_UI)/text-font.2bpp \
-	$(GEN_UI)/display-box.2bpp \
-	$(GEN_UI)/module-base.2bpp \
-	\
-	$(GEN_UI)/buttons.2bpp
-	
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
 	$(GFX) --columns --unique-tiles -o $@ $<
@@ -109,9 +111,11 @@ ASMSOURCES_DIRS = $(patsubst %,%%.asm,\
 # It defines a %.o target from a corresponding %.asm, ensuring the
 # "prepare" step has ran and the graphics are already generated.
 define object-from-asm
-$(OBJ)/%.o: $1 | $(OBJ) $(NEEDED_GRAPHICS)
+$(OBJ)/%.o: $1 | $(OBJ) $(ALL_GRAPHICS)
 	$$(ASM) -o $$@ $$<
 endef
+
+graphics: $(ALL_GRAPHICS)
 
 # Run the macro for each directory listed in ASMSOURCES_DIRS, thereby
 # creating the appropriate targets.

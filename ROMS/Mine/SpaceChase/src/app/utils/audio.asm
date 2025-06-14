@@ -8,7 +8,7 @@ sMOL_Bank:: db
 SECTION "Audio      - Music Functions", ROM0
 
 Music_MainTheme::
-    ld a, $3
+    ld a, BANK(Softworld)
     ld [hUGE_Bank], a
     ld hl, Softworld
     call hUGE_init

@@ -7,7 +7,7 @@ SECTION "UI         - Rendering Variables", WRAM0
 UI_BoxWidth:: db
 UI_BoxHeight:: db
 
-SECTION "UI         - Data", ROM0
+SECTION "UI         - Graphics", ROM0
 
 Font: INCBIN "generated/ui/text-font.2bpp"
 FontEnd:
@@ -17,12 +17,6 @@ DisplayBoxEnd:
 
 Buttons: INCBIN "generated/ui/buttons.2bpp"
 ButtonsEnd:
-
-TitleScreen: INCBIN "generated/backgrounds/title-screen.2bpp"
-TitleScreenEnd:
-
-TitleScreenMap: INCBIN "generated/backgrounds/title-screen.tilemap"
-TitleScreenMapEnd:
 
 SECTION "UI         - Functions", ROM0
 
@@ -38,11 +32,6 @@ UI_Load::
 
     ld de, Buttons
     ld bc, ButtonsEnd - Buttons 
-    call Memory_Copy
-
-    ld de, TitleScreen
-    ld hl, _VRAM8800
-    ld bc, TitleScreenEnd - TitleScreen
     call Memory_Copy
 
     ret
@@ -137,13 +126,3 @@ UI_PrintText::
     inc de
 
     jr UI_PrintText
-
-
-
-UI_TitleScreenOpen::
-    ld de, TitleScreenMap
-    ld hl, _SCRN0
-    ld bc, TitleScreenMapEnd - TitleScreenMap
-    call Memory_Copy
-
-    ret
