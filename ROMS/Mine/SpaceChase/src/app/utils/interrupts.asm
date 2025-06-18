@@ -32,16 +32,17 @@ Int_StatInterrupt:
 
     reti
 
+SECTION "App        - Functions", ROM0
 
 App_EndOfFrame::
     call sMOL_dosound
     call hUGE_dosound
     
-    call Input_Query
-    call Input_ProcessActions
-
     ld a, [ActiveBank]
     ld [$2000], a
+
+    call Input_Query
+    call Actions_ProcessActions
 
     halt
 

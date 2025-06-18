@@ -1,1 +1,0 @@
-type=watchpoint address=1 end=1 enabled=false suspend=true read=true write=true condition= message= location=hram

@@ -8,10 +8,15 @@ sMOL_Bank:: db
 SECTION "Audio      - Music Functions", ROM0
 
 Music_MainTheme::
+    call Audio_ResetChannels
+
     ld a, BANK(Softworld)
     ld [hUGE_Bank], a
     ld hl, Softworld
     call hUGE_init
+
+    ld a, [ActiveBank]
+    ld [$2000], a
 
     ret
 
@@ -23,12 +28,16 @@ SFX_Lazer::
 
     call Audio_sMOLDriverCh2
 
+    ld a, [ActiveBank]
+    ld [$2000], a
+
     ret
 
 
 
 SECTION "Audio      - Channel Overrides", ROM0
 
+; Global
 Audio_ResetChannels::
     call Audio_hUGEDriverCh1
     call Audio_hUGEDriverCh2
@@ -36,6 +45,32 @@ Audio_ResetChannels::
     call Audio_hUGEDriverCh4
     ret
 
+Audio_TurnOffAll::
+    ld b, $0
+    ld c, $1
+    call hUGE_mute_channel
+    ld c, $1
+    call sMOL_mute_channel
+
+    ld b, $1
+    ld c, $1
+    call hUGE_mute_channel
+    ld c, $1
+    call sMOL_mute_channel
+
+    ld b, $2
+    ld c, $1
+    call hUGE_mute_channel
+    ld c, $1
+    call sMOL_mute_channel
+
+    ld b, $3
+    ld c, $1
+    call hUGE_mute_channel
+    ld c, $1
+    call sMOL_mute_channel
+
+; Channel Switches
 Audio_sMOLDriverCh1::
     ld b, $0
     ld c, $1

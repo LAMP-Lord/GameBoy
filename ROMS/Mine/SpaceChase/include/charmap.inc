@@ -29,6 +29,7 @@ CHARMAP "7", 24
 CHARMAP "8", 25
 CHARMAP "9", 26
 
+; Other
 CHARMAP "@", 27
 
 ; Uppercase

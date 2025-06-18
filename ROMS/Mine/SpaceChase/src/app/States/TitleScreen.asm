@@ -1,7 +1,6 @@
 INCLUDE "include/hardware.inc"
 INCLUDE "include/charmap.inc"
 INCLUDE "include/input_macros.inc"
-INCLUDE "include/transition_macros.inc"
 INCLUDE "include/sprite_macros.inc"
 
 SECTION "TitleScreen - Graphics", ROMX, BANK[$1]
@@ -56,9 +55,29 @@ TitleScreen_Animation::
     CREATE_OBJECT 14, 112, 72, 0
     CREATE_OBJECT 15, 120, 72, 0
 
-    FADE_IN
+    ; Print Text
+    ld de, $99E6
+    ld hl, Text_NewGame
+    call UI_PrintText
 
+    ld de, $9A06
+    ld hl, Text_Continue
+    call UI_PrintText
+
+    ; Init Menu
+    ld a, 2
+    ld [Menu.Items], a
+
+    SET_ACTION Actions.MenuDrawAddress, TitleMenu_Draw
+    SET_ACTION Actions.Up, Menu_Up
+    SET_ACTION Actions.Down, Menu_Down
+
+    ; Music
+    ld a, $1
+    ld [ActiveBank], a
     call Music_MainTheme
+
+    call UI_FadeIn
 
 .animation
     ld a, 40
@@ -121,4 +140,63 @@ TitleScreen_Animation::
 
     dec b
     jr nz, .loop_up
+    ret
+
+
+
+SECTION "TitleScreen - Menu Data", ROMX, BANK[$1]
+
+Text_NewGame: db "New Game", 255
+Text_Continue: db "Continue", 255
+
+SECTION "TitleScreen - Menu Functions", ROMX, BANK[$1]
+
+TitleMenu_Draw:
+    ld a, [Menu.Selector]
+    cp 0
+    jp nz, Continue
+
+    SET_ACTION Actions.A, TitleMenu_NewGame
+
+    CHECK_BUTTON sCurKeys, PADB_A
+    ld a, $59
+    ld [$99E5], a
+    ld a, $58
+    ld [$9A05], a
+    ret
+    FALSE
+    ld a, $57
+    ld [$99E5], a
+    ld a, $58
+    ld [$9A05], a
+    ret
+
+Continue:
+    SET_ACTION Actions.A, TitleMenu_Continue
+
+    CHECK_BUTTON sCurKeys, PADB_A
+    ld a, $58
+    ld [$99E5], a
+    ld a, $59
+    ld [$9A05], a
+    ret
+    FALSE
+    ld a, $58
+    ld [$99E5], a
+    ld a, $57
+    ld [$9A05], a
+    ret
+
+
+TitleMenu_NewGame:
+    CHECK_BUTTON sDrpKeys, PADB_A
+    ; call UI_FadeOut
+    call GenerateSeed
+    FALSE
+    ret
+
+TitleMenu_Continue:
+    CHECK_BUTTON sDrpKeys, PADB_A
+    call UI_FadeOut
+    FALSE
     ret

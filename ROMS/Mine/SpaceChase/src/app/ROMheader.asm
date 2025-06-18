@@ -13,7 +13,7 @@ SECTION "ROM Header", ROM0[$100]
     GBCSupport:		db	0								; GBC support (0 = DMG only, $80 = DMG/GBC, $C0 = GBC only)
     NewLicenseCode:	db	"  "							; new license code (2 bytes)
     SGBSupport:		db	0								; SGB support
-    CartType:		db	$1E								; Cart type (MBC5 + RUMBLE + RAM + Battery)
+    CartType:		db	$1E								; Cart type
     ROMSize:		ds	1								; ROM size (handled by post-linking tool)
     RAMSize:		ds	1								; RAM size
     DestCode:		db	1								; Destination code (0 = Japan, 1 = All others)

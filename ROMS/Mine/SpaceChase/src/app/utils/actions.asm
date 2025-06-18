@@ -1,25 +1,28 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Input      - Input Variables", HRAM
+EXPORT Actions.A
+EXPORT Actions.B
+EXPORT Actions.Select
+EXPORT Actions.Start
+EXPORT Actions.Right
+EXPORT Actions.Left
+EXPORT Actions.Up
+EXPORT Actions.Down
+EXPORT Actions.X
+EXPORT Actions.Y
+EXPORT Actions.L1
+EXPORT Actions.R1
+EXPORT Actions.L2
+EXPORT Actions.R2
+EXPORT Actions.MenuDrawAddress
 
-; Standard Keys
-sNewKeys:: db
-sCurKeys:: db
-sOldKeys:: db
-sDrpKeys:: db
-
-; Extra Keys
-eNewKeys:: db
-eCurKeys:: db
-eOldKeys:: db
-eDrpKeys:: db
-
-SECTION "Input       - Actions", WRAM0
+SECTION "Action Table", WRAM0
 
 ; This cool utility stores 2 byte addresses per input.
 ; The function "ProcessActions" will call all addresses
 ; every frame with no exceptions. It's pretty nifty.
 Actions::
+    .MenuDrawAddress ds 2
     .A ds 2
     .B ds 2
     .Select ds 2
@@ -34,13 +37,11 @@ Actions::
     .R1 ds 2
     .L2 ds 2
     .R2 ds 2
-    ; Extra Action Slots Here
-    ; As if i'll ever need them smh
 ActionsEnd::
 
-SECTION "Input       - Utils", ROM0
+SECTION "Action Functions", ROM0
 
-Input_ProcessActions::
+Actions_ProcessActions::
     ld   hl, Actions
     ld   b, (ActionsEnd - Actions) / 2
 
@@ -67,7 +68,7 @@ CallHL:
     jp   hl
 
 
-Input_ResetActions::
+Actions_ResetActions::
     ld hl, Actions
     ld c, ActionsEnd - Actions
     ld d, LOW(NopFunction)
@@ -81,8 +82,4 @@ Input_ResetActions::
     dec c
 
     jr nz, .loop
-    ret
-
-
-NopFunction::
     ret

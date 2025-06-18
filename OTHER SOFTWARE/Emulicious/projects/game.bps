@@ -1,6 +1,0 @@
-suspend=false address=Done end=Done type=instruction enabled=false
-type=instruction address=_ui_load_tiles end=_ui_load_tiles%20+%201 enabled=true suspend=true condition= message=
-type=instruction address=_ui_draw_frame end=_ui_draw_frame%20+%201 enabled=true suspend=true condition= message=
-type=instruction address=_ui_draw_text_buffer_char end=_ui_draw_text_buffer_char enabled=true suspend=true condition= message=
-type=instruction address=_LABEL_3AAF_%20+%2016 end=_LABEL_3AAF_%20+%2016 enabled=true suspend=true condition= message=
-type=instruction address=_LABEL_3AAF_ end=_LABEL_3AAF_%20+%201 enabled=true suspend=true condition= message=

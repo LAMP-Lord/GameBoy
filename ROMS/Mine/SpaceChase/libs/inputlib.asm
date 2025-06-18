@@ -6,6 +6,18 @@
 
 include "include/hardware.inc"
 
+SECTION "Input      - Input Variables", HRAM
+
+sNewKeys:: db ; (Standard) Pressed this frame
+sCurKeys:: db ; (Standard) Held this frame
+sOldKeys:: db ; (Standard) Held last frame
+sDrpKeys:: db ; (Standard) Dropped this frame
+
+eNewKeys:: db ; (Extra) Pressed this frame
+eCurKeys:: db ; (Extra) Held this frame
+eOldKeys:: db ; (Extra) Held last frame
+eDrpKeys:: db ; (Extra) Dropped this frame
+
 SECTION "Input      - Main", ROM0
 
 Input_Query::
@@ -18,17 +30,18 @@ Input_Query::
   ; Poll standard inputs (A, B, Select, Start, D-pad)
   ld a, P1F_GET_BTN
   call .onenibble
-  ld b, a  ; B7-4 = 1, B3-0 = unpressed buttons
+  ld b, a
 
   ld a, P1F_GET_DPAD
   call .onenibble
-  swap a   ; A3-0 = unpressed directions, A7-4 = 1
-  xor a, b ; A = pressed buttons + directions
+  swap a
+  xor a, b
   ld [sCurKeys], a
 
   ld a, P1F_GET_NONE
   ldh [rP1], a
 
+  ; Get Pressed and Dropped Keys
   ld a, [sCurKeys]
   ld b, a
   ld a, [sOldKeys]
@@ -57,6 +70,7 @@ Input_Query::
   ld a, P1F_GET_NONE
   ldh [rPE], a
 
+  ; Get Pressed and Dropped Keys
   ld a, [eCurKeys]
   ld b, a
   ld a, [eOldKeys]

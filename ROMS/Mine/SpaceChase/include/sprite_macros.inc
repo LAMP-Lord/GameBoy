@@ -1,3 +1,7 @@
+; \1 = Tile ID
+; \2 = X
+; \3 = Y
+; \4 = Attributes
 MACRO CREATE_OBJECT
     ld a, \3
     ld [hli], a

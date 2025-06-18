@@ -1,11 +1,20 @@
 INCLUDE "include/hardware.inc"
 INCLUDE "include/charmap.inc"
 INCLUDE "include/constants.inc"
+INCLUDE "include/input_macros.inc"
 
-SECTION "UI         - Rendering Variables", WRAM0
+EXPORT Menu.Selector
+EXPORT Menu.Items
+EXPORT Menu.DrawAddress
 
-UI_BoxWidth:: db
-UI_BoxHeight:: db
+SECTION "UI         - Menu Variables", WRAM0
+
+Menu::
+    .Selector ds 1
+    .Items ds 1
+MenuItems::
+    ds 20
+MenuEnd::
 
 SECTION "UI         - Graphics", ROM0
 
@@ -36,87 +45,9 @@ UI_Load::
 
     ret
 
-UI_PlaceBox::
-.init_toprow
-    ld a, [UI_BoxWidth]
-    ld b, a
-
-    ld a, DISPLAYBOX_TOPLEFT
-    ld [hl+], a
-
-.placetoprow
-    ld a, DISPLAYBOX_TOP
-    ld [hl+], a
-
-    dec b
-    jr nz, .placetoprow
-
-.topright
-    ld a, DISPLAYBOX_TOPRIGHT
-    ld [hl], a
-
-.init_walls
-    ld a, [UI_BoxWidth]
-    ld b, a
-
-    ld a, l
-    sub b
-    ld l, a
-
-    ld de, $001F
-    add hl, de
-
-    ld a, [UI_BoxHeight]
-    ld c, a
-
-.placewalls:
-    ld a, DISPLAYBOX_WALL
-    ld [hl], a
-
-    ld a, [UI_BoxWidth]
-    add 1
-
-    ld e, a
-    ld d, 0
-    add hl, de
-
-    ld a, DISPLAYBOX_WALL
-    ld [hl], a
-
-    ld a, [UI_BoxWidth]
-    ld b, a
-
-    ld a, l
-    sub b
-    sub 1
-    ld l, a
-
-    ld a, $20
-    ld e, a
-    ld d, 0
-    add hl, de
-
-    dec c
-    jr nz, .placewalls
-
-.init_bottomrow
-
-    ld a, DISPLAYBOX_BOTTOMLEFT
-    ld [hl+], a
-
-.placebottomrow
-    ld a, DISPLAYBOX_BOTTOM
-    ld [hl+], a
-
-    dec b
-    jr nz, .placebottomrow
-
-.bottomright
-    ld a, DISPLAYBOX_BOTTOMRIGHT
-    ld [hl], a
-    
-    ret
-
+; 255: End Character
+; HL: Text Location
+; DE: Print Location
 UI_PrintText::
     ld a, [hl+]
     cp 255
@@ -126,3 +57,89 @@ UI_PrintText::
     inc de
 
     jr UI_PrintText
+
+Menu_Up::
+    CHECK_BUTTON sNewKeys, PADB_UP
+    ld a, [Menu.Selector]
+    cp 0
+    ret z
+
+    dec a
+    ld [Menu.Selector], a
+    FALSE
+    ret
+
+Menu_Down::
+    CHECK_BUTTON sNewKeys, PADB_DOWN
+    ld a, [Menu.Items]
+    dec a
+    ld b, a
+
+    ld a, [Menu.Selector]
+    cp b
+    ret z
+
+    inc a
+    ld [Menu.Selector], a
+    FALSE
+    ret
+
+UI_FadeOut::
+    ld a, %10_01_00_00
+    ld [rBGP], a
+    ld [rOBP0], a
+    ld [rOBP1], a
+
+    ld a, 10
+    ld [FrameCounter], a
+    call App_WaitFrames
+
+    ld a, %01_00_00_00
+    ld [rBGP], a
+    ld [rOBP0], a
+    ld [rOBP1], a
+
+    ld a, 10
+    ld [FrameCounter], a
+    call App_WaitFrames
+
+    ld a, %00_00_00_00
+    ld [rBGP], a
+    ld [rOBP0], a
+    ld [rOBP1], a
+
+    call Audio_TurnOffAll
+
+    ld a, LCDCF_OFF
+    ld [rLCDC], a
+
+    ret
+
+UI_FadeIn::
+    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJON
+    ld [rLCDC], a
+
+    ld a, %01_00_00_00
+    ld [rBGP], a
+    ld [rOBP0], a
+    ld [rOBP1], a
+
+    ld a, 10
+    ld [FrameCounter], a
+    call App_WaitFrames
+    
+    ld a, %10_01_00_00
+    ld [rBGP], a
+    ld [rOBP0], a
+    ld [rOBP1], a
+
+    ld a, 10
+    ld [FrameCounter], a
+    call App_WaitFrames
+    
+    ld a, %11_10_01_00
+    ld [rBGP], a
+    ld [rOBP0], a
+    ld [rOBP1], a
+    
+    ret
