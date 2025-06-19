@@ -1,5 +1,6 @@
 INCLUDE "include/hardware.inc"
 
+EXPORT Actions.DrawAddress
 EXPORT Actions.A
 EXPORT Actions.B
 EXPORT Actions.Select
@@ -14,7 +15,6 @@ EXPORT Actions.L1
 EXPORT Actions.R1
 EXPORT Actions.L2
 EXPORT Actions.R2
-EXPORT Actions.MenuDrawAddress
 
 SECTION "Action Table", WRAM0
 
@@ -22,7 +22,7 @@ SECTION "Action Table", WRAM0
 ; The function "ProcessActions" will call all addresses
 ; every frame with no exceptions. It's pretty nifty.
 Actions::
-    .MenuDrawAddress ds 2
+    .DrawAddress ds 2
     .A ds 2
     .B ds 2
     .Select ds 2

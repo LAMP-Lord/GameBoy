@@ -1,9 +1,5 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Interrupts  - Variables", HRAM
-ActiveBank:: ds 1
-FrameCounter:: ds 1
-
 SECTION "Interrupts - VBlank Vector", ROM0[$0040]
     jp Int_VBlankInterrupt
 
@@ -31,27 +27,3 @@ Int_StatInterrupt:
     ldh [rIF], a
 
     reti
-
-SECTION "App        - Functions", ROM0
-
-App_EndOfFrame::
-    call sMOL_dosound
-    call hUGE_dosound
-    
-    ld a, [ActiveBank]
-    ld [$2000], a
-
-    call Input_Query
-    call Actions_ProcessActions
-
-    halt
-
-    ret
-
-App_WaitFrames::
-    call App_EndOfFrame
-    ld a, [FrameCounter]
-    dec a
-    ld [FrameCounter], a
-    jr nz, App_WaitFrames
-    ret

@@ -57,6 +57,3 @@ EntryPoint::
     ld [$2000], a
     ld [ActiveBank], a
     jp TitleScreen_Animation
-
-NopFunction::
-    ret

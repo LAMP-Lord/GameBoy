@@ -68,7 +68,7 @@ TitleScreen_Animation::
     ld a, 2
     ld [Menu.Items], a
 
-    SET_ACTION Actions.MenuDrawAddress, TitleMenu_Draw
+    SET_ACTION Actions.DrawAddress, TitleMenu_Draw
     SET_ACTION Actions.Up, Menu_Up
     SET_ACTION Actions.Down, Menu_Down
 
@@ -76,6 +76,8 @@ TitleScreen_Animation::
     ld a, $1
     ld [ActiveBank], a
     call Music_MainTheme
+
+    call Memory_LoadSave
 
     call UI_FadeIn
 
@@ -152,11 +154,20 @@ Text_Continue: db "Continue", 255
 SECTION "TitleScreen - Menu Functions", ROMX, BANK[$1]
 
 TitleMenu_Draw:
+    ld a, [ValidSave]
+    add $11
+    ld [$9803], a
+
     ld a, [Menu.Selector]
     cp 0
-    jp nz, Continue
+    jr nz, Continue
 
     SET_ACTION Actions.A, TitleMenu_NewGame
+
+    ld a, [Save.Seed]
+    ld [$9800], a
+    ld a, [Save.Seed + 1]
+    ld [$9801], a
 
     CHECK_BUTTON sCurKeys, PADB_A
     ld a, $59
@@ -179,6 +190,11 @@ Continue:
     ld [$99E5], a
     ld a, $59
     ld [$9A05], a
+
+    ld a, [Save.Seed]
+    ld [$9820], a
+    ld a, [Save.Seed + 1]
+    ld [$9821], a
     ret
     FALSE
     ld a, $58
@@ -189,14 +205,17 @@ Continue:
 
 
 TitleMenu_NewGame:
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADB_A
     ; call UI_FadeOut
-    call GenerateSeed
+    call App_GenerateSeed
     FALSE
     ret
 
 TitleMenu_Continue:
     CHECK_BUTTON sDrpKeys, PADB_A
-    call UI_FadeOut
+    ; call UI_FadeOut
+    call Memory_SaveGame
+    call Memory_LoadSave
+
     FALSE
     ret

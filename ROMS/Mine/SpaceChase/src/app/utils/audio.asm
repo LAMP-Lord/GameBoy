@@ -70,6 +70,8 @@ Audio_TurnOffAll::
     ld c, $1
     call sMOL_mute_channel
 
+    ret
+
 ; Channel Switches
 Audio_sMOLDriverCh1::
     ld b, $0
