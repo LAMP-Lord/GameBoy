@@ -1,5 +1,6 @@
 INCLUDE "include/hardware.inc"
 INCLUDE "include/charmap.inc"
+INCLUDE "include/input_macros.inc"
 
 SECTION "State Handler Variables", WRAM0
 
