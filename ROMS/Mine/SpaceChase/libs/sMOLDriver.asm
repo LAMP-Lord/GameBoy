@@ -33,7 +33,7 @@ ENDM
 ;; Maximum pattern length
 DEF PATTERN_LENGTH EQU 64
 
-SECTION "sMOL       - Playback Variables", WRAM0
+SECTION "sMOL        - Playback Variables", WRAM0
 ;; Active song descriptor
 order_cnt: db
 _start_song_descriptor_pointers:
@@ -148,7 +148,7 @@ ds 4
 
 end_zero:
 
-SECTION "sMOL       - Sound Driver", ROM0
+SECTION "sMOL        - Sound Driver", ROM0
 
 IF DEF(GBDK)
 _sMOL_init::

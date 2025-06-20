@@ -1,11 +1,11 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "Audio      - Variables", WRAM0
+SECTION "Audio       - Variables", WRAM0
 
 hUGE_Bank:: db
 sMOL_Bank:: db
 
-SECTION "Audio      - Music Functions", ROM0
+SECTION "Audio       - Music Functions", ROM0
 
 Music_MainTheme::
     call Audio_ResetChannels
@@ -20,7 +20,7 @@ Music_MainTheme::
 
     ret
 
-SECTION "Audio      - SFX Functions", ROM0
+SECTION "Audio       - SFX Functions", ROM0
 
 SFX_Lazer::
     ld hl, SFX
@@ -35,7 +35,7 @@ SFX_Lazer::
 
 
 
-SECTION "Audio      - Channel Overrides", ROM0
+SECTION "Audio       - Channel Overrides", ROM0
 
 ; Global
 Audio_ResetChannels::

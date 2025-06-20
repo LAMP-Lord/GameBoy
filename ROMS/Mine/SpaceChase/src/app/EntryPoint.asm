@@ -1,4 +1,5 @@
 INCLUDE "include/hardware.inc"
+INCLUDE "include/charmap.inc"
 
 SECTION "Entry Point", ROM0
 
@@ -53,7 +54,6 @@ EntryPoint::
 
     call Int_InitInterrupts
 
-    ld a, $1
-    ld [$2000], a
-    ld [ActiveBank], a
-    jp TitleScreen_Animation
+    ld a, "T"
+    ld [CurrentState], a
+    jp ChangeState

@@ -7,7 +7,7 @@ EXPORT Menu.Selector
 EXPORT Menu.Items
 EXPORT Menu.DrawAddress
 
-SECTION "UI         - Menu Variables", WRAM0
+SECTION "UI          - Menu Variables", WRAM0
 
 Menu::
     .Selector ds 1
@@ -16,7 +16,7 @@ MenuItems::
     ds 20
 MenuEnd::
 
-SECTION "UI         - Graphics", ROM0
+SECTION "UI          - Graphics", ROM0
 
 Font: INCBIN "generated/ui/text-font.2bpp"
 FontEnd:
@@ -27,7 +27,7 @@ DisplayBoxEnd:
 Buttons: INCBIN "generated/ui/buttons.2bpp"
 ButtonsEnd:
 
-SECTION "UI         - Functions", ROM0
+SECTION "UI          - Functions", ROM0
 
 UI_Load::
     ld de, Font
@@ -90,18 +90,14 @@ UI_FadeOut::
     ld [rOBP0], a
     ld [rOBP1], a
 
-    ld a, 10
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 5
 
     ld a, %01_00_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
 
-    ld a, 10
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 5
 
     ld a, %00_00_00_00
     ld [rBGP], a
@@ -124,18 +120,14 @@ UI_FadeIn::
     ld [rOBP0], a
     ld [rOBP1], a
 
-    ld a, 10
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 5
     
     ld a, %10_01_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
 
-    ld a, 10
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 5
     
     ld a, %11_10_01_00
     ld [rBGP], a

@@ -1,6 +1,6 @@
 include "include/hUGE.inc"
 
-SECTION "SFX        - Data", ROMX
+SECTION "SFX         - Data", ROMX
 
 SFX::
 db 7

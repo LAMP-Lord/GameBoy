@@ -17,7 +17,7 @@ Graphics:
 
 SECTION "TitleScreen - Functions", ROMX, BANK[$1]
 
-TitleScreen_Animation::
+TitleScreen_EntryPoint::
     ld de, Graphics.Main
     ld hl, _VRAM8800
     ld bc, Graphics.MainEnd - Graphics.Main
@@ -67,6 +67,15 @@ TitleScreen_Animation::
     ; Init Menu
     ld a, 2
     ld [Menu.Items], a
+    xor a
+    ld [Menu.Selector], a
+
+    ld a, $57
+    ld [$99E5], a
+    ld a, $58
+    ld [$9A05], a
+
+    call UI_FadeIn
 
     SET_ACTION Actions.DrawAddress, TitleMenu_Draw
     SET_ACTION Actions.Up, Menu_Up
@@ -79,36 +88,26 @@ TitleScreen_Animation::
 
     call Memory_LoadSave
 
-    call UI_FadeIn
-
 .animation
-    ld a, 40
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 40
 
     ld hl, _OAMRAM
     ld b, 15
     call .loop_down
 
-    ld a, 40
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 40
 
     ld hl, _OAMRAM
     ld b, 15
     call .loop_down
 
-    ld a, 40
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 40
 
     ld hl, _OAMRAM
     ld b, 15
     call .loop_up
 
-    ld a, 40
-    ld [FrameCounter], a
-    call App_WaitFrames
+    WAIT_FRAMES 40
 
     ld hl, _OAMRAM
     ld b, 15
@@ -144,30 +143,12 @@ TitleScreen_Animation::
     jr nz, .loop_up
     ret
 
-
-
-SECTION "TitleScreen - Menu Data", ROMX, BANK[$1]
-
-Text_NewGame: db "New Game", 255
-Text_Continue: db "Continue", 255
-
-SECTION "TitleScreen - Menu Functions", ROMX, BANK[$1]
-
 TitleMenu_Draw:
-    ld a, [ValidSave]
-    add $11
-    ld [$9803], a
-
     ld a, [Menu.Selector]
     cp 0
     jr nz, Continue
 
     SET_ACTION Actions.A, TitleMenu_NewGame
-
-    ld a, [Save.Seed]
-    ld [$9800], a
-    ld a, [Save.Seed + 1]
-    ld [$9801], a
 
     CHECK_BUTTON sCurKeys, PADB_A
     ld a, $59
@@ -190,11 +171,6 @@ Continue:
     ld [$99E5], a
     ld a, $59
     ld [$9A05], a
-
-    ld a, [Save.Seed]
-    ld [$9820], a
-    ld a, [Save.Seed + 1]
-    ld [$9821], a
     ret
     FALSE
     ld a, $58
@@ -206,16 +182,27 @@ Continue:
 
 TitleMenu_NewGame:
     CHECK_BUTTON sCurKeys, PADB_A
-    ; call UI_FadeOut
-    call App_GenerateSeed
+
+    ; New Game
+
     FALSE
     ret
 
 TitleMenu_Continue:
     CHECK_BUTTON sDrpKeys, PADB_A
-    ; call UI_FadeOut
-    call Memory_SaveGame
-    call Memory_LoadSave
+    
+    call Actions_ResetActions
+    call UI_FadeOut
+
+    ld a, "T"
+    ld [CurrentState], a
+    jp ChangeState
 
     FALSE
     ret
+
+
+SECTION "TitleScreen - Menu Data", ROMX, BANK[$1]
+
+Text_NewGame: db "New Game", 255
+Text_Continue: db "Continue", 255

@@ -16,7 +16,7 @@ EXPORT Actions.R1
 EXPORT Actions.L2
 EXPORT Actions.R2
 
-SECTION "Action Table", WRAM0
+SECTION "Action      - Table", WRAM0
 
 ; This cool utility stores 2 byte addresses per input.
 ; The function "ProcessActions" will call all addresses
@@ -39,7 +39,7 @@ Actions::
     .R2 ds 2
 ActionsEnd::
 
-SECTION "Action Functions", ROM0
+SECTION "Action      - Functions", ROM0
 
 Actions_ProcessActions::
     ld   hl, Actions

@@ -117,7 +117,7 @@ Save::
     .ReactivePlating ds 1
 SaveEnd::
 
-SECTION "Memory     - Memory Functions", ROM0
+SECTION "Memory      - Memory Functions", ROM0
 
 ; DE = Source
 ; HL = Destination

@@ -1,6 +1,6 @@
 include "include/hUGE.inc"
 
-SECTION "Music      - Softworld", ROMX
+SECTION "Music       - Softworld", ROMX
 
 Softworld::
 db 5

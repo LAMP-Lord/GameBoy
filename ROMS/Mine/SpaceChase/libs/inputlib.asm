@@ -6,7 +6,7 @@
 
 include "include/hardware.inc"
 
-SECTION "Input      - Input Variables", HRAM
+SECTION "Input       - Input Variables", HRAM
 
 sNewKeys:: db ; (Standard) Pressed this frame
 sCurKeys:: db ; (Standard) Held this frame
@@ -18,7 +18,7 @@ eCurKeys:: db ; (Extra) Held this frame
 eOldKeys:: db ; (Extra) Held last frame
 eDrpKeys:: db ; (Extra) Dropped this frame
 
-SECTION "Input      - Main", ROM0
+SECTION "Input       - Main", ROM0
 
 Input_Query::
   ; Update old values

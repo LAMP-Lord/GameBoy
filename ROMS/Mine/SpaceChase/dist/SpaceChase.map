@@ -1,35 +1,33 @@
 SUMMARY:
-	ROM0: 6363 bytes used / 10021 free
-	ROMX: 22252 bytes used / 10516 free in 2 banks
+	ROM0: 6435 bytes used / 9949 free
+	ROMX: 22255 bytes used / 10513 free in 2 banks
 	SRAM: 58 bytes used / 8134 free in 1 bank
-	WRAM0: 285 bytes used / 3811 free
+	WRAM0: 286 bytes used / 3810 free
 	HRAM: 10 bytes used / 117 free
 
 ROM0 bank #0:
-	SECTION: $0000-$0028 ($0029 bytes) ["Action Functions"]
+	SECTION: $0000-$0028 ($0029 bytes) ["Action      - Functions"]
 	         $0000 = Actions_ProcessActions
 	         $0005 = Actions_ProcessActions.loop
 	         $0016 = CallHL
 	         $0017 = Actions_ResetActions
 	         $0020 = Actions_ResetActions.loop
-	SECTION: $0029-$003d ($0015 bytes) ["Audio      - Music Functions"]
+	SECTION: $0029-$003d ($0015 bytes) ["Audio       - Music Functions"]
 	         $0029 = Music_MainTheme
 	EMPTY: $003e-$003f ($0002 bytes)
-	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts - VBlank Vector"]
-	EMPTY: $0043-$0047 ($0005 bytes)
-	SECTION: $0048-$004a ($0003 bytes) ["Interrupts - Stat Vector"]
-	SECTION: $004b-$00fa ($00b0 bytes) ["Audio      - Channel Overrides"]
-	         $004b = Audio_ResetChannels
-	         $0058 = Audio_TurnOffAll
-	         $0089 = Audio_sMOLDriverCh1
-	         $0096 = Audio_sMOLDriverCh2
-	         $00a3 = Audio_sMOLDriverCh3
-	         $00b5 = Audio_sMOLDriverCh4
-	         $00c2 = Audio_hUGEDriverCh1
-	         $00cf = Audio_hUGEDriverCh2
-	         $00dc = Audio_hUGEDriverCh3
-	         $00ee = Audio_hUGEDriverCh4
-	EMPTY: $00fb-$00ff ($0005 bytes)
+	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts  - VBlank Vector"]
+	SECTION: $0043-$00f2 ($00b0 bytes) ["Audio       - Channel Overrides"]
+	         $0043 = Audio_ResetChannels
+	         $0050 = Audio_TurnOffAll
+	         $0081 = Audio_sMOLDriverCh1
+	         $008e = Audio_sMOLDriverCh2
+	         $009b = Audio_sMOLDriverCh3
+	         $00ad = Audio_sMOLDriverCh4
+	         $00ba = Audio_hUGEDriverCh1
+	         $00c7 = Audio_hUGEDriverCh2
+	         $00d4 = Audio_hUGEDriverCh3
+	         $00e6 = Audio_hUGEDriverCh4
+	EMPTY: $00f3-$00ff ($000d bytes)
 	SECTION: $0100-$014f ($0050 bytes) ["ROM Header"]
 	         $0104 = NintendoLogo
 	         $0134 = ROMTitle
@@ -44,7 +42,7 @@ ROM0 bank #0:
 	         $014c = ROMVersion
 	         $014d = HeaderChecksum
 	         $014e = ROMChecksum
-	SECTION: $0150-$08f6 ($07a7 bytes) ["sMOL       - Sound Driver"]
+	SECTION: $0150-$08f6 ($07a7 bytes) ["sMOL        - Sound Driver"]
 	         $0150 = sMOL_init
 	         $0167 = sMOL_init.copy_song_descriptor_loop
 	         $0173 = sMOL_init.fill_loop
@@ -166,7 +164,7 @@ ROM0 bank #0:
 	         $085b = tick_time.update_current_order
 	         $0863 = tick_time.noreset
 	         $0867 = note_table
-	SECTION: $08f7-$1097 ($07a1 bytes) ["hUGE       - Sound Driver"]
+	SECTION: $08f7-$1097 ($07a1 bytes) ["hUGE        - Sound Driver"]
 	         $08f7 = hUGE_init
 	         $090e = hUGE_init.copy_song_descriptor_loop
 	         $091a = hUGE_init.fill_loop
@@ -288,14 +286,14 @@ ROM0 bank #0:
 	         $0ffc = tick_time.update_current_order
 	         $1004 = tick_time.noreset
 	         $1008 = note_table
-	SECTION: $1098-$1637 ($05a0 bytes) ["UI         - Graphics"]
+	SECTION: $1098-$1637 ($05a0 bytes) ["UI          - Graphics"]
 	         $1098 = Font
 	         $1598 = DisplayBox
 	         $1598 = FontEnd
 	         $1608 = Buttons
 	         $1608 = DisplayBoxEnd
 	         $1638 = ButtonsEnd
-	SECTION: $1638-$16f7 ($00c0 bytes) ["UI         - Functions"]
+	SECTION: $1638-$16f7 ($00c0 bytes) ["UI          - Functions"]
 	         $1638 = UI_Load
 	         $1657 = UI_PrintText
 	         $165f = Menu_Up
@@ -304,7 +302,7 @@ ROM0 bank #0:
 	         $1686 = Menu_Down.false
 	         $1687 = UI_FadeOut
 	         $16c1 = UI_FadeIn
-	SECTION: $16f8-$178f ($0098 bytes) ["Memory     - Memory Functions"]
+	SECTION: $16f8-$178f ($0098 bytes) ["Memory      - Memory Functions"]
 	         $16f8 = Memory_Copy
 	         $1701 = Memory_Fill
 	         $1709 = Memory_CalculateChecksum
@@ -313,28 +311,34 @@ ROM0 bank #0:
 	         $173e = Memory_LoadSave.ValidMirror
 	         $174a = Memory_LoadSave.ValidSave
 	         $1761 = Memory_SaveGame
-	SECTION: $1790-$1813 ($0084 bytes) ["Input      - Main"]
+	SECTION: $1790-$1813 ($0084 bytes) ["Input       - Main"]
 	         $1790 = Input_Query
 	         $17f7 = Input_Query.onenibble
 	         $1805 = Input_Query.onenibble_extra
 	         $1813 = Input_Query.knownret
-	SECTION: $1814-$187a ($0067 bytes) ["Entry Point"]
+	SECTION: $1814-$1877 ($0064 bytes) ["Entry Point"]
 	         $1814 = EntryPoint
-	SECTION: $187b-$18c6 ($004c bytes) ["App        - Functions"]
-	         $187b = App_GenerateSeed
-	         $18a5 = App_EndOfFrame
-	         $18b9 = App_WaitFrames
-	         $18c6 = NopFunction
-	SECTION: $18c7-$18d6 ($0010 bytes) ["Audio      - SFX Functions"]
-	         $18c7 = SFX_Lazer
-	SECTION: $18d7-$18e6 ($0010 bytes) ["Interrupts - Interrupt Functions"]
-	         $18d7 = Int_InitInterrupts
-	         $18df = Int_VBlankInterrupt
-	         $18e3 = Int_StatInterrupt
-	EMPTY: $18e7-$3fff ($2719 bytes)
-	TOTAL EMPTY: $2725 bytes
+	SECTION: $1878-$18c7 ($0050 bytes) ["State Handler"]
+	         $1878 = ChangeState
+	         $1899 = ChangeState.titleskip
+	         $18a9 = ChangeState.mapskip
+	         $18b9 = ChangeState.introskip
+	         $18c6 = ChangeState.chaseskip
+	SECTION: $18c8-$1913 ($004c bytes) ["App         - Functions"]
+	         $18c8 = App_GenerateSeed
+	         $18f2 = App_EndOfFrame
+	         $1906 = App_WaitFrames
+	         $1913 = NopFunction
+	SECTION: $1914-$1923 ($0010 bytes) ["Audio       - SFX Functions"]
+	         $1914 = SFX_Lazer
+	SECTION: $1924-$1931 ($000e bytes) ["Interrupts  - Interrupt Functions"]
+	         $1924 = Int_InitInterrupts
+	         $192c = Int_VBlankInterrupt
+	EMPTY: $1932-$3fff ($26ce bytes)
+	TOTAL EMPTY: $26dd bytes
 
 ROMX bank #1:
+	SECTION: $4000 ($0000 bytes) ["Intro       - Graphics"]
 	SECTION: $4000-$4ccf ($0cd0 bytes) ["TitleScreen - Graphics"]
 	         $4000 = Graphics.Main
 	         $4000 = Graphics
@@ -343,312 +347,316 @@ ROMX bank #1:
 	         $4bd0 = Graphics.Ship
 	         $4bd0 = Graphics.MapEnd
 	         $4cd0 = Graphics.ShipEnd
-	SECTION: $4cd0-$4e45 ($0176 bytes) ["TitleScreen - Functions"]
-	         $4cd0 = TitleScreen_Animation
-	         $4dee = TitleScreen_Animation.animation
-	         $4e30 = TitleScreen_Animation.loop_down
-	         $4e3b = TitleScreen_Animation.loop_up
-	SECTION: $4e46-$4ed3 ($008e bytes) ["TitleScreen - Menu Functions"]
-	         $4e46 = TitleMenu_Draw
-	         $4e7d = TitleMenu_Draw.false
-	         $4e88 = Continue
-	         $4eb0 = Continue.false
-	         $4ebb = TitleMenu_NewGame
-	         $4ec5 = TitleMenu_NewGame.false
-	         $4ec6 = TitleMenu_Continue
-	         $4ed3 = TitleMenu_Continue.false
-	SECTION: $4ed4-$4ee5 ($0012 bytes) ["TitleScreen - Menu Data"]
-	         $4ed4 = Text_NewGame
-	         $4edd = Text_Continue
-	SECTION: $4ee6-$604d ($1168 bytes) ["Music      - Softworld"]
-	         $4ee6 = Softworld
-	         $4efb = order_cnt
-	         $4efc = order1
-	         $4f0e = order2
-	         $4f20 = order3
-	         $4f32 = order4
-	         $4f44 = P0
-	         $5004 = P1
-	         $50c4 = P2
-	         $5184 = P3
-	         $5244 = P5
-	         $5304 = P6
-	         $53c4 = P7
-	         $5484 = P9
-	         $5544 = P10
-	         $5604 = P11
-	         $56c4 = P12
-	         $5784 = P13
-	         $5844 = P14
-	         $5904 = P15
-	         $59c4 = P16
-	         $5a84 = P18
-	         $5b44 = P19
-	         $5c04 = P20
-	         $5cc4 = P21
-	         $5d84 = P22
-	         $5e44 = itNoiseSP1
-	         $5ea4 = itNoiseSP2
-	         $5f04 = itNoiseSP3
-	         $5f64 = duty_instruments
-	         $5f64 = itSquareinst1
-	         $5f6a = itSquareinst2
-	         $5f70 = itSquareinst3
-	         $5f76 = itSquareinst4
-	         $5f7c = itSquareinst5
-	         $5f82 = itSquareinst6
-	         $5f88 = itSquareinst7
-	         $5f8e = itSquareinst8
-	         $5f94 = itSquareinst9
-	         $5f9a = itSquareinst10
-	         $5fa0 = wave_instruments
-	         $5fa0 = itWaveinst1
-	         $5fa6 = itWaveinst2
-	         $5fac = itWaveinst3
-	         $5fb2 = itWaveinst4
-	         $5fb8 = itWaveinst5
-	         $5fbe = noise_instruments
-	         $5fbe = itNoiseinst1
-	         $5fc4 = itNoiseinst2
-	         $5fca = itNoiseinst3
-	         $5fd0 = itNoiseinst4
-	         $5fd6 = itNoiseinst5
-	         $5fdc = itNoiseinst6
-	         $5fe2 = itNoiseinst7
-	         $5fe8 = itNoiseinst8
-	         $5fee = routines
-	         $5fee = __end_hUGE_Routine_0
-	         $5fee = __hUGE_Routine_0
-	         $5fef = __end_hUGE_Routine_1
-	         $5fef = __hUGE_Routine_1
-	         $5ff0 = __end_hUGE_Routine_2
-	         $5ff0 = __hUGE_Routine_2
-	         $5ff1 = __hUGE_Routine_3
-	         $5ff1 = __end_hUGE_Routine_3
-	         $5ff2 = __hUGE_Routine_4
-	         $5ff2 = __end_hUGE_Routine_4
-	         $5ff3 = __end_hUGE_Routine_5
-	         $5ff3 = __hUGE_Routine_5
-	         $5ff4 = __end_hUGE_Routine_6
-	         $5ff4 = __hUGE_Routine_6
-	         $5ff5 = __end_hUGE_Routine_7
-	         $5ff5 = __hUGE_Routine_7
-	         $5ff6 = __hUGE_Routine_8
-	         $5ff6 = __end_hUGE_Routine_8
-	         $5ff7 = __end_hUGE_Routine_9
-	         $5ff7 = __hUGE_Routine_9
-	         $5ff8 = __hUGE_Routine_10
-	         $5ff8 = __end_hUGE_Routine_10
-	         $5ff9 = __end_hUGE_Routine_11
-	         $5ff9 = __hUGE_Routine_11
-	         $5ffa = __end_hUGE_Routine_12
-	         $5ffa = __hUGE_Routine_12
-	         $5ffb = __hUGE_Routine_13
-	         $5ffb = __end_hUGE_Routine_13
-	         $5ffc = __end_hUGE_Routine_14
-	         $5ffc = __hUGE_Routine_14
-	         $5ffd = __hUGE_Routine_15
-	         $5ffd = __end_hUGE_Routine_15
-	         $5ffe = waves
-	         $5ffe = wave0
-	         $600e = wave1
-	         $601e = wave2
-	         $602e = wave3
-	         $603e = wave4
-	SECTION: $604e-$6261 ($0214 bytes) ["SFX        - Data"]
-	         $604e = SFX
-	         $6063 = order_cnt
-	         $6064 = order1
-	         $6066 = order2
-	         $6068 = order3
-	         $606a = order4
-	         $606c = P0
-	         $612c = P1
-	         $61ec = itSquareSP1
-	         $624c = duty_instruments
-	         $624c = itSquareinst1
-	         $6252 = wave_instruments
-	         $6252 = noise_instruments
-	         $6252 = routines
-	         $6252 = __end_hUGE_Routine_0
-	         $6252 = __hUGE_Routine_0
-	         $6253 = __end_hUGE_Routine_1
-	         $6253 = __hUGE_Routine_1
-	         $6254 = __end_hUGE_Routine_2
-	         $6254 = __hUGE_Routine_2
-	         $6255 = __hUGE_Routine_3
-	         $6255 = __end_hUGE_Routine_3
-	         $6256 = __end_hUGE_Routine_4
-	         $6256 = __hUGE_Routine_4
-	         $6257 = __end_hUGE_Routine_5
-	         $6257 = __hUGE_Routine_5
-	         $6258 = __end_hUGE_Routine_6
-	         $6258 = __hUGE_Routine_6
-	         $6259 = __end_hUGE_Routine_7
-	         $6259 = __hUGE_Routine_7
-	         $625a = __hUGE_Routine_8
-	         $625a = __end_hUGE_Routine_8
-	         $625b = __end_hUGE_Routine_9
-	         $625b = __hUGE_Routine_9
-	         $625c = __hUGE_Routine_10
-	         $625c = __end_hUGE_Routine_10
-	         $625d = __end_hUGE_Routine_11
-	         $625d = __hUGE_Routine_11
-	         $625e = __end_hUGE_Routine_12
-	         $625e = __hUGE_Routine_12
-	         $625f = __end_hUGE_Routine_13
-	         $625f = __hUGE_Routine_13
-	         $6260 = __end_hUGE_Routine_14
-	         $6260 = __hUGE_Routine_14
-	         $6261 = __hUGE_Routine_15
-	         $6261 = __end_hUGE_Routine_15
-	         $6262 = waves
-	EMPTY: $6262-$7fff ($1d9e bytes)
-	TOTAL EMPTY: $1d9e bytes
+	SECTION: $4cd0-$4ec6 ($01f7 bytes) ["TitleScreen - Functions"]
+	         $4cd0 = TitleScreen_EntryPoint
+	         $4dfc = TitleScreen_EntryPoint.animation
+	         $4e3e = TitleScreen_EntryPoint.loop_down
+	         $4e49 = TitleScreen_EntryPoint.loop_up
+	         $4e54 = TitleMenu_Draw
+	         $4e77 = TitleMenu_Draw.false
+	         $4e82 = Continue
+	         $4e9e = Continue.false
+	         $4ea9 = TitleMenu_NewGame
+	         $4eb0 = TitleMenu_NewGame.false
+	         $4eb1 = TitleMenu_Continue
+	         $4ec6 = TitleMenu_Continue.false
+	SECTION: $4ec7-$4ed8 ($0012 bytes) ["TitleScreen - Menu Data"]
+	         $4ec7 = Text_NewGame
+	         $4ed0 = Text_Continue
+	SECTION: $4ed9-$4ee0 ($0008 bytes) ["Intro       - Functions"]
+	         $4ed9 = Intro_EntryPoint
+	SECTION: $4ee1-$6048 ($1168 bytes) ["Music       - Softworld"]
+	         $4ee1 = Softworld
+	         $4ef6 = order_cnt
+	         $4ef7 = order1
+	         $4f09 = order2
+	         $4f1b = order3
+	         $4f2d = order4
+	         $4f3f = P0
+	         $4fff = P1
+	         $50bf = P2
+	         $517f = P3
+	         $523f = P5
+	         $52ff = P6
+	         $53bf = P7
+	         $547f = P9
+	         $553f = P10
+	         $55ff = P11
+	         $56bf = P12
+	         $577f = P13
+	         $583f = P14
+	         $58ff = P15
+	         $59bf = P16
+	         $5a7f = P18
+	         $5b3f = P19
+	         $5bff = P20
+	         $5cbf = P21
+	         $5d7f = P22
+	         $5e3f = itNoiseSP1
+	         $5e9f = itNoiseSP2
+	         $5eff = itNoiseSP3
+	         $5f5f = duty_instruments
+	         $5f5f = itSquareinst1
+	         $5f65 = itSquareinst2
+	         $5f6b = itSquareinst3
+	         $5f71 = itSquareinst4
+	         $5f77 = itSquareinst5
+	         $5f7d = itSquareinst6
+	         $5f83 = itSquareinst7
+	         $5f89 = itSquareinst8
+	         $5f8f = itSquareinst9
+	         $5f95 = itSquareinst10
+	         $5f9b = wave_instruments
+	         $5f9b = itWaveinst1
+	         $5fa1 = itWaveinst2
+	         $5fa7 = itWaveinst3
+	         $5fad = itWaveinst4
+	         $5fb3 = itWaveinst5
+	         $5fb9 = noise_instruments
+	         $5fb9 = itNoiseinst1
+	         $5fbf = itNoiseinst2
+	         $5fc5 = itNoiseinst3
+	         $5fcb = itNoiseinst4
+	         $5fd1 = itNoiseinst5
+	         $5fd7 = itNoiseinst6
+	         $5fdd = itNoiseinst7
+	         $5fe3 = itNoiseinst8
+	         $5fe9 = routines
+	         $5fe9 = __end_hUGE_Routine_0
+	         $5fe9 = __hUGE_Routine_0
+	         $5fea = __end_hUGE_Routine_1
+	         $5fea = __hUGE_Routine_1
+	         $5feb = __end_hUGE_Routine_2
+	         $5feb = __hUGE_Routine_2
+	         $5fec = __hUGE_Routine_3
+	         $5fec = __end_hUGE_Routine_3
+	         $5fed = __hUGE_Routine_4
+	         $5fed = __end_hUGE_Routine_4
+	         $5fee = __end_hUGE_Routine_5
+	         $5fee = __hUGE_Routine_5
+	         $5fef = __end_hUGE_Routine_6
+	         $5fef = __hUGE_Routine_6
+	         $5ff0 = __end_hUGE_Routine_7
+	         $5ff0 = __hUGE_Routine_7
+	         $5ff1 = __hUGE_Routine_8
+	         $5ff1 = __end_hUGE_Routine_8
+	         $5ff2 = __end_hUGE_Routine_9
+	         $5ff2 = __hUGE_Routine_9
+	         $5ff3 = __hUGE_Routine_10
+	         $5ff3 = __end_hUGE_Routine_10
+	         $5ff4 = __end_hUGE_Routine_11
+	         $5ff4 = __hUGE_Routine_11
+	         $5ff5 = __end_hUGE_Routine_12
+	         $5ff5 = __hUGE_Routine_12
+	         $5ff6 = __hUGE_Routine_13
+	         $5ff6 = __end_hUGE_Routine_13
+	         $5ff7 = __end_hUGE_Routine_14
+	         $5ff7 = __hUGE_Routine_14
+	         $5ff8 = __hUGE_Routine_15
+	         $5ff8 = __end_hUGE_Routine_15
+	         $5ff9 = waves
+	         $5ff9 = wave0
+	         $6009 = wave1
+	         $6019 = wave2
+	         $6029 = wave3
+	         $6039 = wave4
+	SECTION: $6049-$625c ($0214 bytes) ["SFX         - Data"]
+	         $6049 = SFX
+	         $605e = order_cnt
+	         $605f = order1
+	         $6061 = order2
+	         $6063 = order3
+	         $6065 = order4
+	         $6067 = P0
+	         $6127 = P1
+	         $61e7 = itSquareSP1
+	         $6247 = duty_instruments
+	         $6247 = itSquareinst1
+	         $624d = wave_instruments
+	         $624d = noise_instruments
+	         $624d = routines
+	         $624d = __end_hUGE_Routine_0
+	         $624d = __hUGE_Routine_0
+	         $624e = __end_hUGE_Routine_1
+	         $624e = __hUGE_Routine_1
+	         $624f = __end_hUGE_Routine_2
+	         $624f = __hUGE_Routine_2
+	         $6250 = __hUGE_Routine_3
+	         $6250 = __end_hUGE_Routine_3
+	         $6251 = __end_hUGE_Routine_4
+	         $6251 = __hUGE_Routine_4
+	         $6252 = __end_hUGE_Routine_5
+	         $6252 = __hUGE_Routine_5
+	         $6253 = __end_hUGE_Routine_6
+	         $6253 = __hUGE_Routine_6
+	         $6254 = __end_hUGE_Routine_7
+	         $6254 = __hUGE_Routine_7
+	         $6255 = __hUGE_Routine_8
+	         $6255 = __end_hUGE_Routine_8
+	         $6256 = __end_hUGE_Routine_9
+	         $6256 = __hUGE_Routine_9
+	         $6257 = __hUGE_Routine_10
+	         $6257 = __end_hUGE_Routine_10
+	         $6258 = __end_hUGE_Routine_11
+	         $6258 = __hUGE_Routine_11
+	         $6259 = __end_hUGE_Routine_12
+	         $6259 = __hUGE_Routine_12
+	         $625a = __end_hUGE_Routine_13
+	         $625a = __hUGE_Routine_13
+	         $625b = __end_hUGE_Routine_14
+	         $625b = __hUGE_Routine_14
+	         $625c = __hUGE_Routine_15
+	         $625c = __end_hUGE_Routine_15
+	         $625d = waves
+	EMPTY: $625d-$7fff ($1da3 bytes)
+	TOTAL EMPTY: $1da3 bytes
 
 ROMX bank #2:
-	SECTION: $4000-$7489 ($348a bytes) ["Music      - Microplastics in the Air"]
-	         $4000 = MitA
-	         $4015 = order_cnt
-	         $4016 = order1
-	         $406c = order2
-	         $40c2 = order3
-	         $4118 = order4
-	         $416e = P0
-	         $422e = P2
-	         $42ee = P3
-	         $43ae = P4
-	         $446e = P6
-	         $452e = P7
-	         $45ee = P10
-	         $46ae = P12
-	         $476e = P13
-	         $482e = P14
-	         $48ee = P15
-	         $49ae = P16
-	         $4a6e = P17
-	         $4b2e = P19
-	         $4bee = P20
-	         $4cae = P21
-	         $4d6e = P23
-	         $4e2e = P24
-	         $4eee = P25
-	         $4fae = P26
-	         $506e = P28
-	         $512e = P29
-	         $51ee = P30
-	         $52ae = P32
-	         $536e = P33
-	         $542e = P34
-	         $54ee = P36
-	         $55ae = P37
-	         $566e = P38
-	         $572e = P39
-	         $57ee = P40
-	         $58ae = P41
-	         $596e = P42
-	         $5a2e = P43
-	         $5aee = P44
-	         $5bae = P45
-	         $5c6e = P46
-	         $5d2e = P47
-	         $5dee = P48
-	         $5eae = P53
-	         $5f6e = P54
-	         $602e = P55
-	         $60ee = P56
-	         $61ae = P59
-	         $626e = P60
-	         $632e = P61
-	         $63ee = P62
-	         $64ae = P64
-	         $656e = P65
-	         $662e = P66
-	         $66ee = P67
-	         $67ae = P68
-	         $686e = P70
-	         $692e = P72
-	         $69ee = P73
-	         $6aae = P74
-	         $6b6e = P75
-	         $6c2e = P76
-	         $6cee = P77
-	         $6dae = P78
-	         $6e6e = P79
-	         $6f2e = P81
-	         $6fee = itSquareSP1
-	         $704e = itSquareSP3
-	         $70ae = itSquareSP4
-	         $710e = itSquareSP5
-	         $716e = itSquareSP6
-	         $71ce = itSquareSP7
-	         $722e = itSquareSP8
-	         $728e = itSquareSP9
-	         $72ee = itWaveSP6
-	         $734e = itNoiseSP2
-	         $73ae = duty_instruments
-	         $73ae = itSquareinst1
-	         $73b4 = itSquareinst2
-	         $73ba = itSquareinst3
-	         $73c0 = itSquareinst4
-	         $73c6 = itSquareinst5
-	         $73cc = itSquareinst6
-	         $73d2 = itSquareinst7
-	         $73d8 = itSquareinst8
-	         $73de = itSquareinst9
-	         $73e4 = wave_instruments
-	         $73e4 = itWaveinst1
-	         $73ea = itWaveinst2
-	         $73f0 = itWaveinst3
-	         $73f6 = itWaveinst4
-	         $73fc = itWaveinst5
-	         $7402 = itWaveinst6
-	         $7408 = noise_instruments
-	         $7408 = itNoiseinst1
-	         $740e = itNoiseinst2
-	         $7414 = itNoiseinst3
-	         $741a = routines
-	         $741a = __hUGE_Routine_0
-	         $741a = __end_hUGE_Routine_0
-	         $741b = __hUGE_Routine_1
-	         $741b = __end_hUGE_Routine_1
-	         $741c = __end_hUGE_Routine_2
-	         $741c = __hUGE_Routine_2
-	         $741d = __end_hUGE_Routine_3
-	         $741d = __hUGE_Routine_3
-	         $741e = __end_hUGE_Routine_4
-	         $741e = __hUGE_Routine_4
-	         $741f = __end_hUGE_Routine_5
-	         $741f = __hUGE_Routine_5
-	         $7420 = __hUGE_Routine_6
-	         $7420 = __end_hUGE_Routine_6
-	         $7421 = __hUGE_Routine_7
-	         $7421 = __end_hUGE_Routine_7
-	         $7422 = __end_hUGE_Routine_8
-	         $7422 = __hUGE_Routine_8
-	         $7423 = __end_hUGE_Routine_9
-	         $7423 = __hUGE_Routine_9
-	         $7424 = __end_hUGE_Routine_10
-	         $7424 = __hUGE_Routine_10
-	         $7425 = __end_hUGE_Routine_11
-	         $7425 = __hUGE_Routine_11
-	         $7426 = __end_hUGE_Routine_12
-	         $7426 = __hUGE_Routine_12
-	         $7427 = __end_hUGE_Routine_13
-	         $7427 = __hUGE_Routine_13
-	         $7428 = __end_hUGE_Routine_14
-	         $7428 = __hUGE_Routine_14
-	         $7429 = __end_hUGE_Routine_15
-	         $7429 = __hUGE_Routine_15
-	         $742a = waves
-	         $742a = wave0
-	         $743a = wave1
-	         $744a = wave2
-	         $745a = wave3
-	         $746a = wave4
-	         $747a = wave5
-	EMPTY: $748a-$7fff ($0b76 bytes)
-	TOTAL EMPTY: $0b76 bytes
+	SECTION: $4000 ($0000 bytes) ["Starmap     - Graphics"]
+	SECTION: $4000-$4007 ($0008 bytes) ["Starmap     - Functions"]
+	         $4000 = Starmap_EntryPoint
+	SECTION: $4008-$7491 ($348a bytes) ["Music       - Microplastics in the Air"]
+	         $4008 = MitA
+	         $401d = order_cnt
+	         $401e = order1
+	         $4074 = order2
+	         $40ca = order3
+	         $4120 = order4
+	         $4176 = P0
+	         $4236 = P2
+	         $42f6 = P3
+	         $43b6 = P4
+	         $4476 = P6
+	         $4536 = P7
+	         $45f6 = P10
+	         $46b6 = P12
+	         $4776 = P13
+	         $4836 = P14
+	         $48f6 = P15
+	         $49b6 = P16
+	         $4a76 = P17
+	         $4b36 = P19
+	         $4bf6 = P20
+	         $4cb6 = P21
+	         $4d76 = P23
+	         $4e36 = P24
+	         $4ef6 = P25
+	         $4fb6 = P26
+	         $5076 = P28
+	         $5136 = P29
+	         $51f6 = P30
+	         $52b6 = P32
+	         $5376 = P33
+	         $5436 = P34
+	         $54f6 = P36
+	         $55b6 = P37
+	         $5676 = P38
+	         $5736 = P39
+	         $57f6 = P40
+	         $58b6 = P41
+	         $5976 = P42
+	         $5a36 = P43
+	         $5af6 = P44
+	         $5bb6 = P45
+	         $5c76 = P46
+	         $5d36 = P47
+	         $5df6 = P48
+	         $5eb6 = P53
+	         $5f76 = P54
+	         $6036 = P55
+	         $60f6 = P56
+	         $61b6 = P59
+	         $6276 = P60
+	         $6336 = P61
+	         $63f6 = P62
+	         $64b6 = P64
+	         $6576 = P65
+	         $6636 = P66
+	         $66f6 = P67
+	         $67b6 = P68
+	         $6876 = P70
+	         $6936 = P72
+	         $69f6 = P73
+	         $6ab6 = P74
+	         $6b76 = P75
+	         $6c36 = P76
+	         $6cf6 = P77
+	         $6db6 = P78
+	         $6e76 = P79
+	         $6f36 = P81
+	         $6ff6 = itSquareSP1
+	         $7056 = itSquareSP3
+	         $70b6 = itSquareSP4
+	         $7116 = itSquareSP5
+	         $7176 = itSquareSP6
+	         $71d6 = itSquareSP7
+	         $7236 = itSquareSP8
+	         $7296 = itSquareSP9
+	         $72f6 = itWaveSP6
+	         $7356 = itNoiseSP2
+	         $73b6 = duty_instruments
+	         $73b6 = itSquareinst1
+	         $73bc = itSquareinst2
+	         $73c2 = itSquareinst3
+	         $73c8 = itSquareinst4
+	         $73ce = itSquareinst5
+	         $73d4 = itSquareinst6
+	         $73da = itSquareinst7
+	         $73e0 = itSquareinst8
+	         $73e6 = itSquareinst9
+	         $73ec = wave_instruments
+	         $73ec = itWaveinst1
+	         $73f2 = itWaveinst2
+	         $73f8 = itWaveinst3
+	         $73fe = itWaveinst4
+	         $7404 = itWaveinst5
+	         $740a = itWaveinst6
+	         $7410 = noise_instruments
+	         $7410 = itNoiseinst1
+	         $7416 = itNoiseinst2
+	         $741c = itNoiseinst3
+	         $7422 = routines
+	         $7422 = __hUGE_Routine_0
+	         $7422 = __end_hUGE_Routine_0
+	         $7423 = __hUGE_Routine_1
+	         $7423 = __end_hUGE_Routine_1
+	         $7424 = __end_hUGE_Routine_2
+	         $7424 = __hUGE_Routine_2
+	         $7425 = __end_hUGE_Routine_3
+	         $7425 = __hUGE_Routine_3
+	         $7426 = __end_hUGE_Routine_4
+	         $7426 = __hUGE_Routine_4
+	         $7427 = __end_hUGE_Routine_5
+	         $7427 = __hUGE_Routine_5
+	         $7428 = __hUGE_Routine_6
+	         $7428 = __end_hUGE_Routine_6
+	         $7429 = __hUGE_Routine_7
+	         $7429 = __end_hUGE_Routine_7
+	         $742a = __end_hUGE_Routine_8
+	         $742a = __hUGE_Routine_8
+	         $742b = __end_hUGE_Routine_9
+	         $742b = __hUGE_Routine_9
+	         $742c = __end_hUGE_Routine_10
+	         $742c = __hUGE_Routine_10
+	         $742d = __end_hUGE_Routine_11
+	         $742d = __hUGE_Routine_11
+	         $742e = __end_hUGE_Routine_12
+	         $742e = __hUGE_Routine_12
+	         $742f = __end_hUGE_Routine_13
+	         $742f = __hUGE_Routine_13
+	         $7430 = __end_hUGE_Routine_14
+	         $7430 = __hUGE_Routine_14
+	         $7431 = __end_hUGE_Routine_15
+	         $7431 = __hUGE_Routine_15
+	         $7432 = waves
+	         $7432 = wave0
+	         $7442 = wave1
+	         $7452 = wave2
+	         $7462 = wave3
+	         $7472 = wave4
+	         $7482 = wave5
+	EMPTY: $7492-$7fff ($0b6e bytes)
+	TOTAL EMPTY: $0b6e bytes
 
 SRAM bank #0:
 	SECTION: $a000-$a039 ($003a bytes) ["Save Storage"]
@@ -700,7 +708,7 @@ SRAM bank #0:
 	TOTAL EMPTY: $1fc6 bytes
 
 WRAM0 bank #0:
-	SECTION: $c000-$c063 ($0064 bytes) ["hUGE       - Playback Variables"]
+	SECTION: $c000-$c063 ($0064 bytes) ["hUGE        - Playback Variables"]
 	         $c000 = order_cnt
 	         $c001 = order1
 	         $c001 = _start_song_descriptor_pointers
@@ -769,7 +777,7 @@ WRAM0 bank #0:
 	         $c05d = table4
 	         $c05f = table_row4
 	         $c064 = end_zero
-	SECTION: $c064-$c0c7 ($0064 bytes) ["sMOL       - Playback Variables"]
+	SECTION: $c064-$c0c7 ($0064 bytes) ["sMOL        - Playback Variables"]
 	         $c064 = order_cnt
 	         $c065 = order1
 	         $c065 = _start_song_descriptor_pointers
@@ -838,7 +846,7 @@ WRAM0 bank #0:
 	         $c0c1 = table4
 	         $c0c3 = table_row4
 	         $c0c8 = end_zero
-	SECTION: $c0c8-$c0e5 ($001e bytes) ["Action Table"]
+	SECTION: $c0c8-$c0e5 ($001e bytes) ["Action      - Table"]
 	         $c0c8 = Actions
 	         $c0c8 = Actions.DrawAddress
 	         $c0ca = Actions.A
@@ -880,22 +888,24 @@ WRAM0 bank #0:
 	         $c102 = Save.OxygenTanks
 	         $c103 = Save.ReactivePlating
 	         $c104 = SaveEnd
-	SECTION: $c104-$c119 ($0016 bytes) ["UI         - Menu Variables"]
+	SECTION: $c104-$c119 ($0016 bytes) ["UI          - Menu Variables"]
 	         $c104 = Menu.Selector
 	         $c104 = Menu
 	         $c105 = Menu.Items
 	         $c106 = MenuItems
 	         $c11a = MenuEnd
-	SECTION: $c11a-$c11b ($0002 bytes) ["Audio      - Variables"]
+	SECTION: $c11a-$c11b ($0002 bytes) ["Audio       - Variables"]
 	         $c11a = hUGE_Bank
 	         $c11b = sMOL_Bank
-	SECTION: $c11c-$c11c ($0001 byte) ["App        - WRAM Variables"]
-	         $c11c = RandomByte
-	EMPTY: $c11d-$cfff ($0ee3 bytes)
-	TOTAL EMPTY: $0ee3 bytes
+	SECTION: $c11c-$c11c ($0001 byte) ["State Handler Variables"]
+	         $c11c = CurrentState
+	SECTION: $c11d-$c11d ($0001 byte) ["App         - WRAM Variables"]
+	         $c11d = RandomByte
+	EMPTY: $c11e-$cfff ($0ee2 bytes)
+	TOTAL EMPTY: $0ee2 bytes
 
 HRAM bank #0:
-	SECTION: $ff80-$ff87 ($0008 bytes) ["Input      - Input Variables"]
+	SECTION: $ff80-$ff87 ($0008 bytes) ["Input       - Input Variables"]
 	         $ff80 = sNewKeys
 	         $ff81 = sCurKeys
 	         $ff82 = sOldKeys
@@ -904,7 +914,7 @@ HRAM bank #0:
 	         $ff85 = eCurKeys
 	         $ff86 = eOldKeys
 	         $ff87 = eDrpKeys
-	SECTION: $ff88-$ff89 ($0002 bytes) ["App        - HRAM Variables"]
+	SECTION: $ff88-$ff89 ($0002 bytes) ["App         - HRAM Variables"]
 	         $ff88 = ActiveBank
 	         $ff89 = FrameCounter
 	EMPTY: $ff8a-$fffe ($0075 bytes)

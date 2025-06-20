@@ -1,15 +1,15 @@
 INCLUDE "include/hardware.inc"
 
-SECTION "App        - HRAM Variables", HRAM
+SECTION "App         - HRAM Variables", HRAM
 
 ActiveBank:: ds 1
 FrameCounter:: ds 1
 
-SECTION "App        - WRAM Variables", WRAM0
+SECTION "App         - WRAM Variables", WRAM0
 
 RandomByte: ds 1
 
-SECTION "App        - Functions", ROM0
+SECTION "App         - Functions", ROM0
 
 ; "Random" 8-Bit number
 ; Or as close as i can get
