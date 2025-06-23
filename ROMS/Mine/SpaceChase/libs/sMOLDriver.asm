@@ -1,5 +1,5 @@
-include "include/hardware.inc"
-include "include/hUGE.inc"
+include "hardware.inc"
+include "hUGE.inc"
 
 MACRO add_a_to_r16
     add LOW(\1)

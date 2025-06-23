@@ -1,20 +1,14 @@
 SUMMARY:
-	ROM0: 6435 bytes used / 9949 free
-	ROMX: 22255 bytes used / 10513 free in 2 banks
-	SRAM: 58 bytes used / 8134 free in 1 bank
-	WRAM0: 286 bytes used / 3810 free
+	ROM0: 6479 bytes used / 9905 free
+	ROMX: 22900 bytes used / 9868 free in 2 banks
+	SRAM: 62 bytes used / 8130 free in 1 bank
+	WRAM0: 289 bytes used / 3807 free
 	HRAM: 10 bytes used / 117 free
 
 ROM0 bank #0:
-	SECTION: $0000-$0028 ($0029 bytes) ["Action      - Functions"]
-	         $0000 = Actions_ProcessActions
-	         $0005 = Actions_ProcessActions.loop
-	         $0016 = CallHL
-	         $0017 = Actions_ResetActions
-	         $0020 = Actions_ResetActions.loop
-	SECTION: $0029-$003d ($0015 bytes) ["Audio       - Music Functions"]
-	         $0029 = Music_MainTheme
-	EMPTY: $003e-$003f ($0002 bytes)
+	SECTION: $0000-$003c ($003d bytes) ["Entry Point"]
+	         $0000 = EntryPoint
+	EMPTY: $003d-$003f ($0003 bytes)
 	SECTION: $0040-$0042 ($0003 bytes) ["Interrupts  - VBlank Vector"]
 	SECTION: $0043-$00f2 ($00b0 bytes) ["Audio       - Channel Overrides"]
 	         $0043 = Audio_ResetChannels
@@ -293,49 +287,61 @@ ROM0 bank #0:
 	         $1608 = Buttons
 	         $1608 = DisplayBoxEnd
 	         $1638 = ButtonsEnd
-	SECTION: $1638-$16f7 ($00c0 bytes) ["UI          - Functions"]
-	         $1638 = UI_Load
-	         $1657 = UI_PrintText
-	         $165f = Menu_Up
-	         $1670 = Menu_Up.false
-	         $1671 = Menu_Down
-	         $1686 = Menu_Down.false
-	         $1687 = UI_FadeOut
-	         $16c1 = UI_FadeIn
-	SECTION: $16f8-$178f ($0098 bytes) ["Memory      - Memory Functions"]
-	         $16f8 = Memory_Copy
-	         $1701 = Memory_Fill
-	         $1709 = Memory_CalculateChecksum
-	         $170b = Memory_CalculateChecksum.loop
-	         $1712 = Memory_LoadSave
-	         $173e = Memory_LoadSave.ValidMirror
-	         $174a = Memory_LoadSave.ValidSave
-	         $1761 = Memory_SaveGame
-	SECTION: $1790-$1813 ($0084 bytes) ["Input       - Main"]
-	         $1790 = Input_Query
-	         $17f7 = Input_Query.onenibble
-	         $1805 = Input_Query.onenibble_extra
-	         $1813 = Input_Query.knownret
-	SECTION: $1814-$1877 ($0064 bytes) ["Entry Point"]
-	         $1814 = EntryPoint
-	SECTION: $1878-$18c7 ($0050 bytes) ["State Handler"]
-	         $1878 = ChangeState
-	         $1899 = ChangeState.titleskip
-	         $18a9 = ChangeState.mapskip
-	         $18b9 = ChangeState.introskip
-	         $18c6 = ChangeState.chaseskip
-	SECTION: $18c8-$1913 ($004c bytes) ["App         - Functions"]
-	         $18c8 = App_GenerateSeed
-	         $18f2 = App_EndOfFrame
-	         $1906 = App_WaitFrames
-	         $1913 = NopFunction
-	SECTION: $1914-$1923 ($0010 bytes) ["Audio       - SFX Functions"]
-	         $1914 = SFX_Lazer
-	SECTION: $1924-$1931 ($000e bytes) ["Interrupts  - Interrupt Functions"]
-	         $1924 = Int_InitInterrupts
-	         $192c = Int_VBlankInterrupt
-	EMPTY: $1932-$3fff ($26ce bytes)
-	TOTAL EMPTY: $26dd bytes
+	SECTION: $1638-$170b ($00d4 bytes) ["Memory      - Memory Functions"]
+	         $1638 = Memory_Copy
+	         $1641 = Memory_SafeCopy
+	         $1653 = Memory_Fill
+	         $165b = Memory_CalculateChecksum
+	         $165d = Memory_CalculateChecksum.loop
+	         $1664 = Memory_LoadSave
+	         $1693 = Memory_LoadSave.TestMirror
+	         $16bd = Memory_LoadSave.Invalid
+	         $16c8 = Memory_LoadSave.continue
+	         $16d3 = Memory_SaveGame
+	SECTION: $170c-$17cf ($00c4 bytes) ["UI          - Functions"]
+	         $170c = UI_Load
+	         $172b = UI_PrintText
+	         $1733 = UI_SafePrintText
+	         $1742 = Menu_Up
+	         $1754 = \u00210
+	         $1754 = \u00211
+	         $1755 = Menu_Down
+	         $176b = \u00212
+	         $176b = \u00213
+	         $176c = UI_FadeOut
+	         $179e = UI_FadeIn
+	SECTION: $17d0-$1848 ($0079 bytes) ["App         - Functions"]
+	         $17d0 = App_GenerateSeed
+	         $17fa = App_EndOfFrame
+	         $180d = App_WaitFrames
+	         $1818 = NopFunction
+	         $1819 = CallHL
+	         $181a = App_Reset
+	SECTION: $1849-$18ba ($0072 bytes) ["Input       - Main"]
+	         $1849 = Input_Query
+	         $189e = Input_Query.onenibble
+	         $18ac = Input_Query.onenibble_extra
+	         $18ba = Input_Query.knownret
+	SECTION: $18bb-$1902 ($0048 bytes) ["State Handler"]
+	         $18bb = ChangeState
+	         $18d7 = ChangeState.titleskip
+	         $18e6 = ChangeState.mapskip
+	         $18f5 = ChangeState.introskip
+	         $1901 = ChangeState.chaseskip
+	SECTION: $1903-$192a ($0028 bytes) ["Action      - Functions"]
+	         $1903 = Actions_ProcessActions
+	         $1908 = Actions_ProcessActions.loop
+	         $1919 = Actions_ResetActions
+	         $1922 = Actions_ResetActions.loop
+	SECTION: $192b-$193e ($0014 bytes) ["Audio       - Music Functions"]
+	         $192b = Music_MainTheme
+	SECTION: $193f-$194f ($0011 bytes) ["Interrupts  - Interrupt Functions"]
+	         $193f = Int_InitInterrupts
+	         $1947 = Int_VBlankInterrupt
+	SECTION: $1950-$195e ($000f bytes) ["Audio       - SFX Functions"]
+	         $1950 = SFX_Lazer
+	EMPTY: $195f-$3fff ($26a1 bytes)
+	TOTAL EMPTY: $26b1 bytes
 
 ROMX bank #1:
 	SECTION: $4000 ($0000 bytes) ["Intro       - Graphics"]
@@ -347,169 +353,209 @@ ROMX bank #1:
 	         $4bd0 = Graphics.Ship
 	         $4bd0 = Graphics.MapEnd
 	         $4cd0 = Graphics.ShipEnd
-	SECTION: $4cd0-$4ec6 ($01f7 bytes) ["TitleScreen - Functions"]
+	SECTION: $4cd0-$4fbe ($02ef bytes) ["TitleScreen - Main"]
 	         $4cd0 = TitleScreen_EntryPoint
-	         $4dfc = TitleScreen_EntryPoint.animation
-	         $4e3e = TitleScreen_EntryPoint.loop_down
-	         $4e49 = TitleScreen_EntryPoint.loop_up
-	         $4e54 = TitleMenu_Draw
-	         $4e77 = TitleMenu_Draw.false
-	         $4e82 = Continue
-	         $4e9e = Continue.false
-	         $4ea9 = TitleMenu_NewGame
-	         $4eb0 = TitleMenu_NewGame.false
-	         $4eb1 = TitleMenu_Continue
-	         $4ec6 = TitleMenu_Continue.false
-	SECTION: $4ec7-$4ed8 ($0012 bytes) ["TitleScreen - Menu Data"]
-	         $4ec7 = Text_NewGame
-	         $4ed0 = Text_Continue
-	SECTION: $4ed9-$4ee0 ($0008 bytes) ["Intro       - Functions"]
-	         $4ed9 = Intro_EntryPoint
-	SECTION: $4ee1-$6048 ($1168 bytes) ["Music       - Softworld"]
-	         $4ee1 = Softworld
-	         $4ef6 = order_cnt
-	         $4ef7 = order1
-	         $4f09 = order2
-	         $4f1b = order3
-	         $4f2d = order4
-	         $4f3f = P0
-	         $4fff = P1
-	         $50bf = P2
-	         $517f = P3
-	         $523f = P5
-	         $52ff = P6
-	         $53bf = P7
-	         $547f = P9
-	         $553f = P10
-	         $55ff = P11
-	         $56bf = P12
-	         $577f = P13
-	         $583f = P14
-	         $58ff = P15
-	         $59bf = P16
-	         $5a7f = P18
-	         $5b3f = P19
-	         $5bff = P20
-	         $5cbf = P21
-	         $5d7f = P22
-	         $5e3f = itNoiseSP1
-	         $5e9f = itNoiseSP2
-	         $5eff = itNoiseSP3
-	         $5f5f = duty_instruments
-	         $5f5f = itSquareinst1
-	         $5f65 = itSquareinst2
-	         $5f6b = itSquareinst3
-	         $5f71 = itSquareinst4
-	         $5f77 = itSquareinst5
-	         $5f7d = itSquareinst6
-	         $5f83 = itSquareinst7
-	         $5f89 = itSquareinst8
-	         $5f8f = itSquareinst9
-	         $5f95 = itSquareinst10
-	         $5f9b = wave_instruments
-	         $5f9b = itWaveinst1
-	         $5fa1 = itWaveinst2
-	         $5fa7 = itWaveinst3
-	         $5fad = itWaveinst4
-	         $5fb3 = itWaveinst5
-	         $5fb9 = noise_instruments
-	         $5fb9 = itNoiseinst1
-	         $5fbf = itNoiseinst2
-	         $5fc5 = itNoiseinst3
-	         $5fcb = itNoiseinst4
-	         $5fd1 = itNoiseinst5
-	         $5fd7 = itNoiseinst6
-	         $5fdd = itNoiseinst7
-	         $5fe3 = itNoiseinst8
-	         $5fe9 = routines
-	         $5fe9 = __end_hUGE_Routine_0
-	         $5fe9 = __hUGE_Routine_0
-	         $5fea = __end_hUGE_Routine_1
-	         $5fea = __hUGE_Routine_1
-	         $5feb = __end_hUGE_Routine_2
-	         $5feb = __hUGE_Routine_2
-	         $5fec = __hUGE_Routine_3
-	         $5fec = __end_hUGE_Routine_3
-	         $5fed = __hUGE_Routine_4
-	         $5fed = __end_hUGE_Routine_4
-	         $5fee = __end_hUGE_Routine_5
-	         $5fee = __hUGE_Routine_5
-	         $5fef = __end_hUGE_Routine_6
-	         $5fef = __hUGE_Routine_6
-	         $5ff0 = __end_hUGE_Routine_7
-	         $5ff0 = __hUGE_Routine_7
-	         $5ff1 = __hUGE_Routine_8
-	         $5ff1 = __end_hUGE_Routine_8
-	         $5ff2 = __end_hUGE_Routine_9
-	         $5ff2 = __hUGE_Routine_9
-	         $5ff3 = __hUGE_Routine_10
-	         $5ff3 = __end_hUGE_Routine_10
-	         $5ff4 = __end_hUGE_Routine_11
-	         $5ff4 = __hUGE_Routine_11
-	         $5ff5 = __end_hUGE_Routine_12
-	         $5ff5 = __hUGE_Routine_12
-	         $5ff6 = __hUGE_Routine_13
-	         $5ff6 = __end_hUGE_Routine_13
-	         $5ff7 = __end_hUGE_Routine_14
-	         $5ff7 = __hUGE_Routine_14
-	         $5ff8 = __hUGE_Routine_15
-	         $5ff8 = __end_hUGE_Routine_15
-	         $5ff9 = waves
-	         $5ff9 = wave0
-	         $6009 = wave1
-	         $6019 = wave2
-	         $6029 = wave3
-	         $6039 = wave4
-	SECTION: $6049-$625c ($0214 bytes) ["SFX         - Data"]
-	         $6049 = SFX
-	         $605e = order_cnt
-	         $605f = order1
-	         $6061 = order2
-	         $6063 = order3
-	         $6065 = order4
-	         $6067 = P0
-	         $6127 = P1
-	         $61e7 = itSquareSP1
-	         $6247 = duty_instruments
-	         $6247 = itSquareinst1
-	         $624d = wave_instruments
-	         $624d = noise_instruments
-	         $624d = routines
-	         $624d = __end_hUGE_Routine_0
-	         $624d = __hUGE_Routine_0
-	         $624e = __end_hUGE_Routine_1
-	         $624e = __hUGE_Routine_1
-	         $624f = __end_hUGE_Routine_2
-	         $624f = __hUGE_Routine_2
-	         $6250 = __hUGE_Routine_3
-	         $6250 = __end_hUGE_Routine_3
-	         $6251 = __end_hUGE_Routine_4
-	         $6251 = __hUGE_Routine_4
-	         $6252 = __end_hUGE_Routine_5
-	         $6252 = __hUGE_Routine_5
-	         $6253 = __end_hUGE_Routine_6
-	         $6253 = __hUGE_Routine_6
-	         $6254 = __end_hUGE_Routine_7
-	         $6254 = __hUGE_Routine_7
-	         $6255 = __hUGE_Routine_8
-	         $6255 = __end_hUGE_Routine_8
-	         $6256 = __end_hUGE_Routine_9
-	         $6256 = __hUGE_Routine_9
-	         $6257 = __hUGE_Routine_10
-	         $6257 = __end_hUGE_Routine_10
-	         $6258 = __end_hUGE_Routine_11
-	         $6258 = __hUGE_Routine_11
-	         $6259 = __end_hUGE_Routine_12
-	         $6259 = __hUGE_Routine_12
-	         $625a = __end_hUGE_Routine_13
-	         $625a = __hUGE_Routine_13
-	         $625b = __end_hUGE_Routine_14
-	         $625b = __hUGE_Routine_14
-	         $625c = __hUGE_Routine_15
-	         $625c = __end_hUGE_Routine_15
-	         $625d = waves
-	EMPTY: $625d-$7fff ($1da3 bytes)
-	TOTAL EMPTY: $1da3 bytes
+	         $4ddd = TitleScreen_EntryPoint.start
+	         $4e0e = TitleScreen_EntryPoint.animation
+	         $4e50 = TitleScreen_EntryPoint.loop_down
+	         $4e5b = TitleScreen_EntryPoint.loop_up
+	         $4e66 = TitleScreen_WarningSetup
+	         $4ecf = TitleScreen_ScrollingAnimation
+	         $4ecf = TitleScreen_ScrollingAnimation.loop
+	         $4ee4 = TitleScreen_ScrollingAnimation.skip_addtile
+	         $4efa = TitleScreen_ScrollingAnimation.moveallright
+	         $4f05 = TitleScreen_ScrollingAnimation.resetship
+	         $4fbd = TitleScreen_AdvanceTo_NewGame
+	         $4fbe = TitleScreen_AdvanceTo_Continue
+	SECTION: $4fbf-$5106 ($0148 bytes) ["TitleScreen - Menu Functions"]
+	         $4fbf = TitleScreen_MainMenuDraw
+	         $4fd8 = \u00210
+	         $4fdd = \u00211
+	         $4fde = TitleScreen_MainMenuDraw.skip0
+	         $4ff7 = \u00212
+	         $4ffc = \u00213
+	         $4ffd = TitleScreen_MainMenuDraw.skip1
+	         $4ffd = TitleScreen_MainMenuA
+	         $5018 = TitleScreen_MainMenuA.skipConfirm
+	         $501a = \u00214
+	         $501a = \u00215
+	         $501b = TitleScreen_MainMenuA.skip0
+	         $503e = \u00216
+	         $503e = \u00217
+	         $503f = TitleScreen_MainMenuA.skip1
+	         $503f = TitleScreen_WarningMenuDraw
+	         $5058 = \u00218
+	         $505d = \u00219
+	         $505e = TitleScreen_WarningMenuDraw.skip0
+	         $5077 = \u002110
+	         $507c = \u002111
+	         $507d = TitleScreen_WarningMenuDraw.skip1
+	         $507d = TitleScreen_WarningMenuA
+	         $50a4 = \u002112
+	         $50a4 = \u002113
+	         $50a5 = TitleScreen_WarningMenuA.skip0
+	         $50cc = \u002114
+	         $50cc = \u002115
+	         $50cd = TitleScreen_WarningMenuA.unloadmenu
+	         $50cd = TitleScreen_WarningMenuA.skip1
+	SECTION: $5107-$515d ($0057 bytes) ["TitleScreen - Menu Data"]
+	         $5107 = Text.NewGame
+	         $5107 = Text
+	         $5110 = Text.Continue
+	         $5119 = Text.nAreYouSure1
+	         $5128 = Text.nAreYouSureE
+	         $512a = Text.nAreYouSure2
+	         $5139 = Text.nAreYouSure3
+	         $5148 = Text.nYes
+	         $514c = Text.nNo
+	         $514f = Text.BlankLine
+	SECTION: $515e-$5165 ($0008 bytes) ["Intro       - Functions"]
+	         $515e = Intro_EntryPoint
+	SECTION: $5166-$62cd ($1168 bytes) ["Music       - Softworld"]
+	         $5166 = Softworld
+	         $517b = order_cnt
+	         $517c = order1
+	         $518e = order2
+	         $51a0 = order3
+	         $51b2 = order4
+	         $51c4 = P0
+	         $5284 = P1
+	         $5344 = P2
+	         $5404 = P3
+	         $54c4 = P5
+	         $5584 = P6
+	         $5644 = P7
+	         $5704 = P9
+	         $57c4 = P10
+	         $5884 = P11
+	         $5944 = P12
+	         $5a04 = P13
+	         $5ac4 = P14
+	         $5b84 = P15
+	         $5c44 = P16
+	         $5d04 = P18
+	         $5dc4 = P19
+	         $5e84 = P20
+	         $5f44 = P21
+	         $6004 = P22
+	         $60c4 = itNoiseSP1
+	         $6124 = itNoiseSP2
+	         $6184 = itNoiseSP3
+	         $61e4 = duty_instruments
+	         $61e4 = itSquareinst1
+	         $61ea = itSquareinst2
+	         $61f0 = itSquareinst3
+	         $61f6 = itSquareinst4
+	         $61fc = itSquareinst5
+	         $6202 = itSquareinst6
+	         $6208 = itSquareinst7
+	         $620e = itSquareinst8
+	         $6214 = itSquareinst9
+	         $621a = itSquareinst10
+	         $6220 = wave_instruments
+	         $6220 = itWaveinst1
+	         $6226 = itWaveinst2
+	         $622c = itWaveinst3
+	         $6232 = itWaveinst4
+	         $6238 = itWaveinst5
+	         $623e = noise_instruments
+	         $623e = itNoiseinst1
+	         $6244 = itNoiseinst2
+	         $624a = itNoiseinst3
+	         $6250 = itNoiseinst4
+	         $6256 = itNoiseinst5
+	         $625c = itNoiseinst6
+	         $6262 = itNoiseinst7
+	         $6268 = itNoiseinst8
+	         $626e = routines
+	         $626e = __end_hUGE_Routine_0
+	         $626e = __hUGE_Routine_0
+	         $626f = __end_hUGE_Routine_1
+	         $626f = __hUGE_Routine_1
+	         $6270 = __end_hUGE_Routine_2
+	         $6270 = __hUGE_Routine_2
+	         $6271 = __hUGE_Routine_3
+	         $6271 = __end_hUGE_Routine_3
+	         $6272 = __hUGE_Routine_4
+	         $6272 = __end_hUGE_Routine_4
+	         $6273 = __end_hUGE_Routine_5
+	         $6273 = __hUGE_Routine_5
+	         $6274 = __end_hUGE_Routine_6
+	         $6274 = __hUGE_Routine_6
+	         $6275 = __end_hUGE_Routine_7
+	         $6275 = __hUGE_Routine_7
+	         $6276 = __hUGE_Routine_8
+	         $6276 = __end_hUGE_Routine_8
+	         $6277 = __end_hUGE_Routine_9
+	         $6277 = __hUGE_Routine_9
+	         $6278 = __hUGE_Routine_10
+	         $6278 = __end_hUGE_Routine_10
+	         $6279 = __end_hUGE_Routine_11
+	         $6279 = __hUGE_Routine_11
+	         $627a = __end_hUGE_Routine_12
+	         $627a = __hUGE_Routine_12
+	         $627b = __hUGE_Routine_13
+	         $627b = __end_hUGE_Routine_13
+	         $627c = __end_hUGE_Routine_14
+	         $627c = __hUGE_Routine_14
+	         $627d = __hUGE_Routine_15
+	         $627d = __end_hUGE_Routine_15
+	         $627e = waves
+	         $627e = wave0
+	         $628e = wave1
+	         $629e = wave2
+	         $62ae = wave3
+	         $62be = wave4
+	SECTION: $62ce-$64e1 ($0214 bytes) ["SFX         - Data"]
+	         $62ce = SFX
+	         $62e3 = order_cnt
+	         $62e4 = order1
+	         $62e6 = order2
+	         $62e8 = order3
+	         $62ea = order4
+	         $62ec = P0
+	         $63ac = P1
+	         $646c = itSquareSP1
+	         $64cc = duty_instruments
+	         $64cc = itSquareinst1
+	         $64d2 = wave_instruments
+	         $64d2 = noise_instruments
+	         $64d2 = routines
+	         $64d2 = __end_hUGE_Routine_0
+	         $64d2 = __hUGE_Routine_0
+	         $64d3 = __end_hUGE_Routine_1
+	         $64d3 = __hUGE_Routine_1
+	         $64d4 = __end_hUGE_Routine_2
+	         $64d4 = __hUGE_Routine_2
+	         $64d5 = __hUGE_Routine_3
+	         $64d5 = __end_hUGE_Routine_3
+	         $64d6 = __end_hUGE_Routine_4
+	         $64d6 = __hUGE_Routine_4
+	         $64d7 = __end_hUGE_Routine_5
+	         $64d7 = __hUGE_Routine_5
+	         $64d8 = __end_hUGE_Routine_6
+	         $64d8 = __hUGE_Routine_6
+	         $64d9 = __end_hUGE_Routine_7
+	         $64d9 = __hUGE_Routine_7
+	         $64da = __hUGE_Routine_8
+	         $64da = __end_hUGE_Routine_8
+	         $64db = __end_hUGE_Routine_9
+	         $64db = __hUGE_Routine_9
+	         $64dc = __hUGE_Routine_10
+	         $64dc = __end_hUGE_Routine_10
+	         $64dd = __end_hUGE_Routine_11
+	         $64dd = __hUGE_Routine_11
+	         $64de = __end_hUGE_Routine_12
+	         $64de = __hUGE_Routine_12
+	         $64df = __end_hUGE_Routine_13
+	         $64df = __hUGE_Routine_13
+	         $64e0 = __end_hUGE_Routine_14
+	         $64e0 = __hUGE_Routine_14
+	         $64e1 = __hUGE_Routine_15
+	         $64e1 = __end_hUGE_Routine_15
+	         $64e2 = waves
+	EMPTY: $64e2-$7fff ($1b1e bytes)
+	TOTAL EMPTY: $1b1e bytes
 
 ROMX bank #2:
 	SECTION: $4000 ($0000 bytes) ["Starmap     - Graphics"]
@@ -659,53 +705,55 @@ ROMX bank #2:
 	TOTAL EMPTY: $0b6e bytes
 
 SRAM bank #0:
-	SECTION: $a000-$a039 ($003a bytes) ["Save Storage"]
+	SECTION: $a000-$a03d ($003e bytes) ["Save Storage"]
 	         $a000 = SRAM_Save
 	         $a000 = SRAM_Save.Checksum
-	         $a001 = SRAM_Save.Seed
-	         $a003 = SRAM_Save.Sector
-	         $a005 = SRAM_Save.System
-	         $a006 = SRAM_Save.Location
-	         $a007 = SRAM_Save.Money
-	         $a009 = SRAM_Save.CurrentFuel
-	         $a00b = SRAM_Save.CargoType
-	         $a00c = SRAM_Save.CargoHealth
-	         $a00e = SRAM_Save.HullHealth
-	         $a010 = SRAM_Save.Difficulty
-	         $a012 = SRAM_Save.TotalMoney
-	         $a014 = SRAM_Save.EnemiesKilled
-	         $a016 = SRAM_Save.FuelTanks
-	         $a017 = SRAM_Save.Generators
-	         $a018 = SRAM_Save.Padding
-	         $a019 = SRAM_Save.Insurance
-	         $a01a = SRAM_Save.HullPlating
-	         $a01b = SRAM_Save.OxygenTanks
-	         $a01c = SRAM_Save.ReactivePlating
-	         $a01d = SRAM_Mirror
-	         $a01d = SRAM_Mirror.Checksum
-	         $a01d = SRAM_SaveEnd
-	         $a01e = SRAM_Mirror.Seed
-	         $a020 = SRAM_Mirror.Sector
-	         $a022 = SRAM_Mirror.System
-	         $a023 = SRAM_Mirror.Location
-	         $a024 = SRAM_Mirror.Money
-	         $a026 = SRAM_Mirror.CurrentFuel
-	         $a028 = SRAM_Mirror.CargoType
-	         $a029 = SRAM_Mirror.CargoHealth
-	         $a02b = SRAM_Mirror.HullHealth
-	         $a02d = SRAM_Mirror.Difficulty
-	         $a02f = SRAM_Mirror.TotalMoney
-	         $a031 = SRAM_Mirror.EnemiesKilled
-	         $a033 = SRAM_Mirror.FuelTanks
-	         $a034 = SRAM_Mirror.Generators
-	         $a035 = SRAM_Mirror.Padding
-	         $a036 = SRAM_Mirror.Insurance
-	         $a037 = SRAM_Mirror.HullPlating
-	         $a038 = SRAM_Mirror.OxygenTanks
-	         $a039 = SRAM_Mirror.ReactivePlating
-	         $a03a = SRAM_MirrorEnd
-	EMPTY: $a03a-$bfff ($1fc6 bytes)
-	TOTAL EMPTY: $1fc6 bytes
+	         $a001 = SRAM_Save.Version
+	         $a003 = SRAM_Save.Seed
+	         $a005 = SRAM_Save.Sector
+	         $a007 = SRAM_Save.System
+	         $a008 = SRAM_Save.Location
+	         $a009 = SRAM_Save.Money
+	         $a00b = SRAM_Save.CurrentFuel
+	         $a00d = SRAM_Save.CargoType
+	         $a00e = SRAM_Save.CargoHealth
+	         $a010 = SRAM_Save.HullHealth
+	         $a012 = SRAM_Save.Difficulty
+	         $a014 = SRAM_Save.TotalMoney
+	         $a016 = SRAM_Save.EnemiesKilled
+	         $a018 = SRAM_Save.FuelTanks
+	         $a019 = SRAM_Save.Generators
+	         $a01a = SRAM_Save.Padding
+	         $a01b = SRAM_Save.Insurance
+	         $a01c = SRAM_Save.HullPlating
+	         $a01d = SRAM_Save.OxygenTanks
+	         $a01e = SRAM_Save.ReactivePlating
+	         $a01f = SRAM_Mirror
+	         $a01f = SRAM_Mirror.Checksum
+	         $a01f = SRAM_SaveEnd
+	         $a020 = SRAM_Mirror.Version
+	         $a022 = SRAM_Mirror.Seed
+	         $a024 = SRAM_Mirror.Sector
+	         $a026 = SRAM_Mirror.System
+	         $a027 = SRAM_Mirror.Location
+	         $a028 = SRAM_Mirror.Money
+	         $a02a = SRAM_Mirror.CurrentFuel
+	         $a02c = SRAM_Mirror.CargoType
+	         $a02d = SRAM_Mirror.CargoHealth
+	         $a02f = SRAM_Mirror.HullHealth
+	         $a031 = SRAM_Mirror.Difficulty
+	         $a033 = SRAM_Mirror.TotalMoney
+	         $a035 = SRAM_Mirror.EnemiesKilled
+	         $a037 = SRAM_Mirror.FuelTanks
+	         $a038 = SRAM_Mirror.Generators
+	         $a039 = SRAM_Mirror.Padding
+	         $a03a = SRAM_Mirror.Insurance
+	         $a03b = SRAM_Mirror.HullPlating
+	         $a03c = SRAM_Mirror.OxygenTanks
+	         $a03d = SRAM_Mirror.ReactivePlating
+	         $a03e = SRAM_MirrorEnd
+	EMPTY: $a03e-$bfff ($1fc2 bytes)
+	TOTAL EMPTY: $1fc2 bytes
 
 WRAM0 bank #0:
 	SECTION: $c000-$c063 ($0064 bytes) ["hUGE        - Playback Variables"]
@@ -846,63 +894,66 @@ WRAM0 bank #0:
 	         $c0c1 = table4
 	         $c0c3 = table_row4
 	         $c0c8 = end_zero
-	SECTION: $c0c8-$c0e5 ($001e bytes) ["Action      - Table"]
-	         $c0c8 = Actions
-	         $c0c8 = Actions.DrawAddress
-	         $c0ca = Actions.A
-	         $c0cc = Actions.B
-	         $c0ce = Actions.Select
-	         $c0d0 = Actions.Start
-	         $c0d2 = Actions.Right
-	         $c0d4 = Actions.Left
-	         $c0d6 = Actions.Up
-	         $c0d8 = Actions.Down
-	         $c0da = Actions.X
-	         $c0dc = Actions.Y
-	         $c0de = Actions.L1
-	         $c0e0 = Actions.R1
-	         $c0e2 = Actions.L2
-	         $c0e4 = Actions.R2
-	         $c0e6 = ActionsEnd
-	SECTION: $c0e6-$c103 ($001e bytes) ["Save Variables"]
-	         $c0e6 = ValidSave
-	         $c0e7 = Save
-	         $c0e7 = Save.Checksum
-	         $c0e8 = Save.Seed
-	         $c0ea = Save.Sector
-	         $c0ec = Save.System
-	         $c0ed = Save.Location
-	         $c0ee = Save.Money
-	         $c0f0 = Save.CurrentFuel
-	         $c0f2 = Save.CargoType
-	         $c0f3 = Save.CargoHealth
-	         $c0f5 = Save.HullHealth
-	         $c0f7 = Save.Difficulty
-	         $c0f9 = Save.TotalMoney
-	         $c0fb = Save.EnemiesKilled
-	         $c0fd = Save.FuelTanks
-	         $c0fe = Save.Generators
-	         $c0ff = Save.Padding
-	         $c100 = Save.Insurance
-	         $c101 = Save.HullPlating
-	         $c102 = Save.OxygenTanks
-	         $c103 = Save.ReactivePlating
-	         $c104 = SaveEnd
-	SECTION: $c104-$c119 ($0016 bytes) ["UI          - Menu Variables"]
-	         $c104 = Menu.Selector
-	         $c104 = Menu
-	         $c105 = Menu.Items
-	         $c106 = MenuItems
-	         $c11a = MenuEnd
-	SECTION: $c11a-$c11b ($0002 bytes) ["Audio       - Variables"]
-	         $c11a = hUGE_Bank
-	         $c11b = sMOL_Bank
-	SECTION: $c11c-$c11c ($0001 byte) ["State Handler Variables"]
-	         $c11c = CurrentState
-	SECTION: $c11d-$c11d ($0001 byte) ["App         - WRAM Variables"]
-	         $c11d = RandomByte
-	EMPTY: $c11e-$cfff ($0ee2 bytes)
-	TOTAL EMPTY: $0ee2 bytes
+	SECTION: $c0c8-$c0e7 ($0020 bytes) ["Save Variables"]
+	         $c0c8 = ValidSave
+	         $c0c9 = Save
+	         $c0c9 = Save.Checksum
+	         $c0ca = Save.Version
+	         $c0cc = Save.Seed
+	         $c0ce = Save.Sector
+	         $c0d0 = Save.System
+	         $c0d1 = Save.Location
+	         $c0d2 = Save.Money
+	         $c0d4 = Save.CurrentFuel
+	         $c0d6 = Save.CargoType
+	         $c0d7 = Save.CargoHealth
+	         $c0d9 = Save.HullHealth
+	         $c0db = Save.Difficulty
+	         $c0dd = Save.TotalMoney
+	         $c0df = Save.EnemiesKilled
+	         $c0e1 = Save.FuelTanks
+	         $c0e2 = Save.Generators
+	         $c0e3 = Save.Padding
+	         $c0e4 = Save.Insurance
+	         $c0e5 = Save.HullPlating
+	         $c0e6 = Save.OxygenTanks
+	         $c0e7 = Save.ReactivePlating
+	         $c0e8 = SaveEnd
+	SECTION: $c0e8-$c105 ($001e bytes) ["Action      - Table"]
+	         $c0e8 = Actions
+	         $c0e8 = Actions.DrawAddress
+	         $c0ea = Actions.A
+	         $c0ec = Actions.B
+	         $c0ee = Actions.Select
+	         $c0f0 = Actions.Start
+	         $c0f2 = Actions.Right
+	         $c0f4 = Actions.Left
+	         $c0f6 = Actions.Up
+	         $c0f8 = Actions.Down
+	         $c0fa = Actions.X
+	         $c0fc = Actions.Y
+	         $c0fe = Actions.L1
+	         $c100 = Actions.R1
+	         $c102 = Actions.L2
+	         $c104 = Actions.R2
+	         $c106 = ActionsEnd
+	SECTION: $c106-$c11b ($0016 bytes) ["UI          - Menu Variables"]
+	         $c106 = Menu.Selector
+	         $c106 = Menu
+	         $c107 = Menu.Items
+	         $c108 = MenuItems
+	         $c11c = MenuEnd
+	SECTION: $c11c-$c11d ($0002 bytes) ["Audio       - Variables"]
+	         $c11c = hUGE_Bank
+	         $c11d = sMOL_Bank
+	SECTION: $c11e-$c11e ($0001 byte) ["State Handler Variables"]
+	         $c11e = CurrentState
+	SECTION: $c11f-$c11f ($0001 byte) ["TitleScreen - Variables"]
+	         $c11f = TitleScreenState
+	SECTION: $c120-$c120 ($0001 byte) ["App         - WRAM Variables"]
+	         $c120 = RandomByte
+	EMPTY: $c121-$cfff ($0edf bytes)
+	TOTAL EMPTY: $0edf bytes
 
 HRAM bank #0:
 	SECTION: $ff80-$ff87 ($0008 bytes) ["Input       - Input Variables"]

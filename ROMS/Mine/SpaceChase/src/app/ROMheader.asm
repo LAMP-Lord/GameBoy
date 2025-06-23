@@ -1,4 +1,4 @@
-INCLUDE "include/hardware.inc"
+INCLUDE "hardware.inc"
 
 SECTION "ROM Header", ROM0[$100]
     nop

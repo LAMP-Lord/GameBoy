@@ -1,7 +1,7 @@
-INCLUDE "include/hardware.inc"
-INCLUDE "include/charmap.inc"
-INCLUDE "include/constants.inc"
-INCLUDE "include/input_macros.inc"
+INCLUDE "hardware.inc"
+INCLUDE "charmap.inc"
+INCLUDE "macros/input_macros.inc"
+INCLUDE "macros/extra_macros.inc"
 
 EXPORT Menu.Selector
 EXPORT Menu.Items
@@ -58,6 +58,22 @@ UI_PrintText::
 
     jr UI_PrintText
 
+UI_SafePrintText::
+    push de
+    push hl
+    call App_EndOfFrame
+    pop hl
+    pop de
+
+    ld a, [hl+]
+    cp 255
+    ret z
+
+    ld [de], a
+    inc de
+
+    jr UI_SafePrintText
+
 Menu_Up::
     CHECK_BUTTON sNewKeys, PADB_UP
     ld a, [Menu.Selector]
@@ -67,6 +83,7 @@ Menu_Up::
     dec a
     ld [Menu.Selector], a
     FALSE
+    END_CHECK
     ret
 
 Menu_Down::
@@ -82,6 +99,7 @@ Menu_Down::
     inc a
     ld [Menu.Selector], a
     FALSE
+    END_CHECK
     ret
 
 UI_FadeOut::
@@ -104,17 +122,9 @@ UI_FadeOut::
     ld [rOBP0], a
     ld [rOBP1], a
 
-    call Audio_TurnOffAll
-
-    ld a, LCDCF_OFF
-    ld [rLCDC], a
-
     ret
 
 UI_FadeIn::
-    ld a, LCDCF_ON | LCDCF_BGON | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_OBJON
-    ld [rLCDC], a
-
     ld a, %01_00_00_00
     ld [rBGP], a
     ld [rOBP0], a

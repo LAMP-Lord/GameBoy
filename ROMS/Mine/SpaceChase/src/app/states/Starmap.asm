@@ -1,7 +1,7 @@
-INCLUDE "include/hardware.inc"
-INCLUDE "include/charmap.inc"
-INCLUDE "include/input_macros.inc"
-INCLUDE "include/sprite_macros.inc"
+INCLUDE "hardware.inc"
+INCLUDE "charmap.inc"
+INCLUDE "macros/input_macros.inc"
+INCLUDE "macros/sprite_macros.inc"
 
 SECTION "Starmap     - Graphics", ROMX, BANK[$2]
 

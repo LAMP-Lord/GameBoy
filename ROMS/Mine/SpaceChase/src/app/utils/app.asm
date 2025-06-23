@@ -1,4 +1,4 @@
-INCLUDE "include/hardware.inc"
+INCLUDE "hardware.inc"
 
 SECTION "App         - HRAM Variables", HRAM
 
@@ -46,14 +46,14 @@ App_GenerateSeed::
     ret
 
 App_EndOfFrame::
+    call Input_Query
+    call Actions_ProcessActions
+
     call sMOL_dosound
     call hUGE_dosound
     
-    ld a, [ActiveBank]
+    ldh a, [ActiveBank]
     ld [$2000], a
-
-    call Input_Query
-    call Actions_ProcessActions
 
     halt
 
@@ -61,11 +61,45 @@ App_EndOfFrame::
 
 App_WaitFrames::
     call App_EndOfFrame
-    ld a, [FrameCounter]
+    ldh a, [FrameCounter]
     dec a
-    ld [FrameCounter], a
+    ldh [FrameCounter], a
     jr nz, App_WaitFrames
     ret
 
 NopFunction::
     ret
+
+CallHL::
+    jp hl
+
+App_Reset::
+    ; Reset variables
+    xor a
+    ld [rTAC], a
+
+    ldh [ActiveBank], a
+    ldh [FrameCounter], a
+
+    ldh [rSCX], a
+    ldh [rSCY], a
+
+    ld [Menu.Selector], a
+    ld [Menu.Items], a
+
+    ldh [sCurKeys], a
+    ldh [sNewKeys], a
+    ldh [sOldKeys], a
+    ldh [eCurKeys], a
+    ldh [eNewKeys], a
+    ldh [eOldKeys], a
+
+    call Actions_ResetActions
+
+    ; Clear the OAM
+    ld d, 0
+    ld hl, _OAMRAM
+    ld bc, 160
+    call Memory_Fill
+
+    call Audio_TurnOffAll

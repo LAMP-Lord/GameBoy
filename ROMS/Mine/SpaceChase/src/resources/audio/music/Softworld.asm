@@ -1,4 +1,4 @@
-include "include/hUGE.inc"
+include "hUGE.inc"
 
 SECTION "Music       - Softworld", ROMX
 

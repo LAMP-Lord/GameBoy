@@ -1,4 +1,4 @@
-INCLUDE "include/hardware.inc"
+INCLUDE "hardware.inc"
 
 EXPORT Actions.DrawAddress
 EXPORT Actions.A
@@ -63,9 +63,6 @@ Actions_ProcessActions::
     jr   nz, .loop
 
     ret
-
-CallHL:
-    jp   hl
 
 
 Actions_ResetActions::

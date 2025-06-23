@@ -1,4 +1,4 @@
-INCLUDE "include/hardware.inc"
+INCLUDE "hardware.inc"
 
 EXPORT Save.Checksum
 EXPORT Save.Seed
@@ -21,11 +21,15 @@ EXPORT Save.HullPlating
 EXPORT Save.OxygenTanks
 EXPORT Save.ReactivePlating
 
+DEF VERSION_HI EQU "S"
+DEF VERSION_LO EQU "C"
+
 SECTION "Save Storage", SRAM
 
 SRAM_Save:
     ; Metadata
     .Checksum ds 1
+    .Version ds 2
 
     ; Generation
     .Seed ds 2
@@ -56,6 +60,7 @@ SRAM_SaveEnd:
 SRAM_Mirror:
     ; Metadata
     .Checksum ds 1
+    .Version ds 2
 
     ; Generation
     .Seed ds 2
@@ -90,6 +95,7 @@ ValidSave:: ds 1
 Save::
     ; Metadata
     .Checksum ds 1
+    .Version ds 2
 
     ; Generation
     .Seed ds 2
@@ -134,6 +140,29 @@ Memory_Copy::
     jr nz, Memory_Copy
     ret
 
+; DE = Source
+; HL = Destination
+; BC = Bytes
+Memory_SafeCopy::
+    push de
+    push hl
+    push bc
+    call App_EndOfFrame
+    pop bc
+    pop hl
+    pop de
+
+    ld a, [de]
+    ld [hli], a
+
+    inc de
+    dec bc
+
+    ld a, b
+    or c
+    jr nz, Memory_SafeCopy
+    ret
+
 ; D  = Source
 ; HL = Destination
 ; BC = Bytes
@@ -164,25 +193,62 @@ Memory_LoadSave::
     ld a, CART_SRAM_ENABLE
     ld [rRAMG], a
 
+    ; Checksum
     ld hl, SRAM_Save + 1
-    ld b, SRAM_SaveEnd - SRAM_Save - 1
+    ld b, SRAM_SaveEnd - SRAM_Save - 1 ; (Skips the checksum)
     call Memory_CalculateChecksum
 
     ld a, [SRAM_Save.Checksum]
     cp c
-    jr z, .ValidSave
+    jr nz, .TestMirror
 
+    ; Version Check
+    ld a, [SRAM_Save.Version]
+    cp VERSION_HI
+    jr nz, .TestMirror
+
+    ld a, [SRAM_Save.Version+1]
+    cp VERSION_LO
+    jr nz, .TestMirror
+    
+    ; Valid Save
+    ld de, SRAM_Save
+    ld hl, Save
+    ld bc, SRAM_SaveEnd - SRAM_Save
+    call Memory_Copy
+
+    jr .continue
+
+.TestMirror
+    ; Checksum
     ld hl, SRAM_Mirror + 1
-    ld b, SRAM_MirrorEnd - SRAM_Mirror - 1
+    ld b, SRAM_MirrorEnd - SRAM_Mirror - 1 ; (Skips the checksum)
     call Memory_CalculateChecksum
     
     ld a, [SRAM_Mirror.Checksum]
     cp c
-    jr z, .ValidMirror
+    jr z, .Invalid
 
-    ; Failed checksum
+    ; Version Check
+    ld a, [SRAM_Mirror.Version]
+    cp VERSION_HI
+    jr nz, .Invalid
+
+    ld a, [SRAM_Mirror.Version+1]
+    cp VERSION_LO
+    jr nz, .Invalid
+    
+    ; Valid Save
+    ld de, SRAM_Mirror
+    ld hl, Save
+    ld bc, SRAM_MirrorEnd - SRAM_Mirror
+    call Memory_Copy
+
+    jr .continue
+
+.Invalid
+    ; Failed both checksums
     ; Bad save
-
     ld a, CART_SRAM_DISABLE
     ld [rRAMG], a
 
@@ -191,18 +257,7 @@ Memory_LoadSave::
 
     ret
 
-.ValidMirror
-    ld de, SRAM_Mirror
-    ld hl, SRAM_Save
-    ld bc, SRAM_MirrorEnd - SRAM_Mirror
-    call Memory_Copy
-
-.ValidSave
-    ld de, SRAM_Save
-    ld hl, Save
-    ld bc, SRAM_SaveEnd - SRAM_Save
-    call Memory_Copy
-
+.continue
     ld a, CART_SRAM_DISABLE
     ld [rRAMG], a
 
@@ -212,6 +267,11 @@ Memory_LoadSave::
     ret
 
 Memory_SaveGame::
+    ld a, VERSION_HI
+    ld [Save.Version], a
+    ld a, VERSION_LO
+    ld [Save.Version+1], a
+
     ld hl, Save + 1
     ld b, SaveEnd - Save - 1
     call Memory_CalculateChecksum

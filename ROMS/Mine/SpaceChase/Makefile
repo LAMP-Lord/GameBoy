@@ -112,7 +112,7 @@ ASMSOURCES_DIRS = $(patsubst %,%%.asm,\
 # "prepare" step has ran and the graphics are already generated.
 define object-from-asm
 $(OBJ)/%.o: $1 | $(OBJ) $(ALL_GRAPHICS)
-	$$(ASM) -o $$@ $$<
+	$$(ASM) --include "./include" -o $$@ $$<
 endef
 
 graphics: $(ALL_GRAPHICS)

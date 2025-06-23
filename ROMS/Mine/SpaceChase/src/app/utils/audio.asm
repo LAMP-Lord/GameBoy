@@ -1,4 +1,4 @@
-INCLUDE "include/hardware.inc"
+INCLUDE "hardware.inc"
 
 SECTION "Audio       - Variables", WRAM0
 
@@ -15,7 +15,7 @@ Music_MainTheme::
     ld hl, Softworld
     call hUGE_init
 
-    ld a, [ActiveBank]
+    ldh a, [ActiveBank]
     ld [$2000], a
 
     ret
@@ -28,7 +28,7 @@ SFX_Lazer::
 
     call Audio_sMOLDriverCh2
 
-    ld a, [ActiveBank]
+    ldh a, [ActiveBank]
     ld [$2000], a
 
     ret

@@ -4,7 +4,7 @@
 ; So it's best to use some tested code
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-include "include/hardware.inc"
+include "hardware.inc"
 
 SECTION "Input       - Input Variables", HRAM
 
@@ -22,10 +22,10 @@ SECTION "Input       - Main", ROM0
 
 Input_Query::
   ; Update old values
-  ld a, [sCurKeys]
-  ld [sOldKeys], a
-  ld a, [eCurKeys]
-  ld [eOldKeys], a
+  ldh a, [sCurKeys]
+  ldh [sOldKeys], a
+  ldh a, [eCurKeys]
+  ldh [eOldKeys], a
 
   ; Poll standard inputs (A, B, Select, Start, D-pad)
   ld a, P1F_GET_BTN
@@ -36,25 +36,25 @@ Input_Query::
   call .onenibble
   swap a
   xor a, b
-  ld [sCurKeys], a
+  ldh [sCurKeys], a
 
   ld a, P1F_GET_NONE
   ldh [rP1], a
 
   ; Get Pressed and Dropped Keys
-  ld a, [sCurKeys]
+  ldh a, [sCurKeys]
   ld b, a
-  ld a, [sOldKeys]
+  ldh a, [sOldKeys]
   cpl
   and b
-  ld [sNewKeys], a
+  ldh [sNewKeys], a
 
-  ld a, [sOldKeys]
+  ldh a, [sOldKeys]
   ld b, a
-  ld a, [sCurKeys]
+  ldh a, [sCurKeys]
   cpl 
   and b
-  ld [sDrpKeys], a
+  ldh [sDrpKeys], a
 
   ; Poll extra inputs (X, Y, Triggers)
   ld a, P1F_GET_BTN
@@ -65,25 +65,25 @@ Input_Query::
   call .onenibble_extra
   swap a
   xor a, b
-  ld [eCurKeys], a
+  ldh [eCurKeys], a
 
   ld a, P1F_GET_NONE
   ldh [rPE], a
 
   ; Get Pressed and Dropped Keys
-  ld a, [eCurKeys]
+  ldh a, [eCurKeys]
   ld b, a
-  ld a, [eOldKeys]
+  ldh a, [eOldKeys]
   cpl
   and b
-  ld [eNewKeys], a
+  ldh [eNewKeys], a
 
-  ld a, [eOldKeys]
+  ldh a, [eOldKeys]
   ld b, a
-  ld a, [eCurKeys]
+  ldh a, [eCurKeys]
   cpl 
   and b
-  ld [eDrpKeys], a
+  ldh [eDrpKeys], a
 
   ret
 
