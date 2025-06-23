@@ -219,9 +219,9 @@ TitleScreen_ScrollingAnimation::
     cp 100
     jp nz, .skip_addtile
 
-    ld a, $F4
+    ld a, $F6
     ld [$99B1], a
-    ld a, $F5
+    ld a, $F7
     ld [$99B2], a
 
 .skip_addtile
