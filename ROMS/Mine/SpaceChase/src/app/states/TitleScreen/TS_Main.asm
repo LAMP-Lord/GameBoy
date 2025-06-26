@@ -297,7 +297,7 @@ TitleScreen_MainMenuDraw::
     INACTIVE_BUTTON $9A05
 .continue
 
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $99E5
     FALSE
     ACTIVE_BUTTON $99E5
@@ -308,7 +308,7 @@ TitleScreen_MainMenuDraw::
 
     INACTIVE_BUTTON $99E5
 
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9A05
     FALSE
     ACTIVE_BUTTON $9A05
@@ -322,7 +322,7 @@ TitleScreen_MainMenuDraw::
 TitleScreen_MainMenuA::
     IS_MENU_INDEX 0
 
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
     call Actions_ResetActions
     ld b, 124
     call TitleScreen_ScrollingAnimation
@@ -339,7 +339,7 @@ TitleScreen_MainMenuA::
     NOT_MENU_INDEX 0
     IS_MENU_INDEX 1
 
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
 
     call Actions_ResetActions
     ld b, 124
@@ -360,7 +360,7 @@ TitleScreen_DrawYesNo::
 
     INACTIVE_BUTTON $9BB7
 
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9B77
     FALSE
     ACTIVE_BUTTON $9B77
@@ -371,7 +371,7 @@ TitleScreen_DrawYesNo::
 
     INACTIVE_BUTTON $9B77
 
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9BB7
     FALSE
     ACTIVE_BUTTON $9BB7
@@ -383,16 +383,24 @@ TitleScreen_DrawYesNo::
 
 
 TitleScreen_WarningMenuA::
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_B
+    jr .exit
+    FALSE
+    END_CHECK
+
     IS_MENU_INDEX 0
+    CHECK_BUTTON sDrpKeys, PADF_A
 
     ld sp, $FFFE
     call TS_Unloadmenu
     jp TitleScreen_GoTo_NewGame
 
+    FALSE
+    END_CHECK
     NOT_MENU_INDEX 0
     IS_MENU_INDEX 1
-
+    CHECK_BUTTON sDrpKeys, PADF_A
+.exit
     ld sp, $FFFE
     call TS_Unloadmenu
     ; Continue
@@ -408,9 +416,9 @@ TitleScreen_WarningMenuA::
     call TitleScreen_ScrollingAnimation
     jp TitleScreen_EntryPoint.start
 
-    NOT_MENU_INDEX 1
     FALSE
     END_CHECK
+    NOT_MENU_INDEX 1
     ret
 
 TS_Unloadmenu::

@@ -6,6 +6,7 @@ INCLUDE "macros/extra_macros.inc"
 INCLUDE "macros/menu_macros.inc"
 
 EXPORT Keyboard.LeaveKeyMode
+EXPORT Keyboard.ExitCheck
 EXPORT Keyboard.SelectKey
 EXPORT Keyboard.Up
 EXPORT Keyboard.Down
@@ -32,8 +33,15 @@ Keyboard::
     SET_ACTION Actions.B, SetupMenu.Exit
     ret
 
+.ExitCheck
+    CHECK_BUTTON sDrpKeys, PADF_B
+    jr Keyboard.LeaveKeyMode
+    FALSE
+    END_CHECK
+    ret
+
 .SelectKey
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
     ld a, [OAM_DMA+2]
     cp $1B
     jr nz, .skipUndo
@@ -91,10 +99,10 @@ Keyboard::
 
 
 .Up
-    CHECK_BUTTON sNewKeys, PADB_UP
+    CHECK_BUTTON sNewKeys, PADF_UP
     ld a, [OAM_DMA]
     cp 108
-    jr z, .skipUp
+    jr z, .loopUp
 
     ld a, [OAM_DMA]
     cp 124
@@ -118,16 +126,32 @@ Keyboard::
     ; Store values
     ld hl, OAM_DMA
     CREATE_OBJECT b, c, d, 0
-.skipUp
     FALSE
     END_CHECK
     ret
 
+.loopUp
+    ; ID
+    ld a, [OAM_DMA+2]
+    sub 11
+    ld b, a
+    ; X
+    ld a, [OAM_DMA+1]
+    ld c, a
+    ; Y
+    ld a, [OAM_DMA]
+    add 16
+    ld d, a
+    ; Store values
+    ld hl, OAM_DMA
+    CREATE_OBJECT b, c, d, 0
+    ret
+
 .Down
-    CHECK_BUTTON sNewKeys, PADB_DOWN
+    CHECK_BUTTON sNewKeys, PADF_DOWN
     ld a, [OAM_DMA]
     cp 124
-    jr z, .skipDown
+    jr z, .loopDown
 
     ld a, [OAM_DMA]
     cp 116
@@ -151,17 +175,49 @@ Keyboard::
     ; Store values
     ld hl, OAM_DMA
     CREATE_OBJECT b, c, d, 0
-.skipDown
     FALSE
     END_CHECK
     call .DetermineSpecialCharacter
     ret
 
+.loopDown
+    ; ID
+    ld a, [OAM_DMA+2]
+    add 11
+    ld b, a
+    ; X
+    ld a, [OAM_DMA+1]
+    cp 132
+    jr nz, .skipM
+    ld a, $38
+    ld b, a
+.skipM
+    cp 124
+    jr nz, .skipL
+    ld a, $37
+    ld b, a
+.skipL
+    cp 116
+    jr nz, .skipK
+    ld a, $36
+    ld b, a
+.skipK
+    ld a, [OAM_DMA+1]
+    ld c, a
+    ; Y
+    ld a, [OAM_DMA]
+    sub 16
+    ld d, a
+    ; Store values
+    ld hl, OAM_DMA
+    CREATE_OBJECT b, c, d, 0
+    ret
+
 .Left
-    CHECK_BUTTON sNewKeys, PADB_LEFT
+    CHECK_BUTTON sNewKeys, PADF_LEFT
     ld a, [OAM_DMA+1]
     cp 36
-    jr z, .skipLeft
+    jr z, .loopLeft
     ; ID
     ld a, [OAM_DMA+2]
     dec a
@@ -176,16 +232,32 @@ Keyboard::
     ; Store values
     ld hl, OAM_DMA
     CREATE_OBJECT b, c, d, 0
-.skipLeft
     FALSE
     END_CHECK
     ret
 
+.loopLeft
+    ; ID
+    ld a, [OAM_DMA+2]
+    add 12
+    ld b, a
+    ; X
+    ld a, [OAM_DMA+1]
+    add 96
+    ld c, a
+    ; Y
+    ld a, [OAM_DMA]
+    ld d, a
+    ; Store values
+    ld hl, OAM_DMA
+    CREATE_OBJECT b, c, d, 0
+    ret
+
 .Right
-    CHECK_BUTTON sNewKeys, PADB_RIGHT
+    CHECK_BUTTON sNewKeys, PADF_RIGHT
     ld a, [OAM_DMA+1]
     cp 132
-    jr z, .skipRight
+    jr z, .loopRight
     ; ID
     ld a, [OAM_DMA+2]
     inc a
@@ -203,6 +275,29 @@ Keyboard::
 .skipRight
     FALSE
     END_CHECK
+    ret
+
+.loopRight
+    ; ID
+    ld a, [OAM_DMA+2]
+    sub 12
+    ld b, a
+    ; X
+    ld a, [OAM_DMA+1]
+    sub 96
+    ld c, a
+    ; Y
+    ld a, [OAM_DMA]
+    cp 124
+    jr nz, .skip0
+    ld a, $21
+    ld b, a
+.skip0
+    ld a, [OAM_DMA]
+    ld d, a
+    ; Store values
+    ld hl, OAM_DMA
+    CREATE_OBJECT b, c, d, 0
     ret
 
 
@@ -237,7 +332,7 @@ Keyboard::
     ld a, [OAM_DMA+1]
     cp 132
     jr nz, .skipSpecialCharacters
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     ld a, $62
     ld [OAM_DMA+2], a
     FALSE

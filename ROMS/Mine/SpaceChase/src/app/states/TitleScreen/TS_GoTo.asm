@@ -148,13 +148,13 @@ TitleScreen_GoTo_NewGame::
 
 SetupMenu::
 .Up
-    CHECK_BUTTON sNewKeys, PADB_UP
+    CHECK_BUTTON sNewKeys, PADF_UP
     call Menu.Up_Action
     call Menu.Up_Action
     ret
     FALSE
     END_CHECK
-    CHECK_BUTTON sNewKeys, PADB_LEFT
+    CHECK_BUTTON sNewKeys, PADF_LEFT
     call Menu.Up_Action
     ret
     FALSE
@@ -162,13 +162,13 @@ SetupMenu::
     ret
 
 .Down
-    CHECK_BUTTON sNewKeys, PADB_DOWN
+    CHECK_BUTTON sNewKeys, PADF_DOWN
     call Menu.Down_Action
     call Menu.Down_Action
     ret
     FALSE
     END_CHECK
-    CHECK_BUTTON sNewKeys, PADB_RIGHT
+    CHECK_BUTTON sNewKeys, PADF_RIGHT
     call Menu.Down_Action
     ret
     FALSE
@@ -176,7 +176,7 @@ SetupMenu::
     ret
 
 .Exit
-    CHECK_BUTTON sDrpKeys, PADB_B
+    CHECK_BUTTON sDrpKeys, PADF_B
 
     call Keyboard.SaveState
 
@@ -214,7 +214,7 @@ SetupMenu::
     INACTIVE_BUTTON $9F13
     INACTIVE_BUTTON $9EBA
     INACTIVE_BUTTON $9F5A
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9EB3
     FALSE
     ACTIVE_BUTTON $9EB3
@@ -225,7 +225,7 @@ SetupMenu::
     INACTIVE_BUTTON $9EB3
     INACTIVE_BUTTON $9F13
     INACTIVE_BUTTON $9F5A
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9EBA
     FALSE
     ACTIVE_BUTTON $9EBA
@@ -236,7 +236,7 @@ SetupMenu::
     INACTIVE_BUTTON $9EB3
     INACTIVE_BUTTON $9EBA
     INACTIVE_BUTTON $9F5A
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9F13
     FALSE
     ACTIVE_BUTTON $9F13
@@ -247,7 +247,7 @@ SetupMenu::
     INACTIVE_BUTTON $9EB3
     INACTIVE_BUTTON $9F13
     INACTIVE_BUTTON $9EBA
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9F5A
     FALSE
     ACTIVE_BUTTON $9F5A
@@ -263,7 +263,7 @@ SetupMenu::
 
 
 RandomizeSeed:
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
     ld a, 4
     ld [TS_CurCharactersTable], a
     PUT_16_BITS $9E, $B9, TS_PrintLocationTable
@@ -278,7 +278,7 @@ RandomizeSeed:
 
 SeedButton:
 SeedButton.Select
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
     ld a, 4
     ld [TS_MaxCharacters], a
     ld a, 0
@@ -292,14 +292,14 @@ SeedButton.Select
     SET_ACTION Actions.Left, Keyboard.Left
 
     SET_ACTION Actions.A, Keyboard.SelectKey
-    SET_ACTION Actions.B, NopFunction
+    SET_ACTION Actions.B, Keyboard.ExitCheck
     FALSE
     END_CHECK
     ret
 
 NameButton:
 NameButton.Select
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
     ld a, 10
     ld [TS_MaxCharacters], a
     ld a, 2
@@ -313,14 +313,14 @@ NameButton.Select
     SET_ACTION Actions.Left, Keyboard.Left
 
     SET_ACTION Actions.A, Keyboard.SelectKey
-    SET_ACTION Actions.B, NopFunction
+    SET_ACTION Actions.B, Keyboard.ExitCheck
     FALSE
     END_CHECK
     ret
 
 DifficultyButton:
 DifficultyButton.Select
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_A
     ld a, 2
     ld [TS_MaxCharacters], a
     ld a, 3
@@ -334,7 +334,7 @@ DifficultyButton.Select
     SET_ACTION Actions.Left, Keyboard.Left
 
     SET_ACTION Actions.A, Keyboard.SelectKey
-    SET_ACTION Actions.B, NopFunction
+    SET_ACTION Actions.B, Keyboard.ExitCheck
     FALSE
     END_CHECK
     ret
@@ -360,12 +360,16 @@ LoadNewGameData:
     GET_HEX $9F5C
     ld [Save.Difficulty], a
 
+    ld a, 99
+    ld [Save.CurrentFuel], a
+    ld [Save.HullHealth], a
+
     call Memory_SaveGame
 
     ret
 
 Confirm:
-    CHECK_BUTTON sDrpKeys, PADB_START
+    CHECK_BUTTON sDrpKeys, PADF_START
     call .Setup
     FALSE
     END_CHECK
@@ -420,7 +424,12 @@ Confirm:
     ret
 
 .Action
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_B
+    jr .exit
+    FALSE
+    END_CHECK
+
+    CHECK_BUTTON sDrpKeys, PADF_A
     IS_MENU_INDEX 0
 
     ; GO TO NEW GAME
@@ -429,6 +438,7 @@ Confirm:
     NOT_MENU_INDEX 0
     IS_MENU_INDEX 1
 
+.exit
     ld sp, $FFFE
     call Actions_ResetActions
     call UI_FadeOutStarsX
@@ -563,8 +573,14 @@ TitleScreen_GoTo_Continue::
     jr .busyloop
 
 .Action
-    CHECK_BUTTON sDrpKeys, PADB_A
+    CHECK_BUTTON sDrpKeys, PADF_B
+    jr .exit
+    FALSE
+    END_CHECK
+
+    CHECK_BUTTON sDrpKeys, PADF_A
     IS_MENU_INDEX 0
+.exit
     ld sp, $FFFE
     call Actions_ResetActions
     call UI_FadeOutStarsX
@@ -602,7 +618,7 @@ StatMenu:
     IS_MENU_INDEX 0
     INACTIVE_BUTTON $9FD3
 
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9FDA
     FALSE
     ACTIVE_BUTTON $9FDA
@@ -611,7 +627,7 @@ StatMenu:
     IS_MENU_INDEX 1
     INACTIVE_BUTTON $9FDA
     
-    CHECK_BUTTON sCurKeys, PADB_A
+    CHECK_BUTTON sCurKeys, PADF_A
     PRESSED_BUTTON $9FD3
     FALSE
     ACTIVE_BUTTON $9FD3
@@ -620,14 +636,14 @@ StatMenu:
     ret
 
 .Right
-    CHECK_BUTTON sNewKeys, PADB_RIGHT
+    CHECK_BUTTON sNewKeys, PADF_RIGHT
     jp Menu.Up_Action
     FALSE
     END_CHECK
     ret
 
 .Left
-    CHECK_BUTTON sNewKeys, PADB_LEFT
+    CHECK_BUTTON sNewKeys, PADF_LEFT
     jp Menu.Down_Action
     FALSE
     END_CHECK

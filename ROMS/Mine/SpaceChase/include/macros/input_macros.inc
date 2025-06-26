@@ -12,10 +12,10 @@ ENDM
 ; Button Confirmation Macros
 
 ; \1 = Input Set (e.g. sNewKeys)
-; \2 = Input Bit (e.g. PADB_A)
+; \2 = Input Bit (e.g. PADF_A)
 MACRO CHECK_BUTTON
     ldh a, [\1]
-    bit \2, a
+    and \2
     jr z, :+
 ENDM
 

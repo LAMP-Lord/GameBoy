@@ -45,7 +45,7 @@ ButtonsEnd:
 SECTION "UI          - Functions", ROM0
 
 Menu.Up
-    CHECK_BUTTON sNewKeys, PADB_UP
+    CHECK_BUTTON sNewKeys, PADF_UP
     call Menu.Up_Action
     FALSE
     END_CHECK
@@ -60,7 +60,7 @@ Menu.Up_Action
     ret
 
 Menu.Down
-    CHECK_BUTTON sNewKeys, PADB_DOWN
+    CHECK_BUTTON sNewKeys, PADF_DOWN
     call Menu.Down_Action
     FALSE
     END_CHECK
