@@ -1,10 +1,14 @@
 INCLUDE "hardware.inc"
 
 EXPORT Save.Checksum
+EXPORT Save.Version
+
 EXPORT Save.Seed
 EXPORT Save.Sector
 EXPORT Save.System
 EXPORT Save.Location
+
+EXPORT Save.PlayerName
 EXPORT Save.Money
 EXPORT Save.CurrentFuel
 EXPORT Save.CargoType
@@ -12,7 +16,8 @@ EXPORT Save.CargoHealth
 EXPORT Save.HullHealth
 EXPORT Save.Difficulty
 EXPORT Save.TotalMoney
-EXPORT Save.EnemiesKilled
+EXPORT Save.TotalKills
+
 EXPORT Save.FuelTanks
 EXPORT Save.Generators
 EXPORT Save.Padding
@@ -38,14 +43,16 @@ SRAM_Save:
     .Location ds 1
 
     ; Run Info
+    .PlayerName ds 10
+    ds 1
     .Money ds 2
-    .CurrentFuel ds 2
+    .CurrentFuel ds 1
     .CargoType ds 1
-    .CargoHealth ds 2
-    .HullHealth ds 2
+    .CargoHealth ds 1
+    .HullHealth ds 1
     .Difficulty ds 2
     .TotalMoney ds 2
-    .EnemiesKilled ds 2
+    .TotalKills ds 2
 
     ; Upgrades
     .FuelTanks ds 1
@@ -69,14 +76,16 @@ SRAM_Mirror:
     .Location ds 1
 
     ; Run Info
+    .PlayerName ds 10
+    ds 1
     .Money ds 2
-    .CurrentFuel ds 2
+    .CurrentFuel ds 1
     .CargoType ds 1
-    .CargoHealth ds 2
-    .HullHealth ds 2
+    .CargoHealth ds 1
+    .HullHealth ds 1
     .Difficulty ds 2
     .TotalMoney ds 2
-    .EnemiesKilled ds 2
+    .TotalKills ds 2
 
     ; Upgrades
     .FuelTanks ds 1
@@ -104,14 +113,16 @@ Save::
     .Location ds 1
 
     ; Run Info
+    .PlayerName ds 10
+    ds 1
     .Money ds 2
-    .CurrentFuel ds 2
+    .CurrentFuel ds 1
     .CargoType ds 1
-    .CargoHealth ds 2
-    .HullHealth ds 2
+    .CargoHealth ds 1
+    .HullHealth ds 1
     .Difficulty ds 2
     .TotalMoney ds 2
-    .EnemiesKilled ds 2
+    .TotalKills ds 2
 
     ; Upgrades
     .FuelTanks ds 1
@@ -140,17 +151,44 @@ Memory_Copy::
     jr nz, Memory_Copy
     ret
 
+Memory_CopyForSprite::
+    push   bc
+    ; — fetch one 8-pixel row (Low, High) —
+    ld     a, [de]        ; A = low-plane byte
+    inc    de
+    ld     b, a           ; save it in B
+    ld     a, [de]        ; A = high-plane byte
+    inc    de
+    ld     c, a           ; save it in C
+
+    ; — new LOW plane = ~(Low ⊕ High)  (XNOR) —
+    ld     a, b
+    xor    c             ; A = Low ⊕ High
+    cpl                  ; A = ~(Low ⊕ High)
+    ld     [hli], a      ; write new low plane
+
+    ; — new HIGH plane = Low ∨ High —
+    ld     a, b
+    or     c             ; A = Low ∨ High
+    ld     [hli], a      ; write new high plane
+
+    ; — restore counter and loop —
+    pop    bc            ; BC = remaining bytes*2
+    dec    bc
+    dec    bc
+    ld     a, b
+    or     c             ; Z when BC == 0
+    jr     nz, Memory_CopyForSprite
+    ret
+
 ; DE = Source
 ; HL = Destination
 ; BC = Bytes
 Memory_SafeCopy::
-    push de
-    push hl
-    push bc
-    call App_EndOfFrame
-    pop bc
-    pop hl
-    pop de
+    ldh a, [rSTAT]
+    and %11
+    cp $1
+    jp nz, .notSafe
 
     ld a, [de]
     ld [hli], a
@@ -161,7 +199,17 @@ Memory_SafeCopy::
     ld a, b
     or c
     jr nz, Memory_SafeCopy
-    ret
+    ret 
+    
+.notSafe
+    push de
+    push hl
+    push bc
+    call App_EndOfFrame
+    pop bc
+    pop hl
+    pop de
+    jr Memory_SafeCopy
 
 ; D  = Source
 ; HL = Destination

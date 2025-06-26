@@ -20,11 +20,11 @@
 ;* Rev 2.3 -           : Fixed incorrect _HRAM equate
 ;* Rev 2.4 - 27-Apr-13 : Added some cart defines (AntonioND)
 ;* Rev 2.5 - 03-May-15 : Fixed format (AntonioND)
-;* Rev 2.6 - 09-Apr-16 : Added GBC OAM and cart defines (AntonioND)
+;* Rev 2.6 - 09-Apr-16 : Added GBC OAM_DMA and cart defines (AntonioND)
 ;* Rev 2.7 - 19-Jan-19 : Added rPCMXX (ISSOtm)
 ;* Rev 2.8 - 03-Feb-19 : Added audio registers flags (Álvaro Cuesta)
 ;* Rev 2.9 - 28-Feb-20 : Added utility rP1 constants
-;* Rev 3.0 - 27-Aug-20 : Register ordering, byte-based sizes, OAM additions, general cleanup (Blitter Object)
+;* Rev 3.0 - 27-Aug-20 : Register ordering, byte-based sizes, OAM_DMA additions, general cleanup (Blitter Object)
 ;* Rev 4.0 - 03-May-21 : Updated to use RGBDS 0.5.0 syntax, changed IEF_LCDC to IEF_STAT (Eievui)
 
 ; This is a custom version with X/Y/L/R support (written by me)
@@ -451,8 +451,8 @@ DEF STATF_MODE00  EQU  %00001000 ; Mode 00 (H-Blank)
 DEF STATF_LYCF    EQU  %00000100 ; Coincidence Flag
 DEF STATF_HBL     EQU  %00000000 ; H-Blank
 DEF STATF_VBL     EQU  %00000001 ; V-Blank
-DEF STATF_OAM     EQU  %00000010 ; OAM-RAM is used by system
-DEF STATF_LCD     EQU  %00000011 ; Both OAM and VRAM used by system
+DEF STATF_OAM     EQU  %00000010 ; OAM_DMA-RAM is used by system
+DEF STATF_LCD     EQU  %00000011 ; Both OAM_DMA and VRAM used by system
 DEF STATF_BUSY    EQU  %00000010 ; When set, VRAM access is unsafe
 
 
@@ -889,12 +889,12 @@ DEF SCRN_VY_B EQU 32  ; Virtual height of screen in bytes
 
 ;***************************************************************************
 ;*
-;* OAM related
+;* OAM_DMA related
 ;*
 ;***************************************************************************
 
-; OAM attributes
-; each entry in OAM RAM is 4 bytes (sizeof_OAM_ATTRS)
+; OAM_DMA attributes
+; each entry in OAM_DMA RAM is 4 bytes (sizeof_OAM_ATTRS)
 RSRESET
 DEF OAMA_Y              RB  1   ; y pos
 DEF OAMA_X              RB  1   ; x pos
@@ -902,7 +902,7 @@ DEF OAMA_TILEID         RB  1   ; tile id
 DEF OAMA_FLAGS          RB  1   ; flags (see below)
 DEF sizeof_OAM_ATTRS    RB  0
 
-DEF OAM_COUNT           EQU 40  ; number of OAM entries in OAM RAM
+DEF OAM_COUNT           EQU 40  ; number of OAM_DMA entries in OAM_DMA RAM
 
 ; flags
 DEF OAMF_PRI        EQU %10000000 ; Priority

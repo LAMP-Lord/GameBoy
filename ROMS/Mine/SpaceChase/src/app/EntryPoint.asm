@@ -26,6 +26,8 @@ EntryPoint::
     ld hl, MitA
     call hUGE_init
 
+    call App_SetUpOAMDMA
+
     call App_Reset
     call UI_Load
     call Int_InitInterrupts

@@ -4,10 +4,15 @@ SECTION "App         - HRAM Variables", HRAM
 
 ActiveBank:: ds 1
 FrameCounter:: ds 1
+OAM_DMA_Code:: ds 10
 
 SECTION "App         - WRAM Variables", WRAM0
 
 RandomByte: ds 1
+
+SECTION "App         - OAM_DMA DMA Source", WRAM0[$C200]
+
+OAM_DMA:: ds $9F
 
 SECTION "App         - Functions", ROM0
 
@@ -57,6 +62,8 @@ App_EndOfFrame::
 
     halt
 
+    call OAM_DMA_Code
+
     ret
 
 App_WaitFrames::
@@ -67,11 +74,12 @@ App_WaitFrames::
     jr nz, App_WaitFrames
     ret
 
-NopFunction::
+App_ResetOAM::
+    ld d, 0
+    ld hl, OAM_DMA
+    ld bc, 160
+    call Memory_Fill
     ret
-
-CallHL::
-    jp hl
 
 App_Reset::
     ; Reset variables
@@ -95,11 +103,31 @@ App_Reset::
     ldh [eOldKeys], a
 
     call Actions_ResetActions
-
-    ; Clear the OAM
-    ld d, 0
-    ld hl, _OAMRAM
-    ld bc, 160
-    call Memory_Fill
+    call App_ResetOAM
 
     call Audio_TurnOffAll
+    ret
+
+; OAM_DMA DMA Transfer
+App_SetUpOAMDMA::
+    ld de, Run_OAM_DMA
+    ld hl, OAM_DMA_Code
+    ld bc, Run_OAM_DMA_End - Run_OAM_DMA
+    call Memory_Copy
+    ret
+
+Run_OAM_DMA:
+    ld a, HIGH(OAM_DMA)
+    ldh [$FF46], a
+    ld a, 40
+.wait
+    dec a
+    jr nz, .wait
+    ret
+Run_OAM_DMA_End:
+
+; Extras
+NopFunction::
+    ret
+CallHL::
+    jp hl
