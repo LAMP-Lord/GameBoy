@@ -1,4 +1,5 @@
 INCLUDE "hardware.inc"
+INCLUDE "charmap.inc"
 
 EXPORT Save.Checksum
 EXPORT Save.Version
@@ -28,6 +29,9 @@ EXPORT Save.ReactivePlating
 
 DEF VERSION_HI EQU "S"
 DEF VERSION_LO EQU "C"
+
+SECTION "Memory Offset Value", HRAM
+MemOffset:: ds 1
 
 SECTION "Save Storage", SRAM
 
@@ -136,6 +140,51 @@ SaveEnd::
 
 SECTION "Memory      - Memory Functions", ROM0
 
+Memory_CopyWithOffset::
+    push bc
+.loop
+    ld a, [de]
+    ld b, a
+    ld a, [MemOffset]
+    add b
+    ld [hli], a
+
+    inc de
+    pop bc
+    dec bc
+    ld a, b
+    or c
+    push bc
+
+    jr nz, .loop
+    pop bc
+    ret
+
+Memory_SafeCopyWithOffset::
+    push bc
+.loop
+    ldh a, [rSTAT]
+    and %11
+    cp $1
+    call nz, notSafe
+
+    ld a, [de]
+    ld b, a
+    ld a, [MemOffset]
+    add b
+    ld [hli], a
+
+    inc de
+    pop bc
+    dec bc
+    ld a, b
+    or c
+    push bc
+
+    jr nz, .loop
+    pop bc
+    ret
+
 ; DE = Source
 ; HL = Destination
 ; BC = Bytes
@@ -188,7 +237,7 @@ Memory_SafeCopy::
     ldh a, [rSTAT]
     and %11
     cp $1
-    jp nz, .notSafe
+    call nz, notSafe
 
     ld a, [de]
     ld [hli], a
@@ -201,7 +250,7 @@ Memory_SafeCopy::
     jr nz, Memory_SafeCopy
     ret 
     
-.notSafe
+notSafe:
     push de
     push hl
     push bc
@@ -209,7 +258,7 @@ Memory_SafeCopy::
     pop bc
     pop hl
     pop de
-    jr Memory_SafeCopy
+    ret
 
 ; D  = Source
 ; HL = Destination
@@ -221,6 +270,20 @@ Memory_Fill::
     ld a, b
     or c
     jr nz, Memory_Fill
+    ret
+
+Memory_SafeFill::
+    ldh a, [rSTAT]
+    and %11
+    cp $1
+    call nz, notSafe
+
+    ld a, d
+    ld [hli], a
+    dec bc
+    ld a, b
+    or c
+    jr nz, Memory_SafeFill
     ret
 
 ; HL = Save Location (Start at .Version)

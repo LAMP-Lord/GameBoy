@@ -26,10 +26,12 @@ EntryPoint::
     ld hl, MitA
     call hUGE_init
 
+    ld a, $C3
+    ld [CallFunction], a
+
     call App_SetUpOAMDMA
 
     call App_Reset
-    call UI_Load
     call Int_InitInterrupts
 
     ld a, "T"

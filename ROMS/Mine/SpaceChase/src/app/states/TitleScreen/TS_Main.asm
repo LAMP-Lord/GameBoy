@@ -130,13 +130,15 @@ TitleScreen_EntryPoint::
     call Memory_Copy
 
     ; Print Text
+    ld bc, 0
     ld de, $99E7
     ld hl, TS_Text.NewGame
-    call UI_PrintText
+    call Text_PrintText
 
+    ld bc, 0
     ld de, $9A07
     ld hl, TS_Text.Continue
-    call UI_PrintText
+    call Text_PrintText
 
     ; Create Ship Sprite
     ld hl, OAM_DMA
@@ -253,18 +255,22 @@ TitleScreen_EntryPoint::
 
 
 TitleScreen_WarningSetup::
+    ld bc, 0
     ld de, $9AD2
     ld hl, TS_Text.nAreYouSure1
-    call UI_AniPrintText
+    call Text_AniPrintText
+    ld bc, 0
     ld de, $9AC0
     ld hl, TS_Text.nAreYouSureE
-    call UI_AniPrintText
+    call Text_AniPrintText
+    ld bc, 0
     ld de, $9AF2
     ld hl, TS_Text.nAreYouSure2
-    call UI_AniPrintText
+    call Text_AniPrintText
+    ld bc, 0
     ld de, $9B12
     ld hl, TS_Text.ContinueQ
-    call UI_AniPrintText
+    call Text_AniPrintText
 
     ld a, 1
     ld [Menu.Selector], a
@@ -272,10 +278,10 @@ TitleScreen_WarningSetup::
 
     ld de, $9B79
     ld hl, TS_Text.Yes
-    call UI_SafePrintText
+    call Text_SafePrintText
     ld de, $9BB9
     ld hl, TS_Text.No
-    call UI_SafePrintText
+    call Text_SafePrintText
     
     SET_ACTION Actions.Up, Menu.Up
     SET_ACTION Actions.Down, Menu.Down
@@ -427,20 +433,24 @@ TS_Unloadmenu::
     ; Remove Text
     ld de, $9B77
     ld hl, TS_Text.BlankLine
-    call UI_SafePrintText
+    call Text_SafePrintText
     ld de, $9BB7
     ld hl, TS_Text.BlankLine
-    call UI_SafePrintText
+    call Text_SafePrintText
+    ld bc, 0
     ld de, $9AD2
     ld hl, TS_Text.BlankLine
-    call UI_AniPrintText
+    call Text_AniPrintText
+    ld bc, 0
     ld de, $9AC0
     ld hl, TS_Text.BlankLine
-    call UI_AniPrintText
+    call Text_AniPrintText
+    ld bc, 0
     ld de, $9AF2
     ld hl, TS_Text.BlankLine
-    call UI_AniPrintText
+    call Text_AniPrintText
+    ld bc, 0
     ld de, $9B12
     ld hl, TS_Text.BlankLine
-    call UI_AniPrintText
+    call Text_AniPrintText
     ret

@@ -2,6 +2,8 @@ INCLUDE "hardware.inc"
 
 SECTION "App         - HRAM Variables", HRAM
 
+; Dont even ask
+BankCache:: ds 1
 ActiveBank:: ds 1
 FrameCounter:: ds 1
 OAM_DMA_Code:: ds 10
@@ -9,12 +11,36 @@ OAM_DMA_Code:: ds 10
 SECTION "App         - WRAM Variables", WRAM0
 
 RandomByte: ds 1
+RandomNumber:: ds 1
+
+BankNumber:: ds 1
+FunctionPointer:: ds 2
+
+CallFunction:: ds 3
 
 SECTION "App         - OAM_DMA DMA Source", WRAM0[$C200]
 
 OAM_DMA:: ds $9F
 
 SECTION "App         - Functions", ROM0
+
+App_CallFromBank::
+    ld a, [BankNumber]
+    ld [$2000], a
+    ldh [ActiveBank], a
+
+    ld a, [FunctionPointer]
+    ld [CallFunction+1], a
+    ld a, [FunctionPointer+1]
+    ld [CallFunction+2], a
+    
+    call CallFunction
+
+.return
+    ldh a, [BankCache]
+    ld [$2000], a
+    ldh [ActiveBank], a
+    ret
 
 ; "Random" 8-Bit number
 ; Or as close as i can get
@@ -50,7 +76,33 @@ App_GenerateSeed::
 
     ret
 
+App_GenerateRandom::
+    ld a, [rDIV]
+    ld c, a
+
+    ld a, [RandomByte]
+    xor c
+    ld c, a
+
+    ld a, [rTIMA]
+    xor c
+    ld c, a
+
+    ld a, [rLY]
+    xor c
+
+    add $1B
+    rlca
+    xor $C3
+    swap a
+    rlca
+    ld [RandomNumber], a
+    ret
+
 App_EndOfFrame::
+    ldh a, [BankCache]
+    ld [$2000], a
+
     call Input_Query
     call Actions_ProcessActions
 
@@ -85,7 +137,7 @@ App_Reset::
     ; Reset variables
     xor a
     ld [rTAC], a
-
+    
     ldh [ActiveBank], a
     ldh [FrameCounter], a
 
@@ -102,10 +154,26 @@ App_Reset::
     ldh [eNewKeys], a
     ldh [eOldKeys], a
 
-    call Actions_ResetActions
     call App_ResetOAM
 
+    ld d, 0
+    ld hl, _SCRN0
+    ld bc, _SCRN1 - _SCRN0
+    call Memory_Fill
+
+    ld d, 0
+    ld hl, _SCRN1
+    ld bc, _SCRN1 - _SCRN0
+    call Memory_Fill
+
+    ld d, 0
+    ld hl, _VRAM8000
+    ld bc, _SCRN0 - _VRAM8000
+    call Memory_Fill
+
+    call Actions_ResetActions
     call Audio_TurnOffAll
+    call UI_Load
     ret
 
 ; OAM_DMA DMA Transfer

@@ -79,40 +79,40 @@ TitleScreen_GoTo_NewGame::
     ; Print Keyboard
     ld hl, KeysRow1
     ld de, $9F93
-    call UI_SafePrintText
+    call Text_SafePrintText
 
     ld hl, KeysRow2
     ld de, $9FB3
-    call UI_SafePrintText
+    call Text_SafePrintText
     
     ld hl, KeysRow3
     ld de, $9FD3
-    call UI_SafePrintText
+    call Text_SafePrintText
 
     ; Print Labels
     ld bc, SeedLabel
     ld hl, OAM_DMA + $28
     ld d, 28
     ld e, 44
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ld bc, RandLabel
     ld hl, OAM_DMA + $38
     ld d, 84
     ld e, 44
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ld bc, NameLabel
     ld hl, OAM_DMA + $50
     ld d, 28
     ld e, 68
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ld bc, DiffLabel
     ld hl, OAM_DMA + $88
     ld d, 28
     ld e, 92
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ld a, LCDCF_ON | LCDCF_BGON | LCDCF_BG8800 | LCDCF_BG9C00 | LCDCF_OBJON
     ldh [rLCDC], a
@@ -366,6 +366,9 @@ LoadNewGameData:
 
     call Memory_SaveGame
 
+    xor a
+    ld [ValidSave], a
+
     ret
 
 Confirm:
@@ -389,19 +392,22 @@ Confirm:
     ld [rOBP0], a
     ld [rOBP1], a
 
+    ld bc, 0
     ld hl, TS_Text.nConfirm1
     ld de, $9AD4
-    call UI_AniPrintText
+    call Text_AniPrintText
 
+    ld bc, 0
     ld hl, TS_Text.nConfirm2
     ld de, $9AF4
-    call UI_AniPrintText
+    call Text_AniPrintText
 
+    ld bc, 0
     ld hl, $9F15
     ld de, $9B14
-    call UI_AniPrintName
+    call Text_AniPrintName
     ld hl, TS_Text.nConfirm3
-    call UI_AniPrintText
+    call Text_AniPrintText
 
     ld a, 1
     ld [Menu.Selector], a
@@ -411,10 +417,10 @@ Confirm:
 
     ld de, $9B79
     ld hl, TS_Text.Yes
-    call UI_SafePrintText
+    call Text_SafePrintText
     ld de, $9BB9
     ld hl, TS_Text.No
-    call UI_SafePrintText
+    call Text_SafePrintText
 
     SET_ACTION Actions.Up, Menu.Up
     SET_ACTION Actions.Down, Menu.Down
@@ -434,6 +440,11 @@ Confirm:
 
     ; GO TO NEW GAME
     call LoadNewGameData
+    call UI_FadeOut
+
+    ld a, "I"
+    ld [CurrentState], a
+    jp ChangeState
 
     NOT_MENU_INDEX 0
     IS_MENU_INDEX 1
@@ -466,54 +477,54 @@ TitleScreen_GoTo_Continue::
     ld hl, OAM_DMA
     ld d, 28
     ld e, 44
-    call UI_PrintNameAsObj
+    call Text_PrintNameAsObj
 
     ld bc, TS_Text.cTotalMoney
     ld hl, OAM_DMA + $28
     ld d, 28
     ld e, 68
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ld bc, TS_Text.cTotalKills
     ld hl, OAM_DMA + $50
     ld d, 28
     ld e, 92
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ld bc, TS_Text.ContinueQ
     ld hl, OAM_DMA + $78
     ld d, 28
     ld e, 116
-    call UI_PrintTextAsObj
+    call Text_PrintTextAsObj
 
     ; Hardcoded Text
     ld hl, TS_Text.Yes
     ld de, $9FD5
-    call UI_SafePrintText
+    call Text_SafePrintText
 
     ld hl, TS_Text.No
     ld de, $9FDC
-    call UI_SafePrintText
+    call Text_SafePrintText
 
     ; Data
     ld hl, Save.HullHealth
     ld b, 0
     ld c, [hl]
     ld de, $9EBA
-    call UI_PrintNumbers
+    call Text_PrintNumbers
 
     ld hl, Save.CurrentFuel
     ld b, 0
     ld c, [hl]
     ld de, $9EB6
-    call UI_PrintNumbers
+    call Text_PrintNumbers
 
     ld hl, Save.Money
     ld b, [hl]
     inc hl
     ld c, [hl]
     ld de, $9EB2
-    call UI_PrintNumbers
+    call Text_PrintNumbers
 
     ; Bottom Rows
     ld hl, Save.TotalMoney
@@ -521,14 +532,14 @@ TitleScreen_GoTo_Continue::
     inc hl
     ld c, [hl]
     ld de, $9F13
-    call UI_PrintNumbers
+    call Text_PrintNumbers
 
     ld hl, Save.TotalKills
     ld b, [hl]
     inc hl
     ld c, [hl]
     ld de, $9F73
-    call UI_PrintNumbers
+    call Text_PrintNumbers
 
     ; Symbols & Spacers
     ld a, " "
@@ -607,7 +618,13 @@ TitleScreen_GoTo_Continue::
     jp TitleScreen_EntryPoint.start
     NOT_MENU_INDEX 0
     IS_MENU_INDEX 1
-    ret
+    
+    call UI_FadeOut
+
+    ld a, "I"
+    ld [CurrentState], a
+    jp ChangeState
+
     NOT_MENU_INDEX 1
     FALSE
     END_CHECK
