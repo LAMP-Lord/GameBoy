@@ -27,8 +27,8 @@ EXPORT Save.HullPlating
 EXPORT Save.OxygenTanks
 EXPORT Save.ReactivePlating
 
-DEF VERSION_HI EQU "S"
-DEF VERSION_LO EQU "C"
+DEF VERSION_HI EQU "0"
+DEF VERSION_LO EQU "1"
 
 SECTION "Memory Offset Value", HRAM
 MemOffset:: ds 1
@@ -45,6 +45,7 @@ SRAM_Save:
     .Sector ds 2
     .System ds 1
     .Location ds 1
+    .Fog ds 3
 
     ; Run Info
     .PlayerName ds 10
@@ -78,6 +79,7 @@ SRAM_Mirror:
     .Sector ds 2
     .System ds 1
     .Location ds 1
+    .Fog ds 3
 
     ; Run Info
     .PlayerName ds 10
@@ -103,8 +105,6 @@ SRAM_MirrorEnd:
 
 SECTION "Save Variables", WRAM0
 
-ValidSave:: ds 1
-
 Save::
     ; Metadata
     .Checksum ds 1
@@ -115,6 +115,7 @@ Save::
     .Sector ds 2
     .System ds 1
     .Location ds 1
+    .Fog ds 3
 
     ; Run Info
     .PlayerName ds 10
@@ -138,7 +139,9 @@ Save::
     .ReactivePlating ds 1
 SaveEnd::
 
-SECTION "Memory      - Memory Functions", ROM0
+ValidSave:: ds 1
+
+SECTION "Memory      - Functions", ROM0
 
 Memory_CopyWithOffset::
     push bc

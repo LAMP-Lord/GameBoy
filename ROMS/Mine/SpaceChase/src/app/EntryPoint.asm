@@ -4,6 +4,19 @@ INCLUDE "charmap.inc"
 SECTION "Entry Point", ROM0
 
 EntryPoint::
+    ; Check console type
+    cp BOOTUP_A_CGB
+    jr nz, .dmg
+
+    ld a, 1
+    ldh [CGBFlag], a
+    jr .endcheck
+
+.dmg
+    ld a, 0
+    ldh [CGBFlag], a
+
+.endcheck
     ; Clear Screen
     ld a, %00_00_00_00
     ld [rBGP], a
@@ -16,14 +29,14 @@ EntryPoint::
 
     ld sp, $FFFE
 
-    ld a, BANK(SFX)
+    ld a, BANK(SFX_MenuMove)
     ld [sMOL_Bank], a
-    ld hl, SFX
+    ld hl, SFX_MenuMove
     call sMOL_init
 
-    ld a, BANK(MitA)
+    ld a, BANK(Music_TitleScreen)
     ld [hUGE_Bank], a
-    ld hl, MitA
+    ld hl, Music_TitleScreen
     call hUGE_init
 
     ld a, $C3

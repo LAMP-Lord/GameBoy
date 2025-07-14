@@ -21,7 +21,7 @@ ChangeState::
     ld a, [CurrentState]
 
     cp "T"
-    jp nz, .titleskip
+    jr nz, .titleskip
     ; Title Screen
     ld a, BANK(TitleScreen_EntryPoint)
     ldh [ActiveBank], a
@@ -31,7 +31,7 @@ ChangeState::
 .titleskip
 
     cp "M"
-    jp nz, .mapskip
+    jr nz, .mapskip
     ; Starmap
     ld a, BANK(Starmap_EntryPoint)
     ldh [ActiveBank], a
@@ -41,7 +41,7 @@ ChangeState::
 .mapskip
 
     cp "I"
-    jp nz, .introskip
+    jr nz, .introskip
     ; Intro Sequence
     ld a, BANK(Intro_EntryPoint)
     ldh [ActiveBank], a
@@ -51,7 +51,7 @@ ChangeState::
 .introskip
 
     cp "C"
-    jp nz, .chaseskip
+    jr nz, .chaseskip
     ; Chase
     ; ld a, BANK(Chase_EntryPoint)
     ldh [ActiveBank], a

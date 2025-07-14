@@ -1,0 +1,18 @@
+itNoiseinst1:
+db 241
+dw itNoiseSP1
+db 165
+ds 2
+
+itNoiseinst2:
+db 242
+dw 0
+db 0
+ds 2
+
+itNoiseinst3:
+db 15
+dw itNoiseSP3
+db 175
+ds 2
+

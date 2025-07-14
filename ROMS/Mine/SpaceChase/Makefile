@@ -14,14 +14,17 @@ IMAGES              = $(RESOURCES)/images
 IMAGES_SPRITES      = $(IMAGES)/sprites
 IMAGES_BACKGROUNDS  = $(IMAGES)/backgrounds
 IMAGES_UI           = $(IMAGES)/ui
+IMAGES_16		    = $(IMAGES)/images16
 
 AUDIO           	= $(RESOURCES)/audio
 AUDIO_MUSIC     	= $(AUDIO)/music
 AUDIO_SOUNDS    	= $(AUDIO)/sounds
 
+GEN_16		    	= $(GEN)/images16
 GEN_SPRITES	    	= $(GEN)/sprites
 GEN_BACKGROUNDS		= $(GEN)/backgrounds
 GEN_UI   			= $(GEN)/ui
+
 BINS	    		= $(DIST)/$(PROJECTNAME).gb
 
 # Tools
@@ -60,14 +63,16 @@ OBJS = $(patsubst %.asm,$(OBJ)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
 SPRITE_PNGS      := $(wildcard $(IMAGES_SPRITES)/*.png)
 BACKGROUND_PNGS  := $(wildcard $(IMAGES_BACKGROUNDS)/*.png)
 UI_PNGS          := $(wildcard $(IMAGES_UI)/*.png)
+16_PNGS          := $(wildcard $(IMAGES_16)/*.png)
 
 SPRITE_OUTPUTS      := $(patsubst $(IMAGES_SPRITES)/%.png, $(GEN_SPRITES)/%.2bpp, $(SPRITE_PNGS))
 UI_OUTPUTS          := $(patsubst $(IMAGES_UI)/%.png, $(GEN_UI)/%.2bpp, $(UI_PNGS))
+16_OUTPUTS          := $(patsubst $(IMAGES_16)/%.png, $(GEN_16)/%.2bpp, $(16_PNGS))
 
 BACKGROUND_2BPP     := $(patsubst $(IMAGES_BACKGROUNDS)/%.png, $(GEN_BACKGROUNDS)/%.2bpp, $(BACKGROUND_PNGS))
 BACKGROUND_TILEMAPS := $(patsubst $(IMAGES_BACKGROUNDS)/%.png, $(GEN_BACKGROUNDS)/%.tilemap, $(BACKGROUND_PNGS))
 
-ALL_GRAPHICS := $(SPRITE_OUTPUTS) $(UI_OUTPUTS) $(BACKGROUND_2BPP) $(BACKGROUND_TILEMAPS)
+ALL_GRAPHICS := $(SPRITE_OUTPUTS) $(UI_OUTPUTS) $(16_OUTPUTS) $(BACKGROUND_2BPP) $(BACKGROUND_TILEMAPS)
 
 rom: $(BINS)
 
@@ -76,14 +81,13 @@ default: graphics rom
 # ANCHOR: generate-graphics
 # Generate sprites, ensuring the containing directories have been created.
 $(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
-	$(GFX) --columns --unique-tiles -o $@ $<
-
-# Generate background tile set, ensuring the containing directories have been created.
-$(GEN_BACKGROUNDS)/%.2bpp: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
-	$(GFX) --unique-tiles -o $@ $<
+	$(GFX) --columns --unique-tiles -C -p $(GEN_SPRITES)/%.pal -o $@ $<
 
 $(GEN_UI)/%.2bpp: $(IMAGES_UI)/%.png | $(GEN_UI)
-	$(GFX) --unique-tiles -o $@ $<
+	$(GFX) --unique-tiles -C -p $(GEN_UI)/%.pal -o $@ $<
+
+$(GEN_16)/%.2bpp: $(IMAGES_16)/%.png | $(GEN_16)
+	$(GFX) --columns -C -p $(GEN_16)/%.pal -o $@ $<
 
 # Generate background tile map *and* tile set, ensuring the containing directories
 # have been created.
@@ -91,6 +95,8 @@ $(GEN_BACKGROUNDS)/%.tilemap: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
 	$(GFX) \
 		--tilemap $@ \
 		--unique-tiles \
+		-a $(GEN_BACKGROUNDS)/$*.attrmap \
+		-C -p $(GEN_BACKGROUNDS)/$*.pal \
 		-o $(GEN_BACKGROUNDS)/$*.2bpp -b 128 \
 		$<
 # ANCHOR_END: generate-graphics
@@ -133,7 +139,7 @@ $1:
 endef
 
 PREPARE_DIRECTORIES = \
-	$(OBJ) $(GEN_SPRITES) $(GEN_BACKGROUNDS) $(GEN_UI) $(DIST)
+	$(OBJ) $(GEN_SPRITES) $(GEN_BACKGROUNDS) $(GEN_UI) $(GEN_16) $(DIST)
 
 $(foreach i, $(PREPARE_DIRECTORIES), $(eval $(call ensure-directory,$i)))
 

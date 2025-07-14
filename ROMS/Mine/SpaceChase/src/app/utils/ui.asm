@@ -15,6 +15,8 @@ EXPORT Menu.Down_Action
 
 EXPORT Font
 EXPORT FontEnd
+EXPORT DisplayBox
+EXPORT DisplayBoxEnd
 EXPORT Buttons
 EXPORT ButtonsEnd
 
@@ -48,6 +50,8 @@ Menu.Up
     ret
 
 Menu.Up_Action
+    call SFX_Play_MenuMove
+
     ld a, [Menu.Selector]
     cp 0
     ret z
@@ -63,6 +67,8 @@ Menu.Down
     ret
 
 Menu.Down_Action
+    call SFX_Play_MenuMove
+
     ld a, [Menu.Items]
     dec a
     ld b, a
@@ -73,108 +79,131 @@ Menu.Down_Action
     ld [Menu.Selector], a
     ret
 
-UI_Load::
-    ld de, Font
-    ld hl, _VRAM9000
-    ld bc, FontEnd - Font 
-    call Memory_Copy
-
-    ld de, DisplayBox
-    ld bc, DisplayBoxEnd - DisplayBox 
-    call Memory_Copy
-
-    ld de, Buttons
-    ld bc, ButtonsEnd - Buttons 
-    call Memory_Copy
-
-    ret
-
 
 
 UI_FadeIn::
+    ldh a, [CGBFlag]
+    cp 1
+    jr nz, .dmg
+
+    
+    
+.dmg
     ld a, %01_00_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-    
     ld a, %10_01_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-    
     ld a, %11_10_01_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-    
     ret
 
 UI_FadeOut::
+    ldh a, [CGBFlag]
+    cp 1
+    jr nz, .dmg
+
+    
+
+.dmg
     ld a, %10_01_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-
     ld a, %01_00_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-
     ld a, %00_00_00_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     ret
 
+
+
+Fade:
+
+
+
+
+
 UI_FadeInStarsX::
+    ldh a, [CGBFlag]
+    cp 1
+    jr nz, .dmg
+
+    
+    
+.dmg
     ld a, %11_10_11_10
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-
     ld a, %11_10_10_01
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-
     ld a, %11_10_01_00
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     ret
 
 UI_FadeOutStarsX::
+    ldh a, [CGBFlag]
+    cp 1
+    jr nz, .dmg
+
+    
+    
+.dmg
     ld a, %11_10_10_01
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-    
     ld a, %11_10_11_10
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-
     WAIT_FRAMES 5
-    
     ld a, %11_10_11_11
     ld [rBGP], a
     ld [rOBP0], a
     ld [rOBP1], a
-    
+    ret
+
+
+
+UI_CGB_BGP::
+    ld a, BCPSF_AUTOINC
+    ldh [rBCPS], a
+    ld de, rBCPD
+    jr CGB_loop
+
+UI_CGB_OBJ::
+    ld a, OCPSF_AUTOINC
+    ldh [rOCPS], a
+    ld de, rOCPD
+    jr CGB_loop
+
+CGB_loop:
+    ld a, [hl+]
+    ld [de], a
+    dec bc
+    ld a, b
+    or c
+    jr nz, CGB_loop
     ret

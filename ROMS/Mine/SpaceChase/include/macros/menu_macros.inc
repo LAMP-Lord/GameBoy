@@ -19,14 +19,41 @@ ENDM
 MACRO PRESSED_BUTTON
     ld a, $59
     ld [\1], a
+
+    ld a, 1
+    ldh [rVBK], a
+
+    ld a, %0000_0_010
+    ld [\1], a
+
+    ld a, 0
+    ldh [rVBK], a
 ENDM
 
 MACRO ACTIVE_BUTTON
     ld a, $57
     ld [\1], a
+    
+    ld a, 1
+    ldh [rVBK], a
+
+    ld a, %0000_0_010
+    ld [\1], a
+
+    ld a, 0
+    ldh [rVBK], a
 ENDM
 
 MACRO INACTIVE_BUTTON
     ld a, $58
     ld [\1], a
+
+    ld a, 1
+    ldh [rVBK], a
+
+    ld a, %0000_0_010
+    ld [\1], a
+
+    ld a, 0
+    ldh [rVBK], a
 ENDM

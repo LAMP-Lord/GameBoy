@@ -9,7 +9,7 @@
 ;* Rev 1.3 - 19-Jul-97 : Modified for RGBASM V1.05
 ;* Rev 1.4 - 27-Jul-97 : Modified for new subroutine prefixes
 ;* Rev 1.5 - 15-Aug-97 : Added _HRAM, PAD, CART defines
-;*                     :  and Nintendo Logo
+;*                     : and Nintendo Logo
 ;* Rev 1.6 - 30-Nov-97 : Added rDIV, rTIMA, rTMA, & rTAC
 ;* Rev 1.7 - 31-Jan-98 : Added _SCRN0, _SCRN1
 ;* Rev 1.8 - 15-Feb-98 : Added rSB, rSC
@@ -26,8 +26,7 @@
 ;* Rev 2.9 - 28-Feb-20 : Added utility rP1 constants
 ;* Rev 3.0 - 27-Aug-20 : Register ordering, byte-based sizes, OAM_DMA additions, general cleanup (Blitter Object)
 ;* Rev 4.0 - 03-May-21 : Updated to use RGBDS 0.5.0 syntax, changed IEF_LCDC to IEF_STAT (Eievui)
-
-; This is a custom version with X/Y/L/R support (written by me)
+;* Rev 5.0 - 10-Jul-24 : Added X/Y/L/R/L2/R2 buttons (LampLord)
 
 IF __RGBDS_MAJOR__ == 0 && __RGBDS_MINOR__ < 5
     FAIL "This version of 'hardware.inc' requires RGBDS version 0.5.0 or later."

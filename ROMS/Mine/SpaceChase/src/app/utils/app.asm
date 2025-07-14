@@ -2,15 +2,19 @@ INCLUDE "hardware.inc"
 
 SECTION "App         - HRAM Variables", HRAM
 
+CGBFlag:: ds 1
+
 ; Dont even ask
 BankCache:: ds 1
 ActiveBank:: ds 1
+
 FrameCounter:: ds 1
 OAM_DMA_Code:: ds 10
 
 SECTION "App         - WRAM Variables", WRAM0
 
 RandomByte: ds 1
+RandomSeeded:: ds 2
 RandomNumber:: ds 1
 
 BankNumber:: ds 1
@@ -42,7 +46,7 @@ App_CallFromBank::
     ldh [ActiveBank], a
     ret
 
-; "Random" 8-Bit number
+; "Random" 16-Bit number
 ; Or as close as i can get
 App_GenerateSeed::
     ld a, [rDIV]
@@ -76,6 +80,31 @@ App_GenerateSeed::
 
     ret
 
+; "Random" 8-Bit number
+; Uses a LCG algorithm to modify the seed continuously
+App_GenerateRandomSeeded::
+    ld a, [RandomSeeded]
+    add $1B
+    rlca
+    xor $C3
+    swap a
+    ld b, a
+    add a
+    add b
+    inc a
+    ld [RandomSeeded], a
+
+    ld a, [RandomSeeded + 1]
+    ld b, a
+    add a
+    add $B2
+    add b
+    inc a
+    ld [RandomSeeded + 1], a
+    ret
+
+; "Random" 8-Bit number
+; Or as close as i can get
 App_GenerateRandom::
     ld a, [rDIV]
     ld c, a
@@ -172,8 +201,6 @@ App_Reset::
     call Memory_Fill
 
     call Actions_ResetActions
-    call Audio_TurnOffAll
-    call UI_Load
     ret
 
 ; OAM_DMA DMA Transfer

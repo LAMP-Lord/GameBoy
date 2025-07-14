@@ -2,3 +2,6 @@ suspend=true address=Memory_CopyStop end=Memory_CopyStop type=instruction enable
 suspend=true address=_LABEL_6_.printloop%20+%2022 end=_LABEL_6_.printloop%20+%2024 type=instruction enabled=true
 suspend=true address=_LABEL_6_.printloop%20+%2019 end=_LABEL_6_.printloop%20+%2019 type=instruction enabled=true
 suspend=true address=_LABEL_1F_ end=_LABEL_1F_%20+%201 type=instruction enabled=true
+suspend=true address=_LABEL_5368_ end=_LABEL_5368_%20+%201 type=instruction enabled=true
+suspend=true address=_LABEL_5350_%20+%2021 end=_LABEL_5350_%20+%2023 type=instruction enabled=true
+suspend=true address=_LABEL_C620_ end=_LABEL_C620_%20+%201 type=instruction enabled=true

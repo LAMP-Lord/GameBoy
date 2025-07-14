@@ -31,6 +31,7 @@ Keyboard::
     
     SET_ACTION Actions.A, NopFunction
     SET_ACTION Actions.B, SetupMenu.Exit
+    call SFX_Play_MenuBack
     ret
 
 .ExitCheck
@@ -65,6 +66,7 @@ Keyboard::
     ld [TS_PrintLocation], a
     ld a, l
     ld [TS_PrintLocation+1], a
+    call SFX_Play_MenuSelect
     jr .maxcharactersreached
 .skipUndo
 
@@ -91,6 +93,7 @@ Keyboard::
     ld [TS_PrintLocation], a
     ld a, l
     ld [TS_PrintLocation+1], a
+    call SFX_Play_MenuSelect
     FALSE
     END_CHECK
 .maxcharactersreached
@@ -100,6 +103,8 @@ Keyboard::
 
 .Up
     CHECK_BUTTON sNewKeys, PADF_UP
+    call SFX_Play_MenuMove
+
     ld a, [OAM_DMA]
     cp 108
     jr z, .loopUp
@@ -148,7 +153,9 @@ Keyboard::
     ret
 
 .Down
-    CHECK_BUTTON sNewKeys, PADF_DOWN
+    CHECK_BUTTON sNewKeys, PADF_DOWN    
+    call SFX_Play_MenuMove
+
     ld a, [OAM_DMA]
     cp 124
     jr z, .loopDown
@@ -215,6 +222,8 @@ Keyboard::
 
 .Left
     CHECK_BUTTON sNewKeys, PADF_LEFT
+    call SFX_Play_MenuMove
+
     ld a, [OAM_DMA+1]
     cp 36
     jr z, .loopLeft
@@ -255,6 +264,8 @@ Keyboard::
 
 .Right
     CHECK_BUTTON sNewKeys, PADF_RIGHT
+    call SFX_Play_MenuMove
+
     ld a, [OAM_DMA+1]
     cp 132
     jr z, .loopRight
@@ -458,7 +469,13 @@ TitleScreen_DrawPopup::
 
     ld a, [de]
     inc de
+    ld [hl], a
+    ld a, 1
+    ld [rVBK], a
+    ld a, %0000_0_010
     ld [hl+], a
+    ld a, 0
+    ld [rVBK], a
 
     dec b
     jr nz, .leftcol
@@ -495,7 +512,13 @@ TitleScreen_DrawPopup::
 
     ld a, [de]
     inc de
+    ld [hl], a
+    ld a, 1
+    ld [rVBK], a
+    ld a, %0000_0_010
     ld [hl+], a
+    ld a, 0
+    ld [rVBK], a
 
     dec b
     jr nz, .rightcol
@@ -530,9 +553,9 @@ TitleScreen_ScrollingAnimation::
     cp 100
     jp nz, .skip_addtile
 
-    ld a, $F6
+    ld a, $F5
     ld [$99B1], a
-    ld a, $F7
+    ld a, $F6
     ld [$99B2], a
 
 .skip_addtile

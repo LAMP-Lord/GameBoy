@@ -26,8 +26,14 @@ TS_Graphics:
     .Main INCBIN "generated/backgrounds/title-screen.2bpp"
     .MainEnd
 
+    .Palette INCBIN "generated/backgrounds/title-screen.pal"
+    .PaletteEnd
+
     .Map INCBIN "generated/backgrounds/title-screen.tilemap"
     .MapEnd
+
+    .Attrmap INCBIN "generated/backgrounds/title-screen.attrmap"
+    .AttrmapEnd
 
     .Ship INCBIN "generated/sprites/TitleScreenShip.2bpp"
     .ShipEnd
@@ -99,6 +105,26 @@ TitleScreen_EntryPoint::
     ld a, %00000101
     ld [rTAC], a
 
+    ; Palette Loading (CGB)
+    ld hl, TS_Graphics.Palette
+    ld bc, TS_Graphics.PaletteEnd - TS_Graphics.Palette
+    call UI_CGB_BGP
+
+    ld hl, TS_Graphics.Palette
+    ld bc, TS_Graphics.PaletteEnd - TS_Graphics.Palette
+    call UI_CGB_OBJ
+
+    ld a, $1
+    ldh [rVBK], a
+
+    ld de, TS_Graphics.Attrmap
+    ld hl, _SCRN0
+    ld bc, TS_Graphics.AttrmapEnd - TS_Graphics.Attrmap
+    call Memory_Copy
+
+    ld a, $0
+    ldh [rVBK], a
+
     ; Graphics Loading
     ld de, Font
     ld hl, _VRAM8000 + 16*16
@@ -127,6 +153,19 @@ TitleScreen_EntryPoint::
     ld de, TS_Graphics.Ship
     ld hl, _VRAM8000
     ld bc, TS_Graphics.ShipEnd - TS_Graphics.Ship
+    call Memory_Copy
+
+    ld de, Font
+    ld hl, _VRAM9000
+    ld bc, FontEnd - Font 
+    call Memory_Copy
+
+    ld de, DisplayBox
+    ld bc, DisplayBoxEnd - DisplayBox 
+    call Memory_Copy
+
+    ld de, Buttons
+    ld bc, ButtonsEnd - Buttons 
     call Memory_Copy
 
     ; Print Text
@@ -173,7 +212,7 @@ TitleScreen_EntryPoint::
     ; Music
     ld a, $1
     ldh [ActiveBank], a
-    call Music_MainTheme
+    call Music_Play_TitleScreen
 
 .start
     call Memory_LoadSave
@@ -198,25 +237,25 @@ TitleScreen_EntryPoint::
     SET_ACTION Actions.A, TitleScreen_MainMenuA
 
 .animation
-    WAIT_FRAMES 40
+    WAIT_FRAMES 56
 
     ld hl, OAM_DMA
     ld b, 15
     call .loop_down
 
-    WAIT_FRAMES 40
+    WAIT_FRAMES 56
 
     ld hl, OAM_DMA
     ld b, 15
     call .loop_down
 
-    WAIT_FRAMES 40
+    WAIT_FRAMES 56
 
     ld hl, OAM_DMA
     ld b, 15
     call .loop_up
 
-    WAIT_FRAMES 40
+    WAIT_FRAMES 56
 
     ld hl, OAM_DMA
     ld b, 15
@@ -329,6 +368,7 @@ TitleScreen_MainMenuA::
     IS_MENU_INDEX 0
 
     CHECK_BUTTON sDrpKeys, PADF_A
+    call SFX_Play_MenuSelect
     call Actions_ResetActions
     ld b, 124
     call TitleScreen_ScrollingAnimation
@@ -346,6 +386,7 @@ TitleScreen_MainMenuA::
     IS_MENU_INDEX 1
 
     CHECK_BUTTON sDrpKeys, PADF_A
+    call SFX_Play_MenuSelect
 
     call Actions_ResetActions
     ld b, 124
@@ -390,12 +431,14 @@ TitleScreen_DrawYesNo::
 
 TitleScreen_WarningMenuA::
     CHECK_BUTTON sDrpKeys, PADF_B
+    call SFX_Play_MenuBack
     jr .exit
     FALSE
     END_CHECK
 
     IS_MENU_INDEX 0
     CHECK_BUTTON sDrpKeys, PADF_A
+    call SFX_Play_MenuSelect
 
     ld sp, $FFFE
     call TS_Unloadmenu
@@ -406,6 +449,7 @@ TitleScreen_WarningMenuA::
     NOT_MENU_INDEX 0
     IS_MENU_INDEX 1
     CHECK_BUTTON sDrpKeys, PADF_A
+    call SFX_Play_MenuSelect
 .exit
     ld sp, $FFFE
     call TS_Unloadmenu

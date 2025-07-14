@@ -177,6 +177,7 @@ SetupMenu::
 
 .Exit
     CHECK_BUTTON sDrpKeys, PADF_B
+    call SFX_Play_MenuBack
 
     call Keyboard.SaveState
 
@@ -270,6 +271,7 @@ RandomizeSeed:
     call App_GenerateSeed
     PRINT_HEX [Save.Seed], $9EB6
     PRINT_HEX [Save.Seed+1], $9EB8
+    call SFX_Play_MenuSelect
     FALSE
     END_CHECK
     ret
@@ -293,6 +295,7 @@ SeedButton.Select
 
     SET_ACTION Actions.A, Keyboard.SelectKey
     SET_ACTION Actions.B, Keyboard.ExitCheck
+    call SFX_Play_MenuSelect
     FALSE
     END_CHECK
     ret
@@ -314,6 +317,7 @@ NameButton.Select
 
     SET_ACTION Actions.A, Keyboard.SelectKey
     SET_ACTION Actions.B, Keyboard.ExitCheck
+    call SFX_Play_MenuSelect
     FALSE
     END_CHECK
     ret
@@ -335,6 +339,7 @@ DifficultyButton.Select
 
     SET_ACTION Actions.A, Keyboard.SelectKey
     SET_ACTION Actions.B, Keyboard.ExitCheck
+    call SFX_Play_MenuSelect
     FALSE
     END_CHECK
     ret
@@ -369,10 +374,15 @@ LoadNewGameData:
     xor a
     ld [ValidSave], a
 
+    ld a, BANK(SM_AdvanceSector)
+    ld [BankNumber], a
+    PUT_ADDRESS SM_AdvanceSector, FunctionPointer 
+    call App_CallFromBank
     ret
 
 Confirm:
     CHECK_BUTTON sDrpKeys, PADF_START
+    call SFX_Play_MenuSelect
     call .Setup
     FALSE
     END_CHECK
@@ -431,11 +441,13 @@ Confirm:
 
 .Action
     CHECK_BUTTON sDrpKeys, PADF_B
+    call SFX_Play_MenuBack
     jr .exit
     FALSE
     END_CHECK
 
     CHECK_BUTTON sDrpKeys, PADF_A
+    call SFX_Play_MenuSelect
     IS_MENU_INDEX 0
 
     ; GO TO NEW GAME
@@ -585,11 +597,13 @@ TitleScreen_GoTo_Continue::
 
 .Action
     CHECK_BUTTON sDrpKeys, PADF_B
+    call SFX_Play_MenuBack
     jr .exit
     FALSE
     END_CHECK
 
     CHECK_BUTTON sDrpKeys, PADF_A
+    call SFX_Play_MenuSelect
     IS_MENU_INDEX 0
 .exit
     ld sp, $FFFE
