@@ -2,7 +2,7 @@ INCLUDE "hardware.inc"
 INCLUDE "charmap.inc"
 INCLUDE "macros/sprite_macros.inc"
 
-SECTION "Text        - Variables", WRAM0
+SECTION "Utilities - Text - WRAM", WRAM0
 
 DigitPointer: ds 1
 CountBuffer: ds 1
@@ -10,7 +10,7 @@ DigitBuffer: ds 5
 
 DynamicLabel:: ds 2
 
-SECTION "Text        - Utility Functions", ROM0
+SECTION "Utilities - Text - Main", ROM0
 
 ; 255: End Character
 ; HL: Text Location

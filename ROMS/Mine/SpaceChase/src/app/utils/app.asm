@@ -1,8 +1,9 @@
 INCLUDE "hardware.inc"
+INCLUDE "macros/input_macros.inc"
 
-SECTION "App         - HRAM Variables", HRAM
+SECTION "Utilities - App - HRAM", HRAM
 
-CGBFlag:: ds 1
+ConsoleFlag:: ds 1
 
 ; Dont even ask
 BankCache:: ds 1
@@ -11,7 +12,7 @@ ActiveBank:: ds 1
 FrameCounter:: ds 1
 OAM_DMA_Code:: ds 10
 
-SECTION "App         - WRAM Variables", WRAM0
+SECTION "Utilities - App - WRAM", WRAM0
 
 RandomByte: ds 1
 RandomSeeded:: ds 2
@@ -22,15 +23,16 @@ FunctionPointer:: ds 2
 
 CallFunction:: ds 3
 
-SECTION "App         - OAM_DMA DMA Source", WRAM0[$C200]
+SECTION "Utilities - App - OAM DMA Source", WRAM0[$C200]
 
 OAM_DMA:: ds $9F
+OAM_DMA_End::
 
-SECTION "App         - Functions", ROM0
+SECTION "Utilities - App - Main", ROM0
 
 App_CallFromBank::
     ld a, [BankNumber]
-    ld [$2000], a
+    ld [rROMB0], a
     ldh [ActiveBank], a
 
     ld a, [FunctionPointer]
@@ -38,11 +40,12 @@ App_CallFromBank::
     ld a, [FunctionPointer+1]
     ld [CallFunction+2], a
     
+    xor a
     call CallFunction
 
 .return
     ldh a, [BankCache]
-    ld [$2000], a
+    ld [rROMB0], a
     ldh [ActiveBank], a
     ret
 
@@ -130,16 +133,15 @@ App_GenerateRandom::
 
 App_EndOfFrame::
     ldh a, [BankCache]
-    ld [$2000], a
+    ld [rROMB0], a
 
     call Input_Query
     call Actions_ProcessActions
 
-    call sMOL_dosound
     call hUGE_dosound
     
     ldh a, [ActiveBank]
-    ld [$2000], a
+    ld [rROMB0], a
 
     halt
 
@@ -196,12 +198,20 @@ App_Reset::
     call Memory_Fill
 
     ld d, 0
-    ld hl, _VRAM8000
-    ld bc, _SCRN0 - _VRAM8000
+    ld hl, $8000
+    ld bc, _SCRN0 - $8000
     call Memory_Fill
 
     call Actions_ResetActions
     ret
+
+; Waits for button press
+App_WaitForA::
+    CHECK_BUTTON sDrpKeys, PADF_A
+    ret
+    END_CHECK
+    call App_EndOfFrame
+    jr App_WaitForA
 
 ; OAM_DMA DMA Transfer
 App_SetUpOAMDMA::

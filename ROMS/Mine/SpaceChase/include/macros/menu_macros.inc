@@ -4,7 +4,7 @@
 MACRO IS_MENU_INDEX
     ld a, [Menu.Selector]
     cp \1
-    jr nz, .skip\1
+    jp nz, .skip\1
 ENDM
 
 ; \1 = Menu Index
@@ -20,6 +20,9 @@ MACRO PRESSED_BUTTON
     ld a, $59
     ld [\1], a
 
+    ldh a, [ConsoleFlag]
+    cp BOOTUP_A_CGB
+    jr nz, .dmg\@
     ld a, 1
     ldh [rVBK], a
 
@@ -28,12 +31,16 @@ MACRO PRESSED_BUTTON
 
     ld a, 0
     ldh [rVBK], a
+.dmg\@
 ENDM
 
 MACRO ACTIVE_BUTTON
     ld a, $57
     ld [\1], a
     
+    ldh a, [ConsoleFlag]
+    cp BOOTUP_A_CGB
+    jr nz, .dmg\@
     ld a, 1
     ldh [rVBK], a
 
@@ -42,12 +49,16 @@ MACRO ACTIVE_BUTTON
 
     ld a, 0
     ldh [rVBK], a
+.dmg\@
 ENDM
 
 MACRO INACTIVE_BUTTON
     ld a, $58
     ld [\1], a
 
+    ldh a, [ConsoleFlag]
+    cp BOOTUP_A_CGB
+    jr nz, .dmg\@
     ld a, 1
     ldh [rVBK], a
 
@@ -56,4 +67,5 @@ MACRO INACTIVE_BUTTON
 
     ld a, 0
     ldh [rVBK], a
+.dmg\@
 ENDM

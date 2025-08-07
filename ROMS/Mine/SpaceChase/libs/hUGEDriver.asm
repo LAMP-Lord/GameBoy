@@ -75,11 +75,15 @@ start_zero:
 _hUGE_mute_mask::
 mute_channels: db
 
+hUGE_current_counter::
 counter: db
+hUGE_current_tick::
 tick: db
 row_break: db
 next_order: db
+hUGE_current_row::
 row: db
+hUGE_current_order::
 current_order: db
 
 IF DEF(PREVIEW_MODE)
@@ -150,19 +154,13 @@ end_zero:
 
 SECTION "hUGE        - Sound Driver", ROM0
 
-IF DEF(GBDK)
-_hUGE_init::
-    ld h, d
-    ld l, e
-ENDC
-
 ;;; Sets up hUGEDriver to play a song.
 ;;; !!! BE SURE THAT `hUGE_dosound` WILL NOT BE CALLED WHILE THIS RUNS !!!
 ;;; Param: HL = Pointer to the "song descriptor" you wish to load (typically exported by hUGETracker).
 ;;; Destroys: AF C DE HL
 hUGE_init::
     ld a, [hUGE_Bank]
-    ld [$2000], a
+    ld [rROMB0], a
 
     ld a, [hl+] ; tempo
     ld [ticks_per_row], a
@@ -860,10 +858,10 @@ _hUGE_set_position::
     xor a
 ENDC
 
-hUGE_set_position::
 ;;; Processes (global) effect B, "position jump".
 ;;; Param: C = ID of the order to jump to
 ;;; Destroy: A
+hUGE_PositionJump::
 fx_pos_jump:
     ret nz
 
@@ -881,6 +879,7 @@ fx_pos_jump:
 ;;; Processes (global) effect D, "pattern break".
 ;;; Param: C = ID of the next order's row to start on
 ;;; Destroy: A
+hUGE_PatternBreak::
 fx_pattern_break:
     ret nz
 
@@ -1413,7 +1412,7 @@ _hUGE_dosound::
 ;;; Destroy: AF BC DE HL
 hUGE_dosound::
     ld a, [hUGE_Bank]
-    ld [$2000], a
+    ld [rROMB0], a
 
 IF DEF(PREVIEW_MODE)
    ld a, [single_stepping]

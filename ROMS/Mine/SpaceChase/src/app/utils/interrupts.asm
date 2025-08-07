@@ -1,9 +1,9 @@
 INCLUDE "hardware.inc"
 
-SECTION "Interrupts  - VBlank Vector", ROM0[$0040]
+SECTION "Utilities - Interrupts - VBlank Vector", ROM0[$0040]
     jp Int_VBlankInterrupt
 
-SECTION "Interrupts  - Interrupt Functions", ROM0
+SECTION "Utilities - Interrupts - Main", ROM0
 
 Int_InitInterrupts::
     ld a, IEF_VBLANK

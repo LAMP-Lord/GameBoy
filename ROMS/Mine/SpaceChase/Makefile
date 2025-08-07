@@ -1,31 +1,58 @@
-# You can set the name of the .gb ROM file here
-PROJECTNAME    		= SpaceChase
+# Metadata and Filenames
+PROJECTNAME_DMG    	= SpaceChase_DMG
+PROJECTNAME_GBC    	= SpaceChase_GBC
 
+# Main Directories
 SRC         		= src
 LIBS        		= libs
 OBJ         	    = obj
 DIST        	    = dist
 GEN     	        = generated
-
 RESOURCES         	= $(SRC)/resources
-APP                 = $(SRC)/app
-
 IMAGES              = $(RESOURCES)/images
-IMAGES_SPRITES      = $(IMAGES)/sprites
-IMAGES_BACKGROUNDS  = $(IMAGES)/backgrounds
-IMAGES_UI           = $(IMAGES)/ui
-IMAGES_16		    = $(IMAGES)/images16
+APP                 = $(SRC)/app
+BINS_DMG	    	= $(DIST)/$(PROJECTNAME_DMG).gb
+BINS_GBC	    	= $(DIST)/$(PROJECTNAME_GBC).gbc
 
-AUDIO           	= $(RESOURCES)/audio
-AUDIO_MUSIC     	= $(AUDIO)/music
-AUDIO_SOUNDS    	= $(AUDIO)/sounds
+# Audio Directories
+# AUDIO_MUSIC_TENOR   = $(RESOURCES)/audio
+AUDIO_MUSIC     	= $(RESOURCES)/audio
 
-GEN_16		    	= $(GEN)/images16
-GEN_SPRITES	    	= $(GEN)/sprites
-GEN_BACKGROUNDS		= $(GEN)/backgrounds
-GEN_UI   			= $(GEN)/ui
 
-BINS	    		= $(DIST)/$(PROJECTNAME).gb
+
+# Image Directories
+IMAGES_1BPP         = $(IMAGES)/1bpp
+IMAGES_DMG          = $(IMAGES)/dmg
+IMAGES_GBC          = $(IMAGES)/gbc
+
+# DMG
+IMAGES_DMG_8		    = $(IMAGES_DMG)/images8
+IMAGES_DMG_16		    = $(IMAGES_DMG)/images16
+IMAGES_DMG_BACKGROUNDS  = $(IMAGES_DMG)/backgrounds
+
+# GBC
+IMAGES_GBC_8		    = $(IMAGES_GBC)/images8
+IMAGES_GBC_16		    = $(IMAGES_GBC)/images16
+IMAGES_GBC_BACKGROUNDS  = $(IMAGES_GBC)/backgrounds
+
+
+
+# Image Bins
+GEN_1BPP            = $(GEN)/1bpp
+GEN_DMG             = $(GEN)/dmg
+GEN_GBC             = $(GEN)/gbc
+
+# DMG
+GEN_DMG_8   			= $(GEN_DMG)/images8
+GEN_DMG_16		    	= $(GEN_DMG)/images16
+GEN_DMG_BACKGROUNDS		= $(GEN_DMG)/backgrounds
+
+# GBC
+GEN_GBC_8		    	= $(GEN_GBC)/images8
+GEN_GBC_16		    	= $(GEN_GBC)/images16
+GEN_GBC_BACKGROUNDS		= $(GEN_GBC)/backgrounds
+
+
 
 # Tools
 RGBDS ?=
@@ -33,119 +60,173 @@ ASM := $(RGBDS)rgbasm
 GFX := $(RGBDS)rgbgfx
 LINK := $(RGBDS)rgblink
 FIX := $(RGBDS)rgbfix
+TENOR := teNOR
 
 # Tool flags
-FIXFLAGS := -v -p 0xFF -r 5 -k 2
-
+FIXFLAGS_DMG := -v
+FIXFLAGS_GBC := -v -c --overwrite
 .DEFAULT_GOAL := default
 
-# https://stackoverflow.com/a/18258352
-# Make does not offer a recursive wild card function, so here's one:
+# Extra functions
 rwildcard = $(foreach d,\
 		$(wildcard $(1:=/*)), \
 		$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d) \
 	)
-
-
-# https://stackoverflow.com/a/16151140
-# This makes it so every entry in a space-delimited list appears only once
 unique = $(if $1,\
 			$(firstword $1) $(call unique,$(filter-out $(firstword $1),$1)) \
 		)
 
-# Collect ASM sources
-ASMSOURCES_COLLECTED = \
-	$(call rwildcard,$(APP),*.asm) $(call rwildcard,$(LIBS),*.asm) \
-	$(call rwildcard,$(AUDIO_MUSIC),*.asm) $(call rwildcard,$(AUDIO_SOUNDS),*.asm)
 
-OBJS = $(patsubst %.asm,$(OBJ)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
 
-SPRITE_PNGS      := $(wildcard $(IMAGES_SPRITES)/*.png)
-BACKGROUND_PNGS  := $(wildcard $(IMAGES_BACKGROUNDS)/*.png)
-UI_PNGS          := $(wildcard $(IMAGES_UI)/*.png)
-16_PNGS          := $(wildcard $(IMAGES_16)/*.png)
+# Image inputs
+DMG_PNGS_8           := $(call rwildcard,$(IMAGES_DMG_8),*.png)
+DMG_PNGS_16          := $(call rwildcard,$(IMAGES_DMG_16),*.png)
+DMG_PNGS_BACKGROUNDS := $(call rwildcard,$(IMAGES_DMG_BACKGROUNDS),*.png)
 
-SPRITE_OUTPUTS      := $(patsubst $(IMAGES_SPRITES)/%.png, $(GEN_SPRITES)/%.2bpp, $(SPRITE_PNGS))
-UI_OUTPUTS          := $(patsubst $(IMAGES_UI)/%.png, $(GEN_UI)/%.2bpp, $(UI_PNGS))
-16_OUTPUTS          := $(patsubst $(IMAGES_16)/%.png, $(GEN_16)/%.2bpp, $(16_PNGS))
+GBC_PNGS_8           := $(call rwildcard,$(IMAGES_GBC_8),*.png)
+GBC_PNGS_16          := $(call rwildcard,$(IMAGES_GBC_16),*.png)
+GBC_PNGS_BACKGROUNDS := $(call rwildcard,$(IMAGES_GBC_BACKGROUNDS),*.png)
 
-BACKGROUND_2BPP     := $(patsubst $(IMAGES_BACKGROUNDS)/%.png, $(GEN_BACKGROUNDS)/%.2bpp, $(BACKGROUND_PNGS))
-BACKGROUND_TILEMAPS := $(patsubst $(IMAGES_BACKGROUNDS)/%.png, $(GEN_BACKGROUNDS)/%.tilemap, $(BACKGROUND_PNGS))
+1BPP_PNGS            := $(call rwildcard,$(IMAGES_1BPP),*.png)
 
-ALL_GRAPHICS := $(SPRITE_OUTPUTS) $(UI_OUTPUTS) $(16_OUTPUTS) $(BACKGROUND_2BPP) $(BACKGROUND_TILEMAPS)
+# Image outputs
+DMG_OUTPUT_8           := $(patsubst $(IMAGES_DMG_8)/%.png, $(GEN_DMG_8)/%.2bpp, $(DMG_PNGS_8))
+DMG_OUTPUT_16          := $(patsubst $(IMAGES_DMG_16)/%.png, $(GEN_DMG_16)/%.2bpp, $(DMG_PNGS_16))
+DMG_OUTPUT_BACKGROUNDS := $(patsubst $(IMAGES_DMG_BACKGROUNDS)/%.png, $(GEN_DMG_BACKGROUNDS)/%.2bpp, $(DMG_PNGS_BACKGROUNDS))
+DMG_OUTPUT_TILEMAPS    := $(patsubst $(IMAGES_DMG_BACKGROUNDS)/%.png, $(GEN_DMG_BACKGROUNDS)/%.tilemap, $(DMG_PNGS_BACKGROUNDS))
 
-rom: $(BINS)
+GBC_OUTPUT_8           := $(patsubst $(IMAGES_GBC_8)/%.png, $(GEN_GBC_8)/%.2bpp, $(GBC_PNGS_8))
+GBC_OUTPUT_16          := $(patsubst $(IMAGES_GBC_16)/%.png, $(GEN_GBC_16)/%.2bpp, $(GBC_PNGS_16))
+GBC_OUTPUT_BACKGROUNDS := $(patsubst $(IMAGES_GBC_BACKGROUNDS)/%.png, $(GEN_GBC_BACKGROUNDS)/%.2bpp, $(GBC_PNGS_BACKGROUNDS))
+GBC_OUTPUT_TILEMAPS    := $(patsubst $(IMAGES_GBC_BACKGROUNDS)/%.png, $(GEN_GBC_BACKGROUNDS)/%.tilemap, $(GBC_PNGS_BACKGROUNDS))
+GBC_OUTPUT_ATTRMAPS    := $(patsubst $(IMAGES_GBC_BACKGROUNDS)/%.png, $(GEN_GBC_BACKGROUNDS)/%.attrmap, $(GBC_PNGS_BACKGROUNDS))
 
-default: graphics rom
+1BPP_OUTPUT            := $(patsubst $(IMAGES_1BPP)/%.png, $(GEN_1BPP)/%.1bpp, $(1BPP_PNGS))
+1BPP_OUTPUT_TILEMAPS   := $(patsubst $(IMAGES_1BPP)/%.png, $(GEN_1BPP)/%.tilemap, $(1BPP_PNGS))
 
-# ANCHOR: generate-graphics
-# Generate sprites, ensuring the containing directories have been created.
-$(GEN_SPRITES)/%.2bpp: $(IMAGES_SPRITES)/%.png | $(GEN_SPRITES)
-	$(GFX) --columns --unique-tiles -C -p $(GEN_SPRITES)/%.pal -o $@ $<
+ALL_GRAPHICS := $(DMG_OUTPUT_8) $(DMG_OUTPUT_16) $(DMG_OUTPUT_BACKGROUNDS) $(DMG_OUTPUT_TILEMAPS) \
+				$(GBC_OUTPUT_8) $(GBC_OUTPUT_16) $(GBC_OUTPUT_BACKGROUNDS) $(GBC_OUTPUT_TILEMAPS) $(GBC_OUTPUT_ATTRMAPS) \
+				$(1BPP_OUTPUT)
 
-$(GEN_UI)/%.2bpp: $(IMAGES_UI)/%.png | $(GEN_UI)
-	$(GFX) --unique-tiles -C -p $(GEN_UI)/%.pal -o $@ $<
+# DMG Generation
+$(GEN_DMG_8)/%.2bpp: $(IMAGES_DMG_8)/%.png
+	@mkdir -p $(@D)
+	$(GFX) --unique-tiles -o $@ $<
 
-$(GEN_16)/%.2bpp: $(IMAGES_16)/%.png | $(GEN_16)
-	$(GFX) --columns -C -p $(GEN_16)/%.pal -o $@ $<
+$(GEN_DMG_16)/%.2bpp: $(IMAGES_DMG_16)/%.png
+	@mkdir -p $(@D)
+	$(GFX) --columns --unique-tiles -o $@ $<
 
-# Generate background tile map *and* tile set, ensuring the containing directories
-# have been created.
-$(GEN_BACKGROUNDS)/%.tilemap: $(IMAGES_BACKGROUNDS)/%.png | $(GEN_BACKGROUNDS)
+$(GEN_DMG_BACKGROUNDS)/%.2bpp: $(IMAGES_DMG_BACKGROUNDS)/%.png
+	@mkdir -p $(@D)
 	$(GFX) \
 		--tilemap $@ \
 		--unique-tiles \
-		-a $(GEN_BACKGROUNDS)/$*.attrmap \
-		-C -p $(GEN_BACKGROUNDS)/$*.pal \
-		-o $(GEN_BACKGROUNDS)/$*.2bpp -b 128 \
+		-o $(GEN_DMG_BACKGROUNDS)/$*.2bpp -b 128 \
 		$<
-# ANCHOR_END: generate-graphics
 
-compile.bat: Makefile
-	@echo "REM Automatically generated from Makefile" > compile.bat
-	@make -sn | sed y/\\/\\\\/\\\\\\\^/ | grep -v make >> compile.bat
+$(GEN_DMG_BACKGROUNDS)/%.tilemap: $(IMAGES_DMG_BACKGROUNDS)/%.png
+	@mkdir -p $(@D)
+	$(GFX) \
+		--tilemap $@ \
+		--unique-tiles \
+		-o $(GEN_DMG_BACKGROUNDS)/$*.2bpp -b 128 \
+		$<
+
+# GBC Generation
+$(GEN_GBC_8)/%.2bpp: $(IMAGES_GBC_8)/%.png $(GEN_GBC_8)/%.pal
+	@mkdir -p $(@D)
+	$(GFX) --unique-tiles -C -p $(GEN_GBC_8)/%.pal -o $@ $<
+
+$(GEN_GBC_8)/%.pal: $(IMAGES_GBC_8)/%.png
+	@mkdir -p $(@D)
+	$(GFX) --unique-tiles -C -p $@ $<
+
+$(GEN_GBC_16)/%.2bpp: $(IMAGES_GBC_16)/%.png $(GEN_GBC_16)/%.pal
+	@mkdir -p $(@D)
+	$(GFX) --columns --unique-tiles -C -p $(GEN_GBC_16)/$*.pal -o $@ $<
+
+$(GEN_GBC_16)/%.pal: $(IMAGES_GBC_16)/%.png
+	@mkdir -p $(@D)
+	$(GFX) --columns --unique-tiles -C -p $@ $<
+
+$(GEN_GBC_BACKGROUNDS)/%.2bpp: $(IMAGES_GBC_BACKGROUNDS)/%.png
+	@mkdir -p $(@D)
+	$(GFX) \
+		--tilemap $@ \
+		--unique-tiles \
+		-a $(GEN_GBC_BACKGROUNDS)/$*.attrmap \
+		-C -p $(GEN_GBC_BACKGROUNDS)/$*.pal \
+		-o $(GEN_GBC_BACKGROUNDS)/$*.2bpp -b 128 \
+		$<
+
+$(GEN_GBC_BACKGROUNDS)/%.tilemap: $(IMAGES_GBC_BACKGROUNDS)/%.png
+	@mkdir -p $(@D)
+	$(GFX) \
+		--tilemap $@ \
+		--unique-tiles \
+		-a $(GEN_GBC_BACKGROUNDS)/$*.attrmap \
+		-C -p $(GEN_GBC_BACKGROUNDS)/$*.pal \
+		-o $(GEN_GBC_BACKGROUNDS)/$*.2bpp -b 128 \
+		$<
+
+# 1bpp
+$(GEN_1BPP)/%.1bpp: $(IMAGES_1BPP)/%.png
+	python3 convert1bpp.py $< $@
 
 
-# ANCHOR: generate-objects
-# Extract directories from collected ASM sources and append "%.asm" to each one,
-# creating a wildcard-rule.
+
+# Collect ASM sources
+ASMSOURCES_COLLECTED = \
+	$(call rwildcard,$(APP),*.asm) $(call rwildcard,$(LIBS),*.asm) \
+	$(call rwildcard,$(AUDIO_MUSIC),*.asm)
+# $(TENOR_ASM) 
+
+OBJS = $(patsubst %.asm,$(OBJ)/%.o,$(notdir $(ASMSOURCES_COLLECTED)))
+
 ASMSOURCES_DIRS = $(patsubst %,%%.asm,\
 			$(call unique,$(dir $(ASMSOURCES_COLLECTED))) \
 		)
 
-# This is a Makefile "macro".
-# It defines a %.o target from a corresponding %.asm, ensuring the
-# "prepare" step has ran and the graphics are already generated.
+# ASM -> Objects
 define object-from-asm
-$(OBJ)/%.o: $1 | $(OBJ) $(ALL_GRAPHICS)
+$(OBJ)/%.o: $1 | $(OBJ)
 	$$(ASM) --include "./include" -o $$@ $$<
 endef
 
-graphics: $(ALL_GRAPHICS)
-
-# Run the macro for each directory listed in ASMSOURCES_DIRS, thereby
-# creating the appropriate targets.
 $(foreach i, $(ASMSOURCES_DIRS), $(eval $(call object-from-asm,$i)))
-# ANCHOR_END: generate-objects
 
-# Link and build the final ROM.
-$(BINS): $(OBJS) | $(DIST)
-	$(LINK) -m dist/$(PROJECTNAME).map -n dist/$(PROJECTNAME).sym -o $@ $^
-	$(FIX) $(FIXFLAGS) $@
-# Ensure directories for generated files exist.
+# Run linker
+$(BINS_DMG): $(OBJS) | $(DIST) $(ALL_GRAPHICS)
+	$(LINK) -m dist/$(PROJECTNAME_DMG).map -n dist/$(PROJECTNAME_DMG).sym -o $@ $^
+	$(FIX) $(FIXFLAGS_DMG) $@
+
+$(BINS_GBC): $(OBJS) | $(DIST) $(ALL_GRAPHICS)
+	$(LINK) -m dist/$(PROJECTNAME_GBC).map -n dist/$(PROJECTNAME_GBC).sym -o $@ $^
+	$(FIX) $(FIXFLAGS_GBC) $@
+
+
+
+# Directory management
 define ensure-directory
 $1:
 	mkdir -p $$@
 endef
 
 PREPARE_DIRECTORIES = \
-	$(OBJ) $(GEN_SPRITES) $(GEN_BACKGROUNDS) $(GEN_UI) $(GEN_16) $(DIST)
+	$(DIST) $(OBJ) $(AUDIO_MUSIC) \
+	$(GEN_DMG) $(GEN_GBC) $(GEN_1BPP)
 
 $(foreach i, $(PREPARE_DIRECTORIES), $(eval $(call ensure-directory,$i)))
 
-# Clean up generated directories.
-clean:
-	rm -rfv  $(PREPARE_DIRECTORIES)
+compile.bat: Makefile
+	@echo "REM Automatically generated from Makefile" > compile.bat
+	@make -sn | sed y/\\/\\\\/\\\\\\\^/ | grep -v make >> compile.bat
 
-# Declare these targets as "not actually files".
-.PHONY: default rom all
+
+clean:
+	rm -rfv $(PREPARE_DIRECTORIES)
+rom: $(BINS_DMG) $(BINS_GBC)
+graphics: $(ALL_GRAPHICS)
+.DEFAULT_GOAL := default
+default: graphics rom

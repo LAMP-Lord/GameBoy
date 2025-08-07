@@ -12,3 +12,4 @@ MACRO CREATE_OBJECT
     ld a, \4
     ld [hli], a
 ENDM
+

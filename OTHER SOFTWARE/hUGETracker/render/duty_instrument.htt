@@ -1,14 +1,21 @@
 itSquareinst1:
-db 8
-db 0
-db 240
+db 9
+db 140
+db 15
 dw 0
 db 128
 
 itSquareinst2:
 db 8
 db 128
-db 240
-dw 0
+db 193
+dw itSquareSP2
+db 128
+
+itSquareinst3:
+db 8
+db 0
+db 193
+dw itSquareSP3
 db 128
 

@@ -1,20 +1,23 @@
 INCLUDE "hardware.inc"
 
-SECTION "ROM Header", ROM0[$100]
+SECTION "App - ROM Header", ROM0[$100]
     nop
     jp EntryPoint
 
-    NINTENDO_LOGO
+    NintendoLogo:
+        db $CE, $ED, $66, $66, $CC, $0D, $00, $0B, $03, $73, $00, $83, $00, $0C, $00, $0D
+        db $00, $08, $11, $1F, $88, $89, $00, $0E, $DC, $CC, $6E, $E6, $DD, $DD, $D9, $99
+        db $BB, $BB, $67, $63, $6E, $0E, $EC, $CC, $DD, $DC, $99, $9F, $BB, $B9, $33, $3E
 
     ROMTitle:		db	"SPACECHASE",0,0,0,0,0			; ROM title (15 bytes)
-    GBCSupport:		db	CART_COMPATIBLE_GBC			; GBC support (0 = DMG only, $80 = DMG/GBC, $C0 = GBC only)
+    GBCSupport:		db	$00                 			; GBC support
     NewLicenseCode:	db	"  "							; new license code (2 bytes)
-    SGBSupport:		db	CART_INDICATOR_GB				; SGB support
-    CartType:		db	CART_ROM_MBC5_RAM_BAT_RUMBLE	; Cart type
-    ROMSize:		ds	1								; ROM size (handled by post-linking tool)
-    RAMSize:		ds	1								; RAM size
-    DestCode:		db	CART_DEST_NON_JAPANESE			; Destination code (0 = Japan, 1 = All others)
-    OldLicenseCode:	db	$33								; Old license code (if $33, check new license code)
+    SGBSupport:		db	$00              				; SGB support
+    CartType:		db	$1B                            	; Cart type
+    ROMSize:		db	$05								; ROM size
+    RAMSize:		db	$02								; RAM size
+    DestCode:		db	$01                 			; Destination code
+    OldLicenseCode:	db	$33								; Old license code
     ROMVersion:		db	0								; ROM version
-    HeaderChecksum:	ds	1								; Header checksum (handled by post-linking tool)
-    ROMChecksum:	ds	2								; ROM checksum (2 bytes) (handled by post-linking tool)
+    HeaderChecksum:	ds	1								; Header checksum
+    ROMChecksum:	ds	2								; ROM checksum

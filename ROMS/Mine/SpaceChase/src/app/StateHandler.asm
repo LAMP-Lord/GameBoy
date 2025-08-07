@@ -6,7 +6,7 @@ SECTION "State Handler Variables", WRAM0
 
 CurrentState:: ds 1
 
-SECTION "State Handler", ROM0
+SECTION "App - State Handler", ROM0
 
 ChangeState::
     ; Shutoff UI
@@ -26,7 +26,7 @@ ChangeState::
     ld a, BANK(TitleScreen_EntryPoint)
     ldh [ActiveBank], a
     ldh [BankCache], a
-    ld [$2000], a
+    ld [rROMB0], a
     jp TitleScreen_EntryPoint
 .titleskip
 
@@ -36,7 +36,7 @@ ChangeState::
     ld a, BANK(Starmap_EntryPoint)
     ldh [ActiveBank], a
     ldh [BankCache], a
-    ld [$2000], a
+    ld [rROMB0], a
     jp Starmap_EntryPoint
 .mapskip
 
@@ -46,7 +46,7 @@ ChangeState::
     ld a, BANK(Intro_EntryPoint)
     ldh [ActiveBank], a
     ldh [BankCache], a
-    ld [$2000], a
+    ld [rROMB0], a
     jp Intro_EntryPoint
 .introskip
 
@@ -56,7 +56,7 @@ ChangeState::
     ; ld a, BANK(Chase_EntryPoint)
     ldh [ActiveBank], a
     ldh [BankCache], a
-    ld [$2000], a
+    ld [rROMB0], a
     ; jp Chase_EntryPoint
 .chaseskip
 

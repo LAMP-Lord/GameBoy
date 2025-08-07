@@ -8,6 +8,7 @@ EXPORT Save.Seed
 EXPORT Save.Sector
 EXPORT Save.System
 EXPORT Save.Location
+EXPORT Save.Fog
 
 EXPORT Save.PlayerName
 EXPORT Save.Money
@@ -30,10 +31,11 @@ EXPORT Save.ReactivePlating
 DEF VERSION_HI EQU "0"
 DEF VERSION_LO EQU "1"
 
-SECTION "Memory Offset Value", HRAM
+SECTION "Utilities - Memory - HRAM", HRAM
 MemOffset:: ds 1
+VBKBuffer:: ds 1
 
-SECTION "Save Storage", SRAM
+SECTION "Utilities - Memory - SRAM + Mirrors", SRAM
 
 SRAM_Save:
     ; Metadata
@@ -103,7 +105,7 @@ SRAM_Mirror:
     .ReactivePlating ds 1
 SRAM_MirrorEnd:
 
-SECTION "Save Variables", WRAM0
+SECTION "Utilities - Memory - WRAM + Save", WRAM0
 
 Save::
     ; Metadata
@@ -141,7 +143,7 @@ SaveEnd::
 
 ValidSave:: ds 1
 
-SECTION "Memory      - Functions", ROM0
+SECTION "Utilities - Memory - Main", ROM0
 
 Memory_CopyWithOffset::
     push bc
@@ -185,6 +187,45 @@ Memory_SafeCopyWithOffset::
     push bc
 
     jr nz, .loop
+    pop bc
+    ret
+
+Memory_SafeCopyVBK::
+    push bc
+    ldh a, [rVBK]
+    ldh [VBKBuffer], a
+.loop
+    ldh a, [rSTAT]
+    and %11
+    cp $1
+    call nz, .notSafe
+
+    ld a, [de]
+    ld b, a
+    ld a, [MemOffset]
+    add b
+    ld [hli], a
+
+    inc de
+    pop bc
+    dec bc
+    ld a, b
+    or c
+    push bc
+
+    jr nz, .loop
+    pop bc
+    ret
+
+.notSafe
+    push bc
+    push de
+    push hl
+    call App_EndOfFrame
+    ldh a, [VBKBuffer]
+    ldh [rVBK], a
+    pop hl
+    pop de
     pop bc
     ret
 

@@ -28,18 +28,18 @@ Input_Query::
   ldh [eOldKeys], a
 
   ; Poll standard inputs (A, B, Select, Start, D-pad)
-  ld a, P1F_GET_BTN
+  ld a, JOYP_GET_BTN
   call .onenibble
   ld b, a
 
-  ld a, P1F_GET_DPAD
+  ld a, JOYP_GET_DPAD
   call .onenibble
   swap a
   xor a, b
   ldh [sCurKeys], a
 
-  ld a, P1F_GET_NONE
-  ldh [rP1], a
+  ld a, JOYP_GET_NONE
+  ldh [rJOYP], a
 
   ; Get Pressed and Dropped Keys
   ldh a, [sCurKeys]
@@ -57,18 +57,18 @@ Input_Query::
   ldh [sDrpKeys], a
 
   ; Poll extra inputs (X, Y, Triggers)
-  ld a, P1F_GET_BTN
+  ld a, JOYP_GET_BTN
   call .onenibble_extra
   ld b, a
 
-  ld a, P1F_GET_DPAD
+  ld a, JOYP_GET_DPAD
   call .onenibble_extra
   swap a
   xor a, b
   ldh [eCurKeys], a
 
-  ld a, P1F_GET_NONE
-  ldh [rPE], a
+  ld a, JOYP_GET_NONE
+  ldh [rJOYE], a
 
   ; Get Pressed and Dropped Keys
   ldh a, [eCurKeys]
@@ -88,19 +88,19 @@ Input_Query::
   ret
 
 .onenibble
-  ldh [rP1], a ; switch the key matrix
+  ldh [rJOYP], a ; switch the key matrix
   call .knownret ; burn 10 cycles calling a known ret
-  ldh a, [rP1] ; ignore value while waiting for the key matrix to settle
-  ldh a, [rP1]
-  ldh a, [rP1] ; this read counts
+  ldh a, [rJOYP] ; ignore value while waiting for the key matrix to settle
+  ldh a, [rJOYP]
+  ldh a, [rJOYP] ; this read counts
   or a, $F0 ; A7-4 = 1; A3-0 = unpressed keys
   ret
 .onenibble_extra
-  ldh [rPE], a ; switch the key matrix
+  ldh [rJOYE], a ; switch the key matrix
   call .knownret ; burn 10 cycles calling a known ret
-  ldh a, [rPE] ; ignore value while waiting for the key matrix to settle
-  ldh a, [rPE]
-  ldh a, [rPE] ; this read counts
+  ldh a, [rJOYE] ; ignore value while waiting for the key matrix to settle
+  ldh a, [rJOYE]
+  ldh a, [rJOYE] ; this read counts
   or a, $F0 ; A7-4 = 1; A3-0 = unpressed keys
   ret
 .knownret
